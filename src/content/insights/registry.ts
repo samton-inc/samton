@@ -11,6 +11,8 @@ export type InsightArticle = {
   featured: boolean;
   body: string;
   images: Record<string, string>;
+  thumbnail?: string;
+  thumbnailAlt?: string;
   sourcePath: string;
 };
 
@@ -50,6 +52,18 @@ const collectArticleImages = (sourcePath: string) => {
   );
 };
 
+const findArticleThumbnail = (body: string, images: Record<string, string>) => {
+  const image = body.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+  if (!image) return {};
+
+  const source = image[2].trim().replace(/^\.\//, "");
+  const thumbnail = images[source] ?? images[`images/${source.split("/").pop()}`];
+
+  return thumbnail
+    ? { thumbnail, thumbnailAlt: image[1].trim() || "콘텐츠 대표 이미지" }
+    : {};
+};
+
 const resolveCategory = (sourcePath: string) => {
   const categoryFolder = sourcePath.match(/^\.\/posts\/([^/]+)\/[^/]+\/index\.md$/)?.[1];
   const category = categoryFolder ? categoryFolders[categoryFolder] : undefined;
@@ -82,6 +96,9 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
     if (!metadata[field]) throw new Error(`${sourcePath}: ${field} 값이 필요합니다.`);
   });
 
+  const body = match[2].trim();
+  const images = collectArticleImages(sourcePath);
+
   return {
     slug: metadata.slug,
     category,
@@ -91,8 +108,9 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
     number: "",
     date: metadata.date,
     featured: metadata.featured === "true",
-    body: match[2].trim(),
-    images: collectArticleImages(sourcePath),
+    body,
+    images,
+    ...findArticleThumbnail(body, images),
     sourcePath,
   };
 };

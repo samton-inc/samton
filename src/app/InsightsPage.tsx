@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Menu, X } from "lucide-react";
 import logo from "@/assets/Samton_logo_with_text.png";
-import { featuredInsight, insightArticles } from "@/content/insights/registry";
+import { featuredInsight, insightArticles, type InsightArticle } from "@/content/insights/registry";
 import MarkdownContent from "@/app/components/MarkdownContent";
 
 const categories = [
@@ -36,6 +36,16 @@ type FilterId = "all" | CategoryId;
 
 const isFilterId = (value: string): value is FilterId =>
   value === "all" || categories.some((category) => category.id === value);
+
+function ArticleVisual({ article }: { article: InsightArticle }) {
+  return (
+    <div className={`journal-card-visual journal-card-visual--${article.category}${article.thumbnail ? " has-thumbnail" : ""}`}>
+      {article.thumbnail && <img src={article.thumbnail} alt={article.thumbnailAlt ?? article.title} />}
+      <span>{article.type}</span>
+      <b>{article.number}</b>
+    </div>
+  );
+}
 
 export default function InsightsPage() {
   const articleSlug = new URLSearchParams(window.location.search).get("article");
@@ -146,11 +156,7 @@ export default function InsightsPage() {
               </div>
 
               <a className="journal-editor-row" href={`/insights/?article=${featuredInsight.slug}`}>
-                  <div className={`journal-card-visual journal-card-visual--${featuredInsight.category}`}>
-                    <span>{featuredInsight.type}</span>
-                    <b>{featuredInsight.number}</b>
-                    <i aria-hidden="true" />
-                  </div>
+                  <ArticleVisual article={featuredInsight} />
                   <div className="journal-editor-row__copy">
                     <div className="journal-card-meta">
                       <span>{categories.find((category) => category.id === featuredInsight.category)?.shortLabel}</span>
@@ -177,11 +183,7 @@ export default function InsightsPage() {
                 const category = categories.find((item) => item.id === article.category)!;
                 return (
                   <a className="journal-card" href={`/insights/?article=${article.slug}`} key={article.slug}>
-                    <div className={`journal-card-visual journal-card-visual--${article.category}`}>
-                      <span>{article.type}</span>
-                      <b>{article.number}</b>
-                      <i aria-hidden="true" />
-                    </div>
+                    <ArticleVisual article={article} />
                     <div className="journal-card__copy">
                       <div className="journal-card-meta">
                         <span>{category.shortLabel}</span>

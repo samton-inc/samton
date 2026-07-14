@@ -525,9 +525,12 @@ button { color: inherit; }
 .journal-card-visual--news { background: linear-gradient(135deg, #4ba983, #23705a); }
 .journal-card-visual--reports { background: linear-gradient(135deg, #f08b52, #bc5438); }
 .journal-card-visual--technology { background: linear-gradient(135deg, #8269db, #4d3a9c); }
+.journal-card-visual.has-thumbnail::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(5, 15, 32, .48) 0%, rgba(5, 15, 32, .04) 48%, rgba(5, 15, 32, .24) 100%); }
+.journal-card-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+.journal-card:hover .journal-card-visual > img,
+.journal-editor-row:hover .journal-card-visual > img { transform: scale(1.035); }
 .journal-card-visual > span { position: relative; z-index: 2; font: 650 9px/1 ui-monospace, monospace; letter-spacing: .1em; }
 .journal-card-visual > b { position: relative; z-index: 2; font-size: 38px; font-weight: 300; opacity: .82; }
-.journal-card-visual > i { position: absolute; right: -46px; bottom: -82px; width: 210px; height: 210px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; box-shadow: 0 0 0 30px rgba(255,255,255,.08), 0 0 0 62px rgba(255,255,255,.055); }
 .journal-card__copy { padding: 24px 23px 26px; }
 .journal-card__copy h3 { min-height: 57px; margin: 15px 0 11px; font-size: 19px; line-height: 1.48; font-weight: 630; letter-spacing: -.01em; word-break: keep-all; }
 .journal-card__copy p { min-height: 67px; font-size: 12px; }
