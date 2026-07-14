@@ -14,4 +14,12 @@ export default defineConfig({
     },
   },
   assetsInclude: ['**/*.svg', '**/*.csv'],
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        insights: path.resolve(__dirname, 'insights/index.html'),
+      },
+    },
+  },
 })
