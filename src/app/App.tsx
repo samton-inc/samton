@@ -22,23 +22,38 @@ import carbonBasicsImage from "@/assets/insights/carbon-basics-industrial.jpg";
 import reportsImage from "@/assets/insights/reports-desk.jpg";
 import samtonNewsImage from "@/assets/insights/samton-news-embassy.jpg";
 import techPeopleImage from "@/assets/insights/tech-people-field.jpg";
+import cnttechLogo from "@/assets/partners/cnttech.png";
+import haidLogo from "@/assets/partners/haid.svg";
+import healbeingCareLogo from "@/assets/partners/healbeing-care.jpg";
+import hiConsultingLogo from "@/assets/partners/hi-consulting.png";
+import incheonCceiLogo from "@/assets/partners/incheon-ccei.jpg";
+import incheonSeoguFmcLogo from "@/assets/partners/incheon-seogu-fmc.png";
+import kakaoMobilityLogo from "@/assets/partners/kakao-mobility.svg";
+import kmSolutionLogo from "@/assets/partners/km-solution.png";
+import koreaEnvironmentCorpLogo from "@/assets/partners/korea-environment-corp.png";
+import kosmeLogo from "@/assets/partners/kosme.png";
+import kStartupLogo from "@/assets/partners/k-startup.png";
+import petelLogo from "@/assets/partners/petel.png";
 import servingHandsLogo from "@/assets/partners/serving-hands-logo.jpg";
+import swissTourLogo from "@/assets/partners/swiss-tour.jpg";
+import yeonsuSymbolLogo from "@/assets/partners/yeonsu-symbol.gif";
 
 const partnerLogos = [
-  { name: "Kakao Mobility", logo: "https://t1.kakaocdn.net/kakaomobility/company_website/images/logo.svg", kind: "wide" },
-  { name: "HI Consulting", logo: "https://hiconsulting.co.kr/wp-content/uploads/2023/06/%EA%B7%B8%EB%A6%BC4-1.png", kind: "wide" },
-  { name: "KM Solution", logo: "https://cdn.imweb.me/thumbnail/20250806/237259c2943c7.png", kind: "wide" },
-  { name: "Swiss Tour", logo: "https://web.archive.org/web/20240225075949im_/http://www.bus1st.com/theme/basic/common/img/logo.png", kind: "wide" },
-  { name: "HAID", logo: "https://haid.kr/assets/transparent_logo.svg", kind: "wide" },
-  { name: "힐빙케어", logo: "https://imgs.jobkorea.co.kr/img1/_whitebg/200X80/Co_Logo/Logo/2020/10/20/2770m00aRh_nKan7i7oj3121h0gmYoIl_4m3p2mh.png", kind: "wide" },
-  { name: "인천창조경제혁신센터", logo: "https://www.venturesquare.net/wp-content/uploads/2022/01/%EB%B6%99%EC%9E%841-%EC%9D%B8%EC%B2%9C%EC%B0%BD%EC%A1%B0%EA%B2%BD%EC%A0%9C%ED%98%81%EC%8B%A0%EC%84%BC%ED%84%B0-CI.jpg", kind: "ccei" },
-  { name: "인천광역시 서구시설관리공단", logo: "https://www.issi.or.kr/images/logo.png", kind: "institution" },
-  { name: "Better Life Yeonsu", logo: "https://www.yeonsu.go.kr/welfare/images/main/logo.png", kind: "institution" },
-  { name: "한국환경공단", logo: "https://www.keco.or.kr/images/new/web/header/logo.png", kind: "institution" },
-  { name: "창업진흥원", logo: "https://www.kised.or.kr/landing/images/logo_kstartup.png", kind: "institution" },
-  { name: "KOSME 중소벤처기업진흥공단", logo: "https://www.kosmes.or.kr/intro/img/img-LOGOKOSME.png", kind: "institution" },
-  { name: "CNTTECH", logo: "https://www.cntt.co.kr/kr/resources/images/common/logo_210525.png", kind: "wide" },
+  { name: "Kakao Mobility", logo: kakaoMobilityLogo, kind: "wide" },
+  { name: "HI Consulting", logo: hiConsultingLogo, kind: "wide" },
+  { name: "KM Solution", logo: kmSolutionLogo, kind: "wide" },
+  { name: "Swiss Tour", logo: swissTourLogo, kind: "wide" },
+  { name: "HAID", logo: haidLogo, kind: "wide" },
+  { name: "힐빙케어", logo: healbeingCareLogo, kind: "wide" },
+  { name: "인천창조경제혁신센터", logo: incheonCceiLogo, kind: "ccei" },
+  { name: "인천광역시 서구시설관리공단", logo: incheonSeoguFmcLogo, kind: "institution" },
+  { name: "Better Life Yeonsu", logo: yeonsuSymbolLogo, kind: "wide" },
+  { name: "한국환경공단", logo: koreaEnvironmentCorpLogo, kind: "institution" },
+  { name: "창업진흥원", logo: kStartupLogo, kind: "institution" },
+  { name: "KOSME 중소벤처기업진흥공단", logo: kosmeLogo, kind: "institution" },
+  { name: "CNTTECH", logo: cnttechLogo, kind: "wide" },
   { name: "섬김의손길", logo: servingHandsLogo, kind: "wide" },
+  { name: "페텔", logo: petelLogo, kind: "wide" },
 ] as const;
 
 const partnerLogoFaces = Array.from({ length: 8 }, (_, cardIndex) =>
@@ -109,61 +124,79 @@ const engineDetails: Record<EngineId, {
   },
 };
 
-const methodologyModules = [
-  {
-    id: "mobility",
-    name: "수송·모빌리티",
-    code: "MOBILITY METHOD",
-    source: "DTG · FUEL · DISTANCE",
-    description: "운행거리, 연료, 차종과 운행 데이터를 방법론에 맞춰 배출량과 감축량으로 산정합니다.",
-  },
-  {
-    id: "energy",
-    name: "에너지·발전",
-    code: "ENERGY METHOD",
-    source: "METER · IoT · POWER",
-    description: "계량기, 발전량과 에너지 사용 데이터를 산정 기준과 배출계수에 연결합니다.",
-  },
+const methodologyOptions = [
+  { id: "corporate-inventory", kind: "corporate", name: "GHG Protocol 기업 인벤토리 기준", input: "Scope 1 · 2 · 3 활동 데이터" },
+  { id: "product-footprint", kind: "product", name: "ISO 14067 제품 탄소발자국 기준", input: "원료 · 생산 · 운송 · 사용 · 폐기 데이터" },
+  { id: "transport", kind: "credit", name: "수송·모빌리티 감축 방법론", input: "거리 · 연료 · 차량 · 운송 실적" },
+  { id: "renewable-energy", kind: "credit", name: "재생에너지 발전 방법론", input: "발전량 · 계량 · 전력 데이터" },
+  { id: "energy-efficiency", kind: "credit", name: "에너지 효율 개선 방법론", input: "에너지 사용 · 설비 · 생산 데이터" },
+  { id: "waste-methane", kind: "credit", name: "폐기물 메탄 회수 방법론", input: "폐기물 · 메탄 회수 · 처리 데이터" },
+  { id: "forestry-removal", kind: "credit", name: "산림·토지 탄소흡수 방법론", input: "토지 · 생장량 · 탄소저장 데이터" },
 ] as const;
 
-const regulationModules = [
+type MethodologyKind = (typeof methodologyOptions)[number]["kind"];
+
+const carbonAssetOutputs = [
   {
-    id: "credit",
-    name: "탄소 크레딧",
-    code: "CARBON CREDIT",
-    output: "발급·검증 패키지",
-    description: "등록, 모니터링, 검증과 발급에 필요한 기준과 증빙 항목을 시스템에 적용합니다.",
+    id: "internal-use",
+    name: "내부 탄소관리 데이터",
+    code: "INTERNAL USE · NOT VERIFIED",
+    requiredEngines: ["data", "methodology", "operation"],
+    requiresMethodology: true,
+    onlyWithoutTrust: true,
+  },
+  {
+    id: "regulatory-use",
+    name: "법·제도 기준 관리 데이터",
+    code: "INTERNAL USE · REGULATORY MAPPED",
+    requiredEngines: ["data", "regulation", "methodology", "operation"],
+    requiresMethodology: true,
+    onlyWithoutTrust: true,
+  },
+  {
+    id: "carbon-credit",
+    name: "탄소 크레딧 발급 준비 데이터",
+    code: "ISSUANCE-READY · EXTERNAL REVIEW",
+    requiredEngines: ["data", "trust", "regulation", "methodology", "operation"],
+    requiredMethodologyKinds: ["credit"],
   },
   {
     id: "compliance",
-    name: "규제·컴플라이언스",
-    code: "COMPLIANCE",
-    output: "규제 대응 보고",
-    description: "기업에 적용되는 법령, 고시와 보고 기준을 연결해 대응 항목과 제출 근거를 관리합니다.",
+    name: "규제 대응 제출 준비 데이터",
+    code: "REGULATORY SUBMISSION · REVIEW REQUIRED",
+    requiredEngines: ["data", "trust", "regulation", "methodology", "operation"],
+    requiresMethodology: true,
   },
   {
     id: "disclosure",
-    name: "공급망·공시 대응",
-    code: "DISCLOSURE",
-    output: "공시·요청 대응 자료",
-    description: "공급망과 고객사, 공시 요구에 맞춰 필요한 탄소 데이터와 산정 근거를 구성합니다.",
+    name: "공시용 Scope 1·2·3 산정 데이터",
+    code: "GHG PROTOCOL · DISCLOSURE DRAFT",
+    requiredEngines: ["data", "trust", "methodology", "operation"],
+    requiredMethodologyKinds: ["corporate"],
   },
-] as const;
-
-const dmrvModuleCatalog = [
-  { ...methodologyModules[0], kind: "methodology" as const, meta: methodologyModules[0].source },
-  { ...regulationModules[0], kind: "regulation" as const, meta: regulationModules[0].output },
-  { ...methodologyModules[1], kind: "methodology" as const, meta: methodologyModules[1].source },
-  { ...regulationModules[1], kind: "regulation" as const, meta: regulationModules[1].output },
-  { ...regulationModules[2], kind: "regulation" as const, meta: regulationModules[2].output },
-] as const;
-
-const creditMethodologies = [
-  { id: "gcc-nmt-017", code: "GCC NMT 017", name: "전기 모빌리티 전환", input: "차량 · 운행 · 충전 데이터" },
-  { id: "transport-reduction", code: "TRANSPORT", name: "수송 감축 방법론", input: "거리 · 연료 · 운송 실적" },
-  { id: "fuel-switching", code: "FUEL SWITCH", name: "연료 전환 방법론", input: "연료 사용 · 배출계수" },
-  { id: "renewable-energy", code: "RENEWABLE", name: "재생에너지 방법론", input: "발전량 · 계량 데이터" },
-] as const;
+  {
+    id: "product-footprint",
+    name: "제품 탄소발자국 산정 데이터",
+    code: "ISO 14067 · PCF CALCULATION",
+    requiredEngines: ["data", "trust", "methodology"],
+    requiredMethodologyKinds: ["product"],
+  },
+  {
+    id: "assurance",
+    name: "검증·감사 대응 증빙 패키지",
+    code: "TRACE · EVIDENCE · REVIEW REQUIRED",
+    requiredEngines: ["data", "trust", "methodology", "operation"],
+    requiresMethodology: true,
+  },
+] as const satisfies ReadonlyArray<{
+  id: string;
+  name: string;
+  code: string;
+  requiredEngines: readonly EngineId[];
+  requiresMethodology?: boolean;
+  requiredMethodologyKinds?: readonly MethodologyKind[];
+  onlyWithoutTrust?: boolean;
+}>;
 
 const insightCategories = [
   {
@@ -213,19 +246,27 @@ function SectionLabel({ children, light = false }: { children: React.ReactNode; 
 }
 
 function DmrvConfigurator() {
-  type ModuleId = (typeof dmrvModuleCatalog)[number]["id"];
-  type MethodologyId = (typeof creditMethodologies)[number]["id"];
-  const [selectedModuleIds, setSelectedModuleIds] = useState<ModuleId[]>(["mobility", "credit", "energy"]);
-  const [selectedMethodologyIds, setSelectedMethodologyIds] = useState<MethodologyId[]>(["gcc-nmt-017"]);
-  const selectedModules = dmrvModuleCatalog.filter((module) => selectedModuleIds.includes(module.id));
-  const selectedMethodologies = creditMethodologies.filter((methodology) => selectedMethodologyIds.includes(methodology.id));
-  const hasCreditEngine = selectedModuleIds.includes("credit");
+  type MethodologyId = (typeof methodologyOptions)[number]["id"];
+  const [selectedEngineIds, setSelectedEngineIds] = useState<EngineId[]>([]);
+  const [selectedMethodologyIds, setSelectedMethodologyIds] = useState<MethodologyId[]>([]);
+  const selectedEngines = engines.filter((engine) => selectedEngineIds.includes(engine.id));
+  const pipelineEngines = selectedEngines.filter((engine) => engine.id !== "trust");
+  const selectedMethodologies = methodologyOptions.filter((methodology) => selectedMethodologyIds.includes(methodology.id));
+  const selectedCreditMethodologies = selectedMethodologies.filter((methodology) => methodology.kind === "credit");
+  const hasTrustEngine = selectedEngineIds.includes("trust");
+  const hasMethodologyEngine = selectedEngineIds.includes("methodology");
+  const availableAssetOutputs = carbonAssetOutputs.filter((output) => (
+    output.requiredEngines.every((engineId) => selectedEngineIds.includes(engineId))
+    && (!("requiresMethodology" in output) || !output.requiresMethodology || selectedMethodologies.length > 0)
+    && (!("requiredMethodologyKinds" in output) || !output.requiredMethodologyKinds || output.requiredMethodologyKinds.some((kind) => selectedMethodologies.some((methodology) => methodology.kind === kind)))
+    && (!("onlyWithoutTrust" in output) || !output.onlyWithoutTrust || !hasTrustEngine)
+  ));
 
-  const toggleModule = (moduleId: ModuleId) => {
-    setSelectedModuleIds((current) => (
-      current.includes(moduleId)
-        ? current.filter((id) => id !== moduleId)
-        : [...current, moduleId]
+  const toggleEngine = (engineId: EngineId) => {
+    setSelectedEngineIds((current) => (
+      current.includes(engineId)
+        ? current.filter((id) => id !== engineId)
+        : [...current, engineId]
     ));
   };
 
@@ -246,24 +287,23 @@ function DmrvConfigurator() {
 
       <div className="dmrv-module-library">
         <div className="dmrv-module-library__heading">
-          <div><span>ENGINE LIBRARY</span><h3>필요한 엔진을 선택해 조립해 보세요.</h3></div>
+          <div><h3>필요한 엔진을 선택해 조립해 보세요.</h3></div>
           <p>엔진을 선택하면 아래 조립 캔버스에 바로 반영됩니다.</p>
         </div>
-        <div className="dmrv-module-catalog" aria-label="조립 가능한 DMRV 엔진">
-          {dmrvModuleCatalog.map((module) => {
-            const isActive = selectedModuleIds.includes(module.id);
-            const Icon = module.kind === "methodology" ? Calculator : Scale;
+        <div className="dmrv-module-catalog" aria-label="조립 가능한 소프트웨어 엔진">
+          {engines.map((engine) => {
+            const isActive = selectedEngineIds.includes(engine.id);
+            const Icon = engine.icon;
             return (
               <button
-                className={`dmrv-module-card dmrv-module-card--${module.kind}${isActive ? " is-active" : ""}`}
+                className={`dmrv-module-card dmrv-module-card--${engine.id}${isActive ? " is-active" : ""}`}
                 type="button"
                 aria-pressed={isActive}
-                onClick={() => toggleModule(module.id)}
-                key={module.id}
+                onClick={() => toggleEngine(engine.id)}
+                key={engine.id}
               >
                 <Icon size={19} strokeWidth={1.6} />
-                <span>{module.kind === "methodology" ? "방법론·산정" : "규제"}</span>
-                <strong>{module.name}</strong>
+                <strong>{engine.name}</strong>
                 <b aria-hidden="true">{isActive ? "✓" : "+"}</b>
               </button>
             );
@@ -271,7 +311,7 @@ function DmrvConfigurator() {
         </div>
 
         <AnimatePresence initial={false}>
-          {hasCreditEngine && (
+          {hasMethodologyEngine && (
             <motion.div
               className="credit-method-library"
               initial={{ opacity: 0, height: 0 }}
@@ -280,11 +320,11 @@ function DmrvConfigurator() {
               transition={{ duration: 0.25 }}
             >
               <div className="credit-method-library__heading">
-                <div><span>CARBON CREDIT ENGINE · METHOD CARTRIDGES</span><strong>탄소 크레딧에 적용할 방법론</strong></div>
-                <p>필요한 방법론을 여러 개 선택해 하나의 발급 엔진 안에 끼워 넣을 수 있습니다.</p>
+                <div><strong>방법론·탄소 산정 엔진에 적용할 산정 기준과 세부 방법론</strong></div>
+                <p>기업 인벤토리·제품 탄소발자국·탄소 크레딧 목적에 맞는 기준을 선택할 수 있습니다.</p>
               </div>
-              <div className="credit-method-library__tabs" aria-label="탄소 크레딧 방법론 선택">
-                {creditMethodologies.map((methodology) => {
+              <div className="credit-method-library__tabs" aria-label="세부 탄소 방법론 선택">
+                {methodologyOptions.map((methodology) => {
                   const isActive = selectedMethodologyIds.includes(methodology.id);
                   return (
                     <button
@@ -294,7 +334,6 @@ function DmrvConfigurator() {
                       onClick={() => toggleMethodology(methodology.id)}
                       key={methodology.id}
                     >
-                      <span>{methodology.code}</span>
                       <strong>{methodology.name}</strong>
                       <b aria-hidden="true">{isActive ? "✓" : "+"}</b>
                     </button>
@@ -308,99 +347,131 @@ function DmrvConfigurator() {
 
       <div className="dmrv-builder" aria-live="polite">
         <div className="dmrv-builder__heading">
-          <div><span>ASSEMBLY CANVAS</span><h3>Samton DMRV</h3></div>
-          <button type="button" onClick={() => { setSelectedModuleIds(["mobility", "credit", "energy"]); setSelectedMethodologyIds(["gcc-nmt-017"]); }}>기본 구성으로 초기화</button>
+          <div><h3>Samton DMRV</h3></div>
+          <button type="button" onClick={() => { setSelectedEngineIds([]); setSelectedMethodologyIds([]); }}>초기화</button>
         </div>
 
         <div className="dmrv-builder__frame">
-          <div className="dmrv-builder__trust">
-            <ShieldCheck size={21} strokeWidth={1.6} />
-            <div><span>ALL-PROCESS TRUST LAYER</span><strong>데이터 검증·무결성 엔진</strong></div>
-          </div>
-
-          <div className="dmrv-builder__pipeline">
-            <div className="dmrv-builder__fixed-node">
-              <Network size={26} strokeWidth={1.5} />
-              <span>FIXED FOUNDATION</span>
-              <strong>데이터 연결·표준화</strong>
-              <small>API · IoT · 원천 데이터</small>
+          <div className={`dmrv-builder__pipeline${hasTrustEngine ? " has-trust-layer" : ""}`}>
+            <div className="dmrv-builder__fixed-node dmrv-builder__fixed-node--input">
+              <Database size={26} strokeWidth={1.5} />
+              <span>RAW DATA</span>
+              <strong>원천 데이터</strong>
+              <small>API · IoT · DTG · METER</small>
             </div>
 
             <i className="dmrv-builder__connector" aria-hidden="true" />
 
-            <AnimatePresence mode="popLayout">
-              {selectedModules.map((module) => {
-                const Icon = module.kind === "methodology" ? Calculator : Scale;
-                return (
+            <div className={`dmrv-builder__engine-zone${hasTrustEngine ? " has-trust-layer" : ""}`}>
+              <AnimatePresence initial={false}>
+                {hasTrustEngine && (
                   <motion.div
-                    layout
-                    key={module.id}
-                    className="dmrv-builder__step"
-                    initial={{ opacity: 0, scale: 0.88, x: -8 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.88, x: 8 }}
+                    className="dmrv-builder__trust"
+                    initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                    animate={{ opacity: 1, height: 48, marginBottom: 12 }}
+                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
                     transition={{ duration: 0.22 }}
                   >
-                    <div className={`dmrv-builder__module dmrv-builder__module--${module.kind}`}>
-                      <Icon size={19} strokeWidth={1.6} />
-                      <span>{module.kind === "methodology" ? "METHOD" : "REGULATION"}</span>
-                      <strong>{module.name}</strong>
-                      <small>{module.meta}</small>
-                      {module.id === "credit" && (
-                        <div className="dmrv-builder__methodologies">
-                          {selectedMethodologies.length > 0 ? selectedMethodologies.map((methodology) => (
-                            <motion.button
-                              layout
-                              type="button"
-                              key={methodology.id}
-                              onClick={() => toggleMethodology(methodology.id)}
-                              aria-label={`${methodology.name} 방법론 제거`}
-                            >
-                              <span>{methodology.code}</span>
-                              <strong>{methodology.name}</strong>
-                              <b aria-hidden="true">×</b>
-                            </motion.button>
-                          )) : (
-                            <div className="dmrv-builder__methodology-empty">방법론을 선택해 주세요.</div>
-                          )}
-                        </div>
-                      )}
-                      <button className="dmrv-builder__remove" type="button" onClick={() => toggleModule(module.id)} aria-label={`${module.name} 엔진 제거`}>×</button>
-                    </div>
-                    <i className="dmrv-builder__connector" aria-hidden="true" />
+                    <ShieldCheck size={21} strokeWidth={1.6} />
+                    <div><strong>데이터 검증·무결성 엔진</strong></div>
                   </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                )}
+              </AnimatePresence>
 
-            {selectedModules.length === 0 && (
-              <div className="dmrv-builder__step dmrv-builder__step--empty">
-                <div className="dmrv-builder__empty">
-                  <Cpu size={22} strokeWidth={1.4} />
-                  <strong>선택 엔진 없음</strong>
-                  <span>위에서 엔진을 추가해 주세요.</span>
-                </div>
-                <i className="dmrv-builder__connector" aria-hidden="true" />
+              <div className="dmrv-builder__engine-pipeline">
+                <AnimatePresence mode="popLayout">
+                  {pipelineEngines.map((engine, engineIndex) => {
+                    const Icon = engine.icon;
+                    return (
+                      <motion.div
+                        layout
+                        key={engine.id}
+                        className="dmrv-builder__step"
+                        initial={{ opacity: 0, scale: 0.88, x: -8 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.88, x: 8 }}
+                        transition={{ duration: 0.22 }}
+                      >
+                        <div className={`dmrv-builder__module dmrv-builder__module--${engine.id}`}>
+                          <Icon size={19} strokeWidth={1.6} />
+                          <strong>{engine.name}</strong>
+                          <small>{engine.description}</small>
+                          {engine.id === "methodology" && (
+                            <div className="dmrv-builder__methodologies">
+                              {selectedMethodologies.length > 0 ? selectedMethodologies.map((methodology) => (
+                                <motion.button
+                                  layout
+                                  type="button"
+                                  key={methodology.id}
+                                  onClick={() => toggleMethodology(methodology.id)}
+                                aria-label={`${methodology.name} 방법론 제거`}
+                              >
+                                  <strong>{methodology.name}</strong>
+                                  <b aria-hidden="true">×</b>
+                                </motion.button>
+                              )) : (
+                                <div className="dmrv-builder__methodology-empty">방법론을 선택해 주세요.</div>
+                              )}
+                            </div>
+                          )}
+                          <button className="dmrv-builder__remove" type="button" onClick={() => toggleEngine(engine.id)} aria-label={`${engine.name} 제거`}>×</button>
+                        </div>
+                        {engineIndex < pipelineEngines.length - 1 && <i className="dmrv-builder__connector" aria-hidden="true" />}
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+
+                {pipelineEngines.length === 0 && (
+                  <div className="dmrv-builder__step dmrv-builder__step--empty">
+                    <div className="dmrv-builder__empty">
+                      <Cpu size={22} strokeWidth={1.4} />
+                      <strong>처리 엔진을 선택해 주세요.</strong>
+                      <span>선택한 엔진이 이 영역에 조립됩니다.</span>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
+
+            <i className="dmrv-builder__connector" aria-hidden="true" />
 
             <div className="dmrv-builder__fixed-node dmrv-builder__fixed-node--output">
               <FileCheck2 size={26} strokeWidth={1.5} />
               <span>SYSTEM OUTPUT</span>
               <strong>탄소 데이터 자산화</strong>
-              <small>{hasCreditEngine ? `${selectedMethodologies.length} METHODS · MR · EVIDENCE` : "REPORT · EVIDENCE · CREDIT"}</small>
+              <div className="dmrv-builder__outputs">
+                <AnimatePresence initial={false} mode="popLayout">
+                  {availableAssetOutputs.map((output) => (
+                    <motion.div
+                      layout
+                      className={`dmrv-builder__output-item${output.id === "internal-use" || output.id === "regulatory-use" ? " is-internal" : ""}`}
+                      key={output.id}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      <b>{output.name}</b>
+                      <small>{output.id === "carbon-credit"
+                        ? selectedCreditMethodologies.length > 1
+                          ? `${selectedCreditMethodologies[0].name} 외 ${selectedCreditMethodologies.length - 1}개`
+                          : selectedCreditMethodologies[0]?.name ?? ""
+                        : output.code}</small>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                {availableAssetOutputs.length === 0 && (
+                  <div className="dmrv-builder__output-empty">{hasTrustEngine
+                    ? "엔진 조합이 완성되면 생성 가능한 대외 활용 결과가 표시됩니다."
+                    : "연결·산정·운영 엔진을 조합하면 내부 활용 데이터가 표시됩니다."}</div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="dmrv-configurator__summary">
-        <span>CURRENT BUILD</span>
-        <p>{selectedModules.length > 0
-          ? <><strong>{selectedModules.length}개의 엔진</strong>{hasCreditEngine && selectedMethodologies.length > 0 ? `과 ${selectedMethodologies.length}개의 세부 방법론` : ""}이 하나의 Samton DMRV 안에 조립되어 있습니다.</>
-          : <>고정 데이터 기반만 적용된 상태입니다. 필요한 엔진을 추가해 보세요.</>
-        }</p>
-      </div>
     </div>
   );
 }
@@ -760,7 +831,6 @@ export default function App() {
           <img src={logo} alt="Samton" />
           <div className="footer__description">
             <p><strong>Samton™</strong>은 고객의 복잡한 요구사항을 구조화하고,<br />데이터 기반의 소프트웨어와 전문가 팀으로 직접 해결하는 <strong>기술 파트너</strong>입니다.</p>
-            <p>기업과 정부가 요구하는 <strong>높은 수준의 기준을 이해</strong>하고,<br />이를 충족하는 자체 기술 역량으로 <strong>신뢰 가능한 결과</strong>를 만들어내고 있습니다.</p>
           </div>
         </div>
         <div className="footer__links"><a href="#company">회사소개</a><a href="#engines">기술 엔진</a><a href="#projects">프로젝트</a><a href="/insights/">소식·인사이트</a></div>

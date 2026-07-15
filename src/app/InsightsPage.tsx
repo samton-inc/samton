@@ -42,7 +42,6 @@ function ArticleVisual({ article }: { article: InsightArticle }) {
     <div className={`journal-card-visual journal-card-visual--${article.category}${article.thumbnail ? " has-thumbnail" : ""}`}>
       {article.thumbnail && <img src={article.thumbnail} alt={article.thumbnailAlt ?? article.title} />}
       <span>{article.type}</span>
-      <b>{article.number}</b>
     </div>
   );
 }
@@ -115,7 +114,6 @@ export default function InsightsPage() {
                 <span>{categories.find((category) => category.id === activeArticle.category)?.shortLabel}</span>
                 <time dateTime={activeArticle.date.replaceAll(".", "-")}>{activeArticle.date}</time>
               </div>
-              <span className="insight-article__type">{activeArticle.type}</span>
               <h1>{activeArticle.title}</h1>
               <p>{activeArticle.summary}</p>
             </header>
@@ -125,7 +123,6 @@ export default function InsightsPage() {
           <>
         <section className="journal-masthead">
           <div>
-            <span>SAMTON JOURNAL</span>
             <h1>소식·인사이트</h1>
           </div>
           <p>탄소와 데이터에 대한 이해부터 샘튼의 현장, 연구와 기술 이야기를 차곡차곡 기록합니다.</p>
@@ -145,18 +142,17 @@ export default function InsightsPage() {
           ))}
         </nav>
 
-        <div className="journal-body">
+        <div className={`journal-body${activeFilter === "all" ? "" : " journal-body--filtered"}`}>
           {activeFilter === "all" && featuredInsight && (
             <section className="journal-feature" aria-labelledby="journal-feature-heading">
               <div className="journal-section-heading">
                 <div>
-                  <span>EDITOR'S PICK</span>
                   <h2 id="journal-feature-heading">먼저 읽어볼 글</h2>
                 </div>
               </div>
 
               <a className="journal-editor-row" href={`/insights/?article=${featuredInsight.slug}`}>
-                  <ArticleVisual article={featuredInsight} />
+                    <ArticleVisual article={featuredInsight} />
                   <div className="journal-editor-row__copy">
                     <div className="journal-card-meta">
                       <span>{categories.find((category) => category.id === featuredInsight.category)?.shortLabel}</span>
@@ -169,10 +165,9 @@ export default function InsightsPage() {
             </section>
           )}
 
-          <section className="journal-archive" aria-labelledby="journal-archive-heading">
+          <section className={`journal-archive${activeFilter === "all" ? "" : " journal-archive--filtered"}`} aria-labelledby="journal-archive-heading">
             <div className="journal-section-heading journal-section-heading--archive">
               <div>
-                <span>{activeFilter === "all" ? "ALL STORIES" : activeCategory?.shortLabel}</span>
                 <h2 id="journal-archive-heading">{activeFilter === "all" ? "전체 콘텐츠" : activeCategory?.label}</h2>
               </div>
               <p>{activeCategory?.description ?? "기초 해설, 샘튼 소식, 리포트와 기술·조직 이야기를 한곳에서 확인하세요."}</p>
@@ -207,7 +202,6 @@ export default function InsightsPage() {
           <img src={logo} alt="Samton" />
           <div className="footer__description">
             <p><strong>Samton™</strong>은 고객의 복잡한 요구사항을 구조화하고,<br />데이터 기반의 소프트웨어와 전문가 팀으로 직접 해결하는 <strong>기술 파트너</strong>입니다.</p>
-            <p>기업과 정부가 요구하는 <strong>높은 수준의 기준을 이해</strong>하고,<br />이를 충족하는 자체 기술 역량으로 <strong>신뢰 가능한 결과</strong>를 만들어내고 있습니다.</p>
           </div>
         </div>
         <div className="footer__links"><a href="/#company" onClick={() => rememberLandingSection("company")}>회사소개</a><a href="/#engines" onClick={() => rememberLandingSection("engines")}>기술 엔진</a><a href="/#projects" onClick={() => rememberLandingSection("projects")}>프로젝트</a><a href="/insights/">소식·인사이트</a></div>

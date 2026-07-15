@@ -6,7 +6,6 @@ export type InsightArticle = {
   type: string;
   title: string;
   summary: string;
-  number: string;
   date: string;
   featured: boolean;
   body: string;
@@ -105,7 +104,6 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
     type: metadata.type,
     title: metadata.title,
     summary: metadata.summary,
-    number: "",
     date: metadata.date,
     featured: metadata.featured === "true",
     body,
@@ -118,7 +116,6 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
 export const insightArticles = Object.entries(markdownFiles)
   .map(([sourcePath, source]) => parseMarkdown(sourcePath, source))
   .filter((article): article is InsightArticle => article !== null)
-  .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug))
-  .map((article, index) => ({ ...article, number: String(index + 1).padStart(2, "0") }));
+  .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
 
 export const featuredInsight = insightArticles.find((article) => article.featured) ?? insightArticles[0];
