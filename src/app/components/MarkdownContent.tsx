@@ -42,6 +42,11 @@ export default function MarkdownContent({ markdown, title, images }: { markdown:
 
   const isImageBlock = (block: string) => /^!\[[^\]]*\]\([^)]+\)$/.test(block);
   const isItalicBlock = (block: string) => /^\*[^*]+\*$/.test(block);
+  const splitTableRow = (line: string) => line.replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
+  const isTableDivider = (line: string) => {
+    const cells = splitTableRow(line);
+    return cells.length > 1 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+  };
 
   return (
     <div className="markdown-content">
@@ -53,6 +58,26 @@ export default function MarkdownContent({ markdown, title, images }: { markdown:
         }
 
         const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+        if (lines.length >= 2 && lines[0].includes("|") && isTableDivider(lines[1])) {
+          const headers = splitTableRow(lines[0]);
+          const rows = lines.slice(2).map(splitTableRow);
+
+          return (
+            <div className="markdown-table-wrap" key={index}>
+              <table>
+                <thead>
+                  <tr>{headers.map((cell, cellIndex) => <th key={cellIndex}>{renderInline(cell, images)}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, rowIndex) => (
+                    <tr key={rowIndex}>{headers.map((_, cellIndex) => <td key={cellIndex}>{renderInline(row[cellIndex] ?? "", images)}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+
         if (lines.every((line) => /^[-*]\s+/.test(line))) {
           return <ul key={index}>{lines.map((line, lineIndex) => <li key={lineIndex}>{renderInline(line.replace(/^[-*]\s+/, ""), images)}</li>)}</ul>;
         }

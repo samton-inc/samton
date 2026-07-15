@@ -21,7 +21,7 @@ const categories = [
     id: "reports",
     label: "리포트",
     shortLabel: "리포트",
-    description: "탄소·규제·모빌리티 데이터에 관한 최신 자료를 샘튼의 관점으로 정리합니다.",
+    description: "탄소시장의 규모·가격·발급량과 규제 동향 등 최신 정량 데이터를 분석합니다.",
   },
   {
     id: "technology",
@@ -205,7 +205,7 @@ export default function InsightsPage() {
           </div>
         </div>
         <div className="footer__links"><a href="/#company" onClick={() => rememberLandingSection("company")}>회사소개</a><a href="/#engines" onClick={() => rememberLandingSection("engines")}>기술 엔진</a><a href="/#projects" onClick={() => rememberLandingSection("projects")}>프로젝트</a><a href="/insights/">소식·인사이트</a></div>
-        <div className="footer__contact"><a href="mailto:shim@samton.co.kr">shim@samton.co.kr</a><a href="tel:070-4107-9524">070-4107-9524</a></div>
+        <div className="footer__contact"><a href="mailto:samton-nature@samton.co.kr">samton-nature@samton.co.kr</a><a href="tel:070-4107-9524">070-4107-9524</a></div>
         <div className="footer__bottom"><span>© 2026 Samton Inc. All rights reserved.</span><span>Environmental · Carbon · Data Technology</span></div>
       </footer>
     </div>

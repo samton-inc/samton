@@ -106,7 +106,7 @@ function AnimatedInput({
 const contactItems = [
   { icon: Phone, label: "법인 전화", value: "070-4107-9524", href: "tel:070-4107-9524" },
   { icon: Printer, label: "FAX", value: "0504-296-9524", href: null },
-  { icon: Mail, label: "이메일", value: "sumin@samteon.com", href: "mailto:sumin@samteon.com" },
+  { icon: Mail, label: "이메일", value: "samton-nature@samton.co.kr", href: "mailto:samton-nature@samton.co.kr" },
   {
     icon: MapPin,
     label: "주소",

@@ -43,12 +43,12 @@ export function Footer() {
           {/* Links */}
           <div className="flex items-center gap-6">
             <motion.a
-              href="mailto:sumin@samteon.com"
+              href="mailto:samton-nature@samton.co.kr"
               className="text-white/35 hover:text-white/70 transition-colors"
               style={{ fontSize: "13px" }}
               whileHover={{ y: -1 }}
             >
-              sumin@samteon.com
+              samton-nature@samton.co.kr
             </motion.a>
             <span className="text-white/15">|</span>
             <motion.a

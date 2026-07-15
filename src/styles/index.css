@@ -587,6 +587,13 @@ button { color: inherit; }
 .markdown-content .markdown-image-block img { margin: 0; }
 .markdown-content p.markdown-image-caption { margin: 10px 0 34px; color: #7b8596; font-size: 13px; line-height: 1.65; }
 .markdown-content .markdown-image-caption em { font-style: oblique 10deg; font-synthesis: style; }
+.markdown-content .markdown-table-wrap { width: 100%; margin: 36px 0 42px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); }
+.markdown-content table { width: 100%; min-width: 720px; border-collapse: collapse; background: white; font-size: 13px; line-height: 1.65; word-break: keep-all; }
+.markdown-content th, .markdown-content td { padding: 15px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.markdown-content th:last-child, .markdown-content td:last-child { border-right: 0; }
+.markdown-content tbody tr:last-child td { border-bottom: 0; }
+.markdown-content th { background: #f4f6ff; color: var(--navy); font-weight: 670; }
+.markdown-content td:first-child { color: var(--navy); font-weight: 640; }
 
 .contact { padding: 80px max(24px, calc((100vw - 1160px) / 2)) 100px; background: var(--blue); color: white; display: grid; grid-template-columns: 1.2fr .8fr; gap: 90px; align-items: end; }
 .contact h2 { font-size: clamp(42px, 5vw, 68px); }

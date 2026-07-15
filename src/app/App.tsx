@@ -222,7 +222,7 @@ const insightCategories = [
   {
     type: "REPORTS",
     title: "리포트",
-    description: "탄소·규제·모빌리티 데이터에 관한 최신 자료와 핵심 내용을 공유합니다.",
+    description: "탄소시장의 규모·가격·발급량과 규제 동향 등 최신 정량 데이터를 분석합니다.",
     tone: "orange",
     href: "/insights/#reports",
     icon: FileText,
@@ -821,7 +821,7 @@ export default function App() {
           </div>
           <div className="contact__action">
             <p>데이터 환경과 업무를 이해하는 것에서 시작해, 확장 가능한 하나의 시스템을 만듭니다.</p>
-            <a href="mailto:shim@samton.co.kr">프로젝트 문의하기 <ArrowRight size={18} /></a>
+            <a href="mailto:samton-nature@samton.co.kr">프로젝트 문의하기 <ArrowRight size={18} /></a>
           </div>
         </section>
       </main>
@@ -834,7 +834,7 @@ export default function App() {
           </div>
         </div>
         <div className="footer__links"><a href="#company">회사소개</a><a href="#engines">기술 엔진</a><a href="#projects">프로젝트</a><a href="/insights/">소식·인사이트</a></div>
-        <div className="footer__contact"><a href="mailto:shim@samton.co.kr">shim@samton.co.kr</a><a href="tel:070-4107-9524">070-4107-9524</a></div>
+        <div className="footer__contact"><a href="mailto:samton-nature@samton.co.kr">samton-nature@samton.co.kr</a><a href="tel:070-4107-9524">070-4107-9524</a></div>
         <div className="footer__bottom"><span>© 2026 Samton Inc. All rights reserved.</span><span>Environmental · Carbon · Data Technology</span></div>
         </footer>
       </div>
