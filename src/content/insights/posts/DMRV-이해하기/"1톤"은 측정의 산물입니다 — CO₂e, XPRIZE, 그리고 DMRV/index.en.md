@@ -2,7 +2,7 @@
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
 title: '"One Tonne" Is the Product of Measurement — CO₂e, XPRIZE, and DMRV'
-summary: How data, methodologies, calculations, and verification turn field activities into a tradable 1tCO₂e, explained through the XPRIZE and GCC cases.
+summary: How data, methodologies, conversion calculations, and verification produce a market-ready 1tCO₂e—and why DMRV is best understood as production infrastructure.
 date: "2026.07.20"
 featured: false
 published: true
@@ -80,21 +80,17 @@ The critical stage therefore comes before the data are recorded on the blockchai
 
 **DMRV (Digital Monitoring, Reporting and Verification)** connects this chain of evidence in a digital environment.
 
-## Why GCC began assessing DMRV providers separately
+## DMRV is not software attached after a credit, but production infrastructure
 
-Carbon standards are also beginning to treat DMRV not as a convenience feature but as market infrastructure that requires its own assessment.
+This is where the role of DMRV needs to be reconsidered. DMRV is not a program used only to prepare a report after a mitigation project has finished or to add information to a credit that has already been issued. It is part of the foundation required from the outset to produce a tonne that the market can recognize.
 
-According to its own announcement, the Global Carbon Council (GCC) was the first voluntary carbon-market standard to formalize a **procedure for approving DMRV solution providers**. The procedure reviews not only sensors and measuring equipment but also data transmission, cybersecurity, quality control, reporting formats, access rights, and legal requirements. [GCC procedure for approving DMRV solution providers](https://globalcarboncouncil.com/first-in-vcm-gcc-formalizes-dmrv-solution-provider-approval-procedure/)
+A carbon-mitigation project actually involves two production processes. The first creates a **real reduction or removal in the field** through activities such as solar generation, methane capture, or carbon removal. The second monitors that outcome, calculates it under a methodology, and turns it into **evidence that an independent third party can reproduce**.
 
-This change signals that **standard bodies have begun comparing the technical capabilities and data controls of DMRV providers through a separate formal procedure**.
+The first process can create a genuine climate benefit on its own. But if the result cannot be quantified in a consistent unit, compared with what would have happened without the project, and traced back to source data, it is difficult to recognize it as a market-ready 1tCO₂e. A tonne of carbon credit is produced only when the physical outcome and the evidence supporting that outcome are both in place.
 
-Using an approved DMRV solution does not automatically lead to credit issuance or guarantee a price premium. Project additionality, methodology eligibility, the durability of reductions, independent verification, and regulatory eligibility must still be satisfied separately. Even so, approval of DMRV providers is likely to become an important criterion for judging whether a project can produce trustworthy data.
+DMRV supports this second production process. It connects source values to their time, location, and equipment; manages missing and abnormal data; and records the versions of the methodology and calculations applied. In other words, it continuously produces and manages the chain of evidence linking the final emissions reduction back to the field data.
 
-## DMRV is not an accessory attached to a carbon credit
-
-It is too narrow to view DMRV simply as software that produces reports more quickly.
-
-DMRV connects evidence that field activities actually occurred with the emissions reductions produced by those activities. It makes the full process traceable—from sensor values through calculations and reports to verification and, ultimately, issued credits.
+DMRV does not create the physical reduction itself or automatically decide whether credits will be issued. Additionality, methodology eligibility, independent verification, and assessment by a standard body remain separate requirements. DMRV's role is to produce the data needed for those decisions in a consistent form from the beginning and to make the calculations and verification reproducible.
 
 This role is especially important for projects such as solar mini-grids, where many small systems are distributed across different locations. If people must visit every site, transcribe meter readings, and collect supporting documents manually, management costs increase along with the risk of missing data and input errors. Continuous collection of meter and operating data, combined with checks on abnormal values and equipment status, makes it easier to aggregate small systems into one verifiable project.
 
@@ -106,11 +102,11 @@ Even when two projects generate the same amount of electricity from the same typ
 - Can evidence be provided in the formats required by verifiers and standard bodies?
 - Can issued credits be traced back to the field data that produced them?
 
-DMRV is therefore not a device that directly sets the price of a tonne. It is closer to **production infrastructure that allows a project to demonstrate to the market that the tonne represents a real outcome**.
+In this sense, DMRV is not accessory software added to a credit. It is **evidence-production infrastructure that turns field-level mitigation outcomes into verifiable tonnes**.
 
 ## Samton-DMRV first creates confidence in the numbers
 
-This is why Samton is building a DMRV system alongside its solar mini-grid project in Kenya.
+This is why Samton is building its DMRV system from the outset of its solar mini-grid project in Kenya. DMRV is not treated as a tool to be added later at the credit-issuance stage, but as project infrastructure that must accumulate evidence as operations take place.
 
 Collecting electricity generation and consumption data is not enough. The project must continually explain which meter generated each value, whether the data were transmitted correctly, where the value was used in the methodology, and how it connects to the final emissions reduction.
 
