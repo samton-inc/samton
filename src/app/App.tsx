@@ -17,8 +17,10 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { LanguageSwitcher, localizedHref, translate, useLocale, type Locale } from "@/i18n";
 import logo from "@/assets/Samton_logo_with_text.png";
 import carbonBasicsImage from "@/assets/insights/carbon-basics-industrial.jpg";
+import dmrvUnderstandingImage from "@/assets/insights/dmrv-understanding.jpg";
 import reportsImage from "@/assets/insights/reports-desk.jpg";
 import samtonNewsImage from "@/assets/insights/samton-news-embassy.jpg";
 import techPeopleImage from "@/assets/insights/tech-people-field.jpg";
@@ -200,11 +202,21 @@ const carbonAssetOutputs = [
 
 const insightCategories = [
   {
-    type: "CARBON BASICS",
-    title: "DMRV와 탄소시장의 기초",
-    description: "DMRV, 탄소 산정과 탄소시장의 구조를 데이터 관점에서 쉽게 설명합니다.",
+    type: "DMRV",
+    title: "DMRV 이해하기",
+    description: "현장 데이터가 검증 가능한 탄소 데이터와 자산으로 이어지는 과정을 설명합니다.",
     tone: "blue",
-    href: "/insights/#basics",
+    href: "/insights/#dmrv",
+    icon: Database,
+    image: dmrvUnderstandingImage,
+    imageAlt: "태양광 발전 현장의 데이터 계측 장비와 모니터링 화면",
+  },
+  {
+    type: "CARBON BASICS",
+    title: "탄소시장 기초",
+    description: "탄소크레딧과 배출권, 표준과 국제 규칙 등 탄소시장의 구조를 쉽게 설명합니다.",
+    tone: "cyan",
+    href: "/insights/#carbon",
     icon: BookOpen,
     image: carbonBasicsImage,
     imageAlt: "연기를 배출하는 산업 시설과 굴뚝",
@@ -245,8 +257,9 @@ function SectionLabel({ children, light = false }: { children: React.ReactNode; 
   return <div className={`section-label${light ? " section-label--light" : ""}`}>{children}</div>;
 }
 
-function DmrvConfigurator() {
+function DmrvConfigurator({ locale }: { locale: Locale }) {
   type MethodologyId = (typeof methodologyOptions)[number]["id"];
+  const tr = (source: string) => translate(locale, source);
   const [selectedEngineIds, setSelectedEngineIds] = useState<EngineId[]>([]);
   const [selectedMethodologyIds, setSelectedMethodologyIds] = useState<MethodologyId[]>([]);
   const selectedEngines = engines.filter((engine) => selectedEngineIds.includes(engine.id));
@@ -287,10 +300,10 @@ function DmrvConfigurator() {
 
       <div className="dmrv-module-library">
         <div className="dmrv-module-library__heading">
-          <div><h3>필요한 엔진을 선택해 조립해 보세요.</h3></div>
-          <p>엔진을 선택하면 아래 조립 캔버스에 바로 반영됩니다.</p>
+          <div><h3>{tr("필요한 엔진을 선택해 조립해 보세요.")}</h3></div>
+          <p>{tr("엔진을 선택하면 아래 조립 캔버스에 바로 반영됩니다.")}</p>
         </div>
-        <div className="dmrv-module-catalog" aria-label="조립 가능한 소프트웨어 엔진">
+        <div className="dmrv-module-catalog" aria-label={tr("조립 가능한 소프트웨어 엔진")}>
           {engines.map((engine) => {
             const isActive = selectedEngineIds.includes(engine.id);
             const Icon = engine.icon;
@@ -303,7 +316,7 @@ function DmrvConfigurator() {
                 key={engine.id}
               >
                 <Icon size={19} strokeWidth={1.6} />
-                <strong>{engine.name}</strong>
+                <strong>{tr(engine.name)}</strong>
                 <b aria-hidden="true">{isActive ? "✓" : "+"}</b>
               </button>
             );
@@ -320,10 +333,10 @@ function DmrvConfigurator() {
               transition={{ duration: 0.25 }}
             >
               <div className="credit-method-library__heading">
-                <div><strong>방법론·탄소 산정 엔진에 적용할 산정 기준과 세부 방법론</strong></div>
-                <p>기업 인벤토리·제품 탄소발자국·탄소 크레딧 목적에 맞는 기준을 선택할 수 있습니다.</p>
+                <div><strong>{tr("방법론·탄소 산정 엔진에 적용할 산정 기준과 세부 방법론")}</strong></div>
+                <p>{tr("기업 인벤토리·제품 탄소발자국·탄소 크레딧 목적에 맞는 기준을 선택할 수 있습니다.")}</p>
               </div>
-              <div className="credit-method-library__tabs" aria-label="세부 탄소 방법론 선택">
+              <div className="credit-method-library__tabs" aria-label={tr("세부 탄소 방법론 선택")}>
                 {methodologyOptions.map((methodology) => {
                   const isActive = selectedMethodologyIds.includes(methodology.id);
                   return (
@@ -334,7 +347,7 @@ function DmrvConfigurator() {
                       onClick={() => toggleMethodology(methodology.id)}
                       key={methodology.id}
                     >
-                      <strong>{methodology.name}</strong>
+                      <strong>{tr(methodology.name)}</strong>
                       <b aria-hidden="true">{isActive ? "✓" : "+"}</b>
                     </button>
                   );
@@ -348,7 +361,7 @@ function DmrvConfigurator() {
       <div className="dmrv-builder" aria-live="polite">
         <div className="dmrv-builder__heading">
           <div><h3>Samton DMRV</h3></div>
-          <button type="button" onClick={() => { setSelectedEngineIds([]); setSelectedMethodologyIds([]); }}>초기화</button>
+          <button type="button" onClick={() => { setSelectedEngineIds([]); setSelectedMethodologyIds([]); }}>{tr("초기화")}</button>
         </div>
 
         <div className="dmrv-builder__frame">
@@ -356,7 +369,7 @@ function DmrvConfigurator() {
             <div className="dmrv-builder__fixed-node dmrv-builder__fixed-node--input">
               <Database size={26} strokeWidth={1.5} />
               <span>RAW DATA</span>
-              <strong>원천 데이터</strong>
+              <strong>{tr("원천 데이터")}</strong>
               <small>API · IoT · DTG · METER</small>
             </div>
 
@@ -373,7 +386,7 @@ function DmrvConfigurator() {
                     transition={{ duration: 0.22 }}
                   >
                     <ShieldCheck size={21} strokeWidth={1.6} />
-                    <div><strong>데이터 검증·무결성 엔진</strong></div>
+                    <div><strong>{tr("데이터 검증·무결성 엔진")}</strong></div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -394,8 +407,8 @@ function DmrvConfigurator() {
                       >
                         <div className={`dmrv-builder__module dmrv-builder__module--${engine.id}`}>
                           <Icon size={19} strokeWidth={1.6} />
-                          <strong>{engine.name}</strong>
-                          <small>{engine.description}</small>
+                          <strong>{tr(engine.name)}</strong>
+                          <small>{tr(engine.description)}</small>
                           {engine.id === "methodology" && (
                             <div className="dmrv-builder__methodologies">
                               {selectedMethodologies.length > 0 ? selectedMethodologies.map((methodology) => (
@@ -404,17 +417,17 @@ function DmrvConfigurator() {
                                   type="button"
                                   key={methodology.id}
                                   onClick={() => toggleMethodology(methodology.id)}
-                                aria-label={`${methodology.name} 방법론 제거`}
+                                aria-label={`${tr(methodology.name)} ${tr("방법론 제거")}`}
                               >
-                                  <strong>{methodology.name}</strong>
+                                  <strong>{tr(methodology.name)}</strong>
                                   <b aria-hidden="true">×</b>
                                 </motion.button>
                               )) : (
-                                <div className="dmrv-builder__methodology-empty">방법론을 선택해 주세요.</div>
+                                <div className="dmrv-builder__methodology-empty">{tr("방법론을 선택해 주세요.")}</div>
                               )}
                             </div>
                           )}
-                          <button className="dmrv-builder__remove" type="button" onClick={() => toggleEngine(engine.id)} aria-label={`${engine.name} 제거`}>×</button>
+                          <button className="dmrv-builder__remove" type="button" onClick={() => toggleEngine(engine.id)} aria-label={`${tr(engine.name)} ${tr("제거")}`}>×</button>
                         </div>
                         {engineIndex < pipelineEngines.length - 1 && <i className="dmrv-builder__connector" aria-hidden="true" />}
                       </motion.div>
@@ -426,8 +439,8 @@ function DmrvConfigurator() {
                   <div className="dmrv-builder__step dmrv-builder__step--empty">
                     <div className="dmrv-builder__empty">
                       <Cpu size={22} strokeWidth={1.4} />
-                      <strong>처리 엔진을 선택해 주세요.</strong>
-                      <span>선택한 엔진이 이 영역에 조립됩니다.</span>
+                      <strong>{tr("처리 엔진을 선택해 주세요.")}</strong>
+                      <span>{tr("선택한 엔진이 이 영역에 조립됩니다.")}</span>
                     </div>
                   </div>
                 )}
@@ -439,7 +452,7 @@ function DmrvConfigurator() {
             <div className="dmrv-builder__fixed-node dmrv-builder__fixed-node--output">
               <FileCheck2 size={26} strokeWidth={1.5} />
               <span>SYSTEM OUTPUT</span>
-              <strong>탄소 데이터 자산화</strong>
+              <strong>{tr("탄소 데이터 자산화")}</strong>
               <div className="dmrv-builder__outputs">
                 <AnimatePresence initial={false} mode="popLayout">
                   {availableAssetOutputs.map((output) => (
@@ -452,19 +465,23 @@ function DmrvConfigurator() {
                       exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.18 }}
                     >
-                      <b>{output.name}</b>
+                      <b>{tr(output.name)}</b>
                       <small>{output.id === "carbon-credit"
                         ? selectedCreditMethodologies.length > 1
-                          ? `${selectedCreditMethodologies[0].name} 외 ${selectedCreditMethodologies.length - 1}개`
-                          : selectedCreditMethodologies[0]?.name ?? ""
+                          ? locale === "ko"
+                            ? `${selectedCreditMethodologies[0].name} 외 ${selectedCreditMethodologies.length - 1}개`
+                            : locale === "ja"
+                              ? `${tr(selectedCreditMethodologies[0].name)}ほか${selectedCreditMethodologies.length - 1}件`
+                              : `${tr(selectedCreditMethodologies[0].name)} +${selectedCreditMethodologies.length - 1} more`
+                          : selectedCreditMethodologies[0] ? tr(selectedCreditMethodologies[0].name) : ""
                         : output.code}</small>
                     </motion.div>
                   ))}
                 </AnimatePresence>
                 {availableAssetOutputs.length === 0 && (
                   <div className="dmrv-builder__output-empty">{hasTrustEngine
-                    ? "엔진 조합이 완성되면 생성 가능한 대외 활용 결과가 표시됩니다."
-                    : "연결·산정·운영 엔진을 조합하면 내부 활용 데이터가 표시됩니다."}</div>
+                    ? tr("엔진 조합이 완성되면 생성 가능한 대외 활용 결과가 표시됩니다.")
+                    : tr("연결·산정·운영 엔진을 조합하면 내부 활용 데이터가 표시됩니다.")}</div>
                 )}
               </div>
             </div>
@@ -479,14 +496,17 @@ function DmrvConfigurator() {
 function EngineModal({
   engine,
   index,
+  locale,
   onClose,
 }: {
   engine: (typeof engines)[number];
   index: number;
+  locale: Locale;
   onClose: () => void;
 }) {
   const Icon = engine.icon;
   const detail = engineDetails[engine.id];
+  const tr = (source: string) => translate(locale, source);
 
   return (
     <motion.div
@@ -498,7 +518,7 @@ function EngineModal({
       onMouseDown={onClose}
     >
       <motion.section
-        className="engine-modal"
+        className={`engine-modal engine-modal--${locale}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="engine-modal-title"
@@ -508,7 +528,7 @@ function EngineModal({
         transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <button className="engine-modal__close" type="button" aria-label="엔진 설명 닫기" onClick={onClose} autoFocus>
+        <button className="engine-modal__close" type="button" aria-label={tr("엔진 설명 닫기")} onClick={onClose} autoFocus>
           <X size={20} />
         </button>
 
@@ -522,15 +542,15 @@ function EngineModal({
           <div className="engine-modal__content">
             <div className="engine-modal__intro">
               <span>SAMTON ENGINE ARCHITECTURE</span>
-              <h2 id="engine-modal-title">{engine.name}</h2>
-              <h3>{detail.headline}</h3>
-              <p>{detail.introduction}</p>
+              <h2 id="engine-modal-title">{tr(engine.name)}</h2>
+              <h3>{tr(detail.headline)}</h3>
+              <p>{tr(detail.introduction)}</p>
             </div>
             <div className="engine-modal__features">
               {detail.features.map((feature) => (
                 <article key={feature.title}>
-                  <h4>{feature.title}</h4>
-                  <p>{feature.description}</p>
+                  <h4>{tr(feature.title)}</h4>
+                  <p>{tr(feature.description)}</p>
                 </article>
               ))}
             </div>
@@ -542,6 +562,7 @@ function EngineModal({
 }
 
 export default function App() {
+  const { locale, setLocale, tr } = useLocale();
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedEngineId, setSelectedEngineId] = useState<EngineId | null>(null);
   const selectedEngine = selectedEngineId
@@ -589,21 +610,30 @@ export default function App() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  useEffect(() => {
+    document.title = locale === "ko"
+      ? "샘튼 | 탄소 데이터 시스템"
+      : locale === "ja"
+        ? "Samton | 炭素データシステム"
+        : "Samton | Carbon Data Systems";
+  }, [locale]);
+
   return (
     <>
-      <div className="site-shell">
+      <div className={`site-shell site-shell--${locale}`}>
       <header className="header">
-        <a className="brand" href="#top" aria-label="Samton 홈" onClick={closeMenu}>
+        <a className="brand" href="#top" aria-label={tr("Samton 홈")} onClick={closeMenu}>
           <img src={logo} alt="Samton" />
         </a>
-        <nav className={`nav${menuOpen ? " is-open" : ""}`} aria-label="주요 메뉴">
-          <a href="#company" onClick={closeMenu}>회사소개</a>
-          <a href="#engines" onClick={closeMenu}>기술 엔진</a>
-          <a href="#projects" onClick={closeMenu}>프로젝트</a>
-          <a href="/insights/" onClick={closeMenu}>소식·인사이트</a>
-          <a className="nav__cta" href="#contact" onClick={closeMenu}>프로젝트 문의</a>
+        <nav className={`nav${menuOpen ? " is-open" : ""}`} aria-label={tr("주요 메뉴")}>
+          <a href="#company" onClick={closeMenu}>{tr("회사소개")}</a>
+          <a href="#engines" onClick={closeMenu}>{tr("기술 엔진")}</a>
+          <a href="#projects" onClick={closeMenu}>{tr("프로젝트")}</a>
+          <a href={localizedHref("/insights/", locale)} onClick={closeMenu}>{tr("소식·인사이트")}</a>
+          <LanguageSwitcher locale={locale} onChange={setLocale} />
+          <a className="nav__cta" href="#contact" onClick={closeMenu}>{tr("프로젝트 문의")}</a>
         </nav>
-        <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label="메뉴 열기" aria-expanded={menuOpen}>
+        <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label={tr("메뉴 열기")} aria-expanded={menuOpen}>
           {menuOpen ? <X /> : <Menu />}
         </button>
       </header>
@@ -613,15 +643,15 @@ export default function App() {
           <div className="hero__copy">
             <p className="eyebrow">TRUSTED CARBON DATA. CUSTOM SYSTEMS.</p>
             <h1>
-              <span><strong>크레딧 발급까지, End-to-End</strong></span>
-              <span>탄소 데이터 시스템을 구축합니다.</span>
+              <span><strong>{tr("크레딧 발급까지, End-to-End")}</strong></span>
+              <span>{tr("탄소 데이터 시스템을 구축합니다.")}</span>
             </h1>
             <p className="hero__description">
-              탄소 데이터의 수집과 산정부터 보고·검증(DMRV)까지, 기업의 현장과 업무에 맞는 하나의 시스템으로 설계합니다. 모든 결과의 근거를 확인할 수 있고 변화에도 유연하게 확장됩니다.
+              {tr("탄소 데이터의 수집과 산정부터 보고·검증(DMRV)까지, 기업의 현장과 업무에 맞는 하나의 시스템으로 설계합니다. 모든 결과의 근거를 확인할 수 있고 변화에도 유연하게 확장됩니다.")}
             </p>
             <div className="hero__actions">
-              <a className="button button--primary" href="#projects">구축 사례 보기 <ArrowRight size={17} /></a>
-              <a className="button button--secondary" href="#engines">기술 구조 보기</a>
+              <a className="button button--primary" href="#projects">{tr("구축 사례 보기")} <ArrowRight size={17} /></a>
+              <a className="button button--secondary" href="#engines">{tr("기술 구조 보기")}</a>
             </div>
           </div>
 
@@ -647,8 +677,8 @@ export default function App() {
                 <ArrowRight size={22} />
                 <div className="hero-system__core">
                   <small>CARBON DATA SYSTEM</small>
-                  <div><ShieldCheck size={20} /><strong>탄소 데이터 시스템</strong></div>
-                  <span>수집 · 검증 · 산정 · 추적</span>
+                  <div><ShieldCheck size={20} /><strong>{tr("탄소 데이터 시스템")}</strong></div>
+                  <span>{tr("수집 · 검증 · 산정 · 추적")}</span>
                 </div>
                 <ArrowRight size={22} />
                 <div className="hero-system__output">
@@ -666,15 +696,15 @@ export default function App() {
           </motion.div>
         </section>
 
-        <section className="partner-showcase" aria-label="고객과 파트너">
+        <section className="partner-showcase" aria-label={tr("고객과 파트너")}>
           <div className="partner-showcase__heading">
             <div>
               <SectionLabel>CLIENTS & PARTNERS</SectionLabel>
-              <h2>신뢰로 함께하는 고객과 파트너</h2>
+              <h2>{tr("신뢰로 함께하는 고객과 파트너")}</h2>
             </div>
-            <p>글로벌 완성차 기업부터 모빌리티·환경·공공기관까지, 다양한 산업의 데이터 과제를 함께 해결해 왔습니다.</p>
+            <p>{tr("글로벌 완성차 기업부터 모빌리티·환경·공공기관까지, 다양한 산업의 데이터 과제를 함께 해결해 왔습니다.")}</p>
           </div>
-          <div className="partner-logo-grid" aria-label="순환하는 고객과 파트너 로고">
+          <div className="partner-logo-grid" aria-label={tr("순환하는 고객과 파트너 로고")}>
             {partnerLogoFaces.map((faces, cardIndex) => (
               <div
                 className="partner-flip-card"
@@ -710,24 +740,18 @@ export default function App() {
         <section className="company section" id="company">
           <div className="section-heading">
             <SectionLabel>01 · WHO WE ARE</SectionLabel>
-            <h2>소프트웨어를 넘어,<br /><em>데이터 자산화</em>를 지원합니다.</h2>
+            <h2>{tr("소프트웨어를 넘어,")}<br /><em>{tr("데이터 자산화")}</em>{tr("를 지원합니다.")}</h2>
           </div>
           <div className="company__content">
             <div className="company__statement">
-              <p>
-                주식회사 샘튼은 환경·탄소·모빌리티 데이터의 수집부터 검증, 산정과 보고까지 연결하는
-                B2B 데이터 기술기업입니다.
-              </p>
-              <p>
-                고객에게는 하나의 완성된 맞춤형 시스템을 제공합니다. 그 내부에는 현장과 프로젝트에서
-                검증된 기술 엔진이 작동해 새로운 데이터와 규제, 업무 기능을 유연하게 확장할 수 있습니다.
-              </p>
+              <p>{tr("주식회사 샘튼은 환경·탄소·모빌리티 데이터의 수집부터 검증, 산정과 보고까지 연결하는 B2B 데이터 기술기업입니다.")}</p>
+              <p>{tr("고객에게는 하나의 완성된 맞춤형 시스템을 제공합니다. 그 내부에는 현장과 프로젝트에서 검증된 기술 엔진이 작동해 새로운 데이터와 규제, 업무 기능을 유연하게 확장할 수 있습니다.")}</p>
             </div>
             <div className="trust-formula">
               <div className="trust-formula__title">DATA TRUST FORMULA</div>
-              <div className="trust-formula__row"><span>01</span><b>출처를 확인할 수 있는 데이터</b><CheckCircle2 /></div>
-              <div className="trust-formula__row"><span>02</span><b>검증과 처리 과정이 남는 데이터</b><CheckCircle2 /></div>
-              <div className="trust-formula__row"><span>03</span><b>산정 기준과 결과를 설명할 수 있는 데이터</b><CheckCircle2 /></div>
+              <div className="trust-formula__row"><span>01</span><b>{tr("출처를 확인할 수 있는 데이터")}</b><CheckCircle2 /></div>
+              <div className="trust-formula__row"><span>02</span><b>{tr("검증과 처리 과정이 남는 데이터")}</b><CheckCircle2 /></div>
+              <div className="trust-formula__row"><span>03</span><b>{tr("산정 기준과 결과를 설명할 수 있는 데이터")}</b><CheckCircle2 /></div>
             </div>
           </div>
         </section>
@@ -736,12 +760,9 @@ export default function App() {
           <div className="section-heading section-heading--split">
             <div>
               <SectionLabel>02 · TECHNOLOGY ENGINES</SectionLabel>
-              <h2>하나의 맞춤형 시스템을<br />구성하는 <em>검증된 소프트웨어 엔진</em></h2>
+              <h2>{tr("하나의 맞춤형 시스템을")}<br />{tr("구성하는 ")}<em>{tr("검증된 소프트웨어 엔진")}</em></h2>
             </div>
-            <p>
-              엔진은 별개의 제품이 아닙니다. 고객의 데이터와 업무에 맞춘 하나의 시스템 안에서
-              필요한 역할을 수행하며, 확장성과 데이터 공신력을 함께 만듭니다.
-            </p>
+            <p>{tr("엔진은 별개의 제품이 아닙니다. 고객의 데이터와 업무에 맞춘 하나의 시스템 안에서 필요한 역할을 수행하며, 확장성과 데이터 공신력을 함께 만듭니다.")}</p>
           </div>
           <div className="engine-grid">
             {engines.map((engine, index) => {
@@ -752,7 +773,7 @@ export default function App() {
                   className="engine-card"
                   key={engine.id}
                   aria-haspopup="dialog"
-                  aria-label={`${engine.name} 자세히 보기`}
+                  aria-label={`${tr(engine.name)} ${tr("자세히 보기")}`}
                   onClick={() => setSelectedEngineId(engine.id)}
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -760,12 +781,12 @@ export default function App() {
                   transition={{ delay: (index % 5) * 0.05, duration: 0.45 }}
                 >
                   <div className="engine-card__top"><span>{String(index + 1).padStart(2, "0")}</span><Icon size={34} strokeWidth={1.6} /></div>
-                  <h3>{engine.name}</h3>
-                  <p>{engine.description}</p>
-                  <div className="engine-card__proof" aria-label={`${engine.name} 지원 범위`}>
-                    {engine.tags.map((tag) => <b key={tag}>{tag}</b>)}
+                  <h3>{tr(engine.name)}</h3>
+                  <p>{tr(engine.description)}</p>
+                  <div className="engine-card__proof" aria-label={`${tr(engine.name)} ${tr("지원 범위")}`}>
+                    {engine.tags.map((tag) => <b key={tag}>{tr(tag)}</b>)}
                   </div>
-                  <span className="engine-card__more">자세히 보기 <ArrowRight size={14} /></span>
+                  <span className="engine-card__more">{tr("자세히 보기")} <ArrowRight size={14} /></span>
                 </motion.button>
               );
             })}
@@ -775,38 +796,38 @@ export default function App() {
         <section className="projects section" id="projects">
           <div className="section-heading section-heading--light">
             <SectionLabel light>03 · SAMTON DMRV ARCHITECTURE</SectionLabel>
-            <h2>필요한 엔진을 조립해 만드는,<br /><em>하나의 Samton DMRV</em></h2>
-            <p>고정된 데이터 기반 위에 사업과 목적에 필요한 방법론·탄소 산정 엔진과 규제 엔진을 복수로 조합해 맞춤형 DMRV를 구성합니다.</p>
+            <h2>{tr("필요한 엔진을 조립해 만드는,")}<br /><em>{tr("하나의 Samton DMRV")}</em></h2>
+            <p>{tr("고정된 데이터 기반 위에 사업과 목적에 필요한 방법론·탄소 산정 엔진과 규제 엔진을 복수로 조합해 맞춤형 DMRV를 구성합니다.")}</p>
           </div>
 
-          <DmrvConfigurator />
+          <DmrvConfigurator locale={locale} />
         </section>
 
         <section className="news section" id="news">
           <div className="section-heading section-heading--split">
             <div>
               <SectionLabel>04 · NEWS & INSIGHTS</SectionLabel>
-              <h2>샘튼의 기술과 현장을<br />더 깊이 살펴보세요.</h2>
+              <h2>{tr("샘튼의 기술과 현장을")}<br />{tr("더 깊이 살펴보세요.")}</h2>
             </div>
             <div className="news__intro">
-              <p>샘튼의 새로운 활동과 데이터·규제·탄소 기술에 대한 인사이트를 전합니다.</p>
-              <a href="/insights/">전체 소식·인사이트 보기 <ArrowRight size={16} /></a>
+              <p>{tr("샘튼의 새로운 활동과 데이터·규제·탄소 기술에 대한 인사이트를 전합니다.")}</p>
+              <a href={localizedHref("/insights/", locale)}>{tr("전체 소식·인사이트 보기")} <ArrowRight size={16} /></a>
             </div>
           </div>
           <div className="news-category-grid">
             {insightCategories.map((category, index) => {
               const Icon = category.icon;
               return (
-                <a className={`news-category-card news-category-card--${category.tone}`} href={category.href} key={category.title}>
+                <a className={`news-category-card news-category-card--${category.tone}`} href={localizedHref(category.href, locale)} key={category.title}>
                   <div className="news-category-card__image">
-                    <img src={category.image} alt={category.imageAlt} />
+                    <img src={category.image} alt={tr(category.imageAlt)} />
                     <span>0{index + 1}</span>
                   </div>
                   <div className="news-category-card__body">
                     <div className="news-category-card__top"><Icon size={22} strokeWidth={1.55} /><span>{category.type}</span></div>
-                    <h3>{category.title}</h3>
-                    <p>{category.description}</p>
-                    <span className="news-category-card__link">바로가기 <ArrowRight size={15} /></span>
+                    <h3>{tr(category.title)}</h3>
+                    <p>{tr(category.description)}</p>
+                    <span className="news-category-card__link">{tr("바로가기")} <ArrowRight size={15} /></span>
                   </div>
                 </a>
               );
@@ -817,11 +838,11 @@ export default function App() {
         <section className="contact" id="contact">
           <div>
             <SectionLabel light>LET'S BUILD TRUSTED DATA</SectionLabel>
-            <h2><span>우리 회사에 필요한</span><span>DMRV를 함께</span><span>설계해 보세요.</span></h2>
+            <h2><span>{tr("우리 회사에 필요한")}</span><span>{tr("DMRV를 함께")}</span><span>{tr("설계해 보세요.")}</span></h2>
           </div>
           <div className="contact__action">
-            <p>데이터 환경과 업무를 이해하는 것에서 시작해, 확장 가능한 하나의 시스템을 만듭니다.</p>
-            <a href="mailto:samton-nature@samton.co.kr">프로젝트 문의하기 <ArrowRight size={18} /></a>
+            <p>{tr("데이터 환경과 업무를 이해하는 것에서 시작해, 확장 가능한 하나의 시스템을 만듭니다.")}</p>
+            <a href="mailto:samton-nature@samton.co.kr">{tr("프로젝트 문의하기")} <ArrowRight size={18} /></a>
           </div>
         </section>
       </main>
@@ -830,11 +851,11 @@ export default function App() {
         <div className="footer__brand">
           <img src={logo} alt="Samton" />
           <div className="footer__description">
-            <p><strong>Samton™</strong>은 고객의 복잡한 요구사항을 구조화하고,<br />데이터 기반의 소프트웨어와 전문가 팀으로 직접 해결하는 <strong>기술 파트너</strong>입니다.</p>
+            <p>{tr("Samton™은 고객의 복잡한 요구사항을 구조화하고, 데이터 기반의 소프트웨어와 전문가 팀으로 직접 해결하는 기술 파트너입니다.")}</p>
           </div>
         </div>
-        <div className="footer__links"><a href="#company">회사소개</a><a href="#engines">기술 엔진</a><a href="#projects">프로젝트</a><a href="/insights/">소식·인사이트</a></div>
-        <div className="footer__contact"><a href="mailto:samton-nature@samton.co.kr">samton-nature@samton.co.kr</a><a href="tel:070-4107-9524">070-4107-9524</a></div>
+        <div className="footer__links"><a href="#company">{tr("회사소개")}</a><a href="#engines">{tr("기술 엔진")}</a><a href="#projects">{tr("프로젝트")}</a><a href={localizedHref("/insights/", locale)}>{tr("소식·인사이트")}</a></div>
+        <div className="footer__contact"><a href="mailto:samton-nature@samton.co.kr">samton-nature@samton.co.kr</a><a href="tel:070-4107-9524">070-4107-9524</a><LanguageSwitcher locale={locale} onChange={setLocale} variant="footer" /></div>
         <div className="footer__bottom"><span>© 2026 Samton Inc. All rights reserved.</span><span>Environmental · Carbon · Data Technology</span></div>
         </footer>
       </div>
@@ -844,6 +865,7 @@ export default function App() {
           <EngineModal
             engine={selectedEngine}
             index={engines.findIndex((engine) => engine.id === selectedEngine.id)}
+            locale={locale}
             onClose={() => setSelectedEngineId(null)}
           />
         )}

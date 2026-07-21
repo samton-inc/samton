@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { localizedHref, type Locale } from "@/i18n";
 
 const safeHref = (href: string) => {
   if (/^(https?:\/\/|mailto:|\/|#)/.test(href)) return href;
@@ -12,7 +13,7 @@ const resolveImage = (source: string, images: Record<string, string>) => {
   return "";
 };
 
-const renderInline = (text: string, images: Record<string, string>): ReactNode[] => {
+const renderInline = (text: string, images: Record<string, string>, locale: Locale): ReactNode[] => {
   const tokenPattern = /(\!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
 
   return text.split(tokenPattern).filter(Boolean).map((token, index) => {
@@ -24,19 +25,20 @@ const renderInline = (text: string, images: Record<string, string>): ReactNode[]
 
     const link = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (link) {
-      const href = safeHref(link[2]);
+      const safeLink = safeHref(link[2]);
+      const href = safeLink.startsWith("/") ? localizedHref(safeLink, locale) : safeLink;
       const isExternal = href.startsWith("http");
       return <a href={href} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noreferrer" : undefined} key={`${token}-${index}`}>{link[1]}</a>;
     }
 
     if (token.startsWith("**") && token.endsWith("**")) return <strong key={`${token}-${index}`}>{token.slice(2, -2)}</strong>;
-    if (token.startsWith("*") && token.endsWith("*")) return <em key={`${token}-${index}`}>{renderInline(token.slice(1, -1), images)}</em>;
+    if (token.startsWith("*") && token.endsWith("*")) return <em key={`${token}-${index}`}>{renderInline(token.slice(1, -1), images, locale)}</em>;
     if (token.startsWith("`") && token.endsWith("`")) return <code key={`${token}-${index}`}>{token.slice(1, -1)}</code>;
     return token;
   });
 };
 
-export default function MarkdownContent({ markdown, title, images }: { markdown: string; title: string; images: Record<string, string> }) {
+export default function MarkdownContent({ markdown, title, images, locale }: { markdown: string; title: string; images: Record<string, string>; locale: Locale }) {
   const blocks = markdown.trim().split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
   if (blocks[0] === `# ${title}`) blocks.shift();
 
@@ -54,7 +56,7 @@ export default function MarkdownContent({ markdown, title, images }: { markdown:
         const heading = block.match(/^(#{1,3})\s+(.+)$/);
         if (heading) {
           const Heading = heading[1].length === 1 ? "h2" : heading[1].length === 2 ? "h3" : "h4";
-          return <Heading key={index}>{renderInline(heading[2], images)}</Heading>;
+          return <Heading key={index}>{renderInline(heading[2], images, locale)}</Heading>;
         }
 
         const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
@@ -66,11 +68,11 @@ export default function MarkdownContent({ markdown, title, images }: { markdown:
             <div className="markdown-table-wrap" key={index}>
               <table>
                 <thead>
-                  <tr>{headers.map((cell, cellIndex) => <th key={cellIndex}>{renderInline(cell, images)}</th>)}</tr>
+                  <tr>{headers.map((cell, cellIndex) => <th key={cellIndex}>{renderInline(cell, images, locale)}</th>)}</tr>
                 </thead>
                 <tbody>
                   {rows.map((row, rowIndex) => (
-                    <tr key={rowIndex}>{headers.map((_, cellIndex) => <td key={cellIndex}>{renderInline(row[cellIndex] ?? "", images)}</td>)}</tr>
+                    <tr key={rowIndex}>{headers.map((_, cellIndex) => <td key={cellIndex}>{renderInline(row[cellIndex] ?? "", images, locale)}</td>)}</tr>
                   ))}
                 </tbody>
               </table>
@@ -79,22 +81,22 @@ export default function MarkdownContent({ markdown, title, images }: { markdown:
         }
 
         if (lines.every((line) => /^[-*]\s+/.test(line))) {
-          return <ul key={index}>{lines.map((line, lineIndex) => <li key={lineIndex}>{renderInline(line.replace(/^[-*]\s+/, ""), images)}</li>)}</ul>;
+          return <ul key={index}>{lines.map((line, lineIndex) => <li key={lineIndex}>{renderInline(line.replace(/^[-*]\s+/, ""), images, locale)}</li>)}</ul>;
         }
 
         if (lines.every((line) => /^\d+\.\s+/.test(line))) {
-          return <ol key={index}>{lines.map((line, lineIndex) => <li key={lineIndex}>{renderInline(line.replace(/^\d+\.\s+/, ""), images)}</li>)}</ol>;
+          return <ol key={index}>{lines.map((line, lineIndex) => <li key={lineIndex}>{renderInline(line.replace(/^\d+\.\s+/, ""), images, locale)}</li>)}</ol>;
         }
 
         if (lines.every((line) => line.startsWith(">"))) {
-          return <blockquote key={index}>{renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), images)}</blockquote>;
+          return <blockquote key={index}>{renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), images, locale)}</blockquote>;
         }
 
         const isImage = isImageBlock(block);
         const isImageCaption = isItalicBlock(block) && index > 0 && isImageBlock(blocks[index - 1]);
         const className = isImage ? "markdown-image-block" : isImageCaption ? "markdown-image-caption" : undefined;
 
-        return <p className={className} key={index}>{renderInline(lines.join(" "), images)}</p>;
+        return <p className={className} key={index}>{renderInline(lines.join(" "), images, locale)}</p>;
       })}
     </div>
   );

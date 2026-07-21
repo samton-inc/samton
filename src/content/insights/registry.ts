@@ -1,4 +1,6 @@
-export type InsightCategoryId = "basics" | "news" | "reports" | "technology";
+import type { Locale } from "@/i18n";
+
+export type InsightCategoryId = "dmrv" | "carbon" | "news" | "reports" | "technology";
 
 export type InsightArticle = {
   slug: string;
@@ -13,9 +15,10 @@ export type InsightArticle = {
   thumbnail?: string;
   thumbnailAlt?: string;
   sourcePath: string;
+  locale: Locale;
 };
 
-const markdownFiles = import.meta.glob("./posts/*/*/index.md", {
+const markdownFiles = import.meta.glob("./posts/*/*/index*.md", {
   eager: true,
   query: "?raw",
   import: "default",
@@ -28,7 +31,8 @@ const imageFiles = import.meta.glob("./posts/*/*/images/*.{png,jpg,jpeg,webp,gif
 }) as Record<string, string>;
 
 const categoryFolders: Record<string, InsightCategoryId> = {
-  "DMRV-탄소시장-기초": "basics",
+  "DMRV-이해하기": "dmrv",
+  "탄소시장-기초": "carbon",
   "샘튼-소식": "news",
   "리포트": "reports",
   "기술-조직-이야기": "technology",
@@ -41,7 +45,7 @@ const cleanValue = (value: string) => {
 };
 
 const collectArticleImages = (sourcePath: string) => {
-  const articleDirectory = sourcePath.replace(/\/index\.md$/, "");
+  const articleDirectory = sourcePath.replace(/\/index(?:\.[a-z]{2})?\.md$/, "");
   const imageDirectory = `${articleDirectory}/images/`;
 
   return Object.fromEntries(
@@ -64,7 +68,7 @@ const findArticleThumbnail = (body: string, images: Record<string, string>) => {
 };
 
 const resolveCategory = (sourcePath: string) => {
-  const categoryFolder = sourcePath.match(/^\.\/posts\/([^/]+)\/[^/]+\/index\.md$/)?.[1];
+  const categoryFolder = sourcePath.match(/^\.\/posts\/([^/]+)\/[^/]+\/index(?:\.[a-z]{2})?\.md$/)?.[1];
   const category = categoryFolder ? categoryFolders[categoryFolder] : undefined;
   if (!category) throw new Error(`${sourcePath}: 지정된 분류 폴더 안에 글을 넣어 주세요.`);
   return category;
@@ -89,6 +93,8 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
   if (metadata.published === "false") return null;
 
   const category = resolveCategory(sourcePath);
+  const localeMatch = sourcePath.match(/\/index\.([a-z]{2})\.md$/)?.[1];
+  const locale = (localeMatch ?? "ko") as Locale;
 
   const requiredFields = ["slug", "type", "title", "summary", "date"] as const;
   requiredFields.forEach((field) => {
@@ -110,12 +116,28 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
     images,
     ...findArticleThumbnail(body, images),
     sourcePath,
+    locale,
   };
 };
 
-export const insightArticles = Object.entries(markdownFiles)
+const parsedArticles = Object.entries(markdownFiles)
   .map(([sourcePath, source]) => parseMarkdown(sourcePath, source))
   .filter((article): article is InsightArticle => article !== null)
   .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
 
-export const featuredInsight = insightArticles.find((article) => article.featured) ?? insightArticles[0];
+export const getInsightArticles = (locale: Locale) => {
+  const koreanArticles = parsedArticles.filter((article) => article.locale === "ko");
+  const localizedArticles = parsedArticles.filter((article) => article.locale === locale);
+  const localizedBySlug = new Map(localizedArticles.map((article) => [article.slug, article]));
+  const koreanSlugs = new Set(koreanArticles.map((article) => article.slug));
+
+  return [
+    ...koreanArticles.map((article) => localizedBySlug.get(article.slug) ?? article),
+    ...localizedArticles.filter((article) => !koreanSlugs.has(article.slug)),
+  ].sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
+};
+
+export const getFeaturedInsight = (locale: Locale) => {
+  const articles = getInsightArticles(locale);
+  return articles.find((article) => article.featured) ?? articles[0];
+};

@@ -14,7 +14,7 @@ published: true
 
 이번 방문에서 샘튼은 현지 NGO인 **Serving Hands Society(섬김의손길)**와 업무협약을 체결했습니다. 양 기관은 태양광 미니그리드와 디지털 측정·보고·검증(DMRV)을 결합한 PoC를 추진하고, 현지 주민과 함께 지속 가능한 운영 구조를 만들어가는 데 협력하기로 했습니다.
 
-![샘튼과 Serving Hands Society의 업무협약식](images/samton-serving-hands-mou.jpeg)
+![샘튼과 Serving Hands Society의 업무협약식](images/samton-serving-hands-mou-natural.jpg)
 
 *샘튼과 Serving Hands Society의 업무협약식*
 
