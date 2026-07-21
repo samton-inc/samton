@@ -257,6 +257,12 @@ function SectionLabel({ children, light = false }: { children: React.ReactNode; 
   return <div className={`section-label${light ? " section-label--light" : ""}`}>{children}</div>;
 }
 
+function ResponsiveBreak({ locale }: { locale: Locale }) {
+  if (locale === "ko") return <br />;
+  if (locale === "ja") return <wbr />;
+  return <> </>;
+}
+
 function DmrvConfigurator({ locale }: { locale: Locale }) {
   type MethodologyId = (typeof methodologyOptions)[number]["id"];
   const tr = (source: string) => translate(locale, source);
@@ -740,7 +746,7 @@ export default function App() {
         <section className="company section" id="company">
           <div className="section-heading">
             <SectionLabel>01 · WHO WE ARE</SectionLabel>
-            <h2>{tr("소프트웨어를 넘어,")}<br /><em>{tr("데이터 자산화")}</em>{tr("를 지원합니다.")}</h2>
+            <h2>{tr("소프트웨어를 넘어,")}<ResponsiveBreak locale={locale} /><em>{tr("데이터 자산화")}</em>{tr("를 지원합니다.")}</h2>
           </div>
           <div className="company__content">
             <div className="company__statement">
@@ -760,7 +766,7 @@ export default function App() {
           <div className="section-heading section-heading--split">
             <div>
               <SectionLabel>02 · TECHNOLOGY ENGINES</SectionLabel>
-              <h2>{tr("하나의 맞춤형 시스템을")}<br />{tr("구성하는 ")}<em>{tr("검증된 소프트웨어 엔진")}</em></h2>
+              <h2>{tr("하나의 맞춤형 시스템을")}<ResponsiveBreak locale={locale} />{tr("구성하는 ")}<em>{tr("검증된 소프트웨어 엔진")}</em></h2>
             </div>
             <p>{tr("엔진은 별개의 제품이 아닙니다. 고객의 데이터와 업무에 맞춘 하나의 시스템 안에서 필요한 역할을 수행하며, 확장성과 데이터 공신력을 함께 만듭니다.")}</p>
           </div>
@@ -796,7 +802,7 @@ export default function App() {
         <section className="projects section" id="projects">
           <div className="section-heading section-heading--light">
             <SectionLabel light>03 · SAMTON DMRV ARCHITECTURE</SectionLabel>
-            <h2>{tr("필요한 엔진을 조립해 만드는,")}<br /><em>{tr("하나의 Samton DMRV")}</em></h2>
+            <h2>{tr("필요한 엔진을 조립해 만드는,")}<ResponsiveBreak locale={locale} /><em>{tr("하나의 Samton DMRV")}</em></h2>
             <p>{tr("고정된 데이터 기반 위에 사업과 목적에 필요한 방법론·탄소 산정 엔진과 규제 엔진을 복수로 조합해 맞춤형 DMRV를 구성합니다.")}</p>
           </div>
 
@@ -807,7 +813,7 @@ export default function App() {
           <div className="section-heading section-heading--split">
             <div>
               <SectionLabel>04 · NEWS & INSIGHTS</SectionLabel>
-              <h2>{tr("샘튼의 기술과 현장을")}<br />{tr("더 깊이 살펴보세요.")}</h2>
+              <h2>{tr("샘튼의 기술과 현장을")}<ResponsiveBreak locale={locale} />{tr("더 깊이 살펴보세요.")}</h2>
             </div>
             <div className="news__intro">
               <p>{tr("샘튼의 새로운 활동과 데이터·규제·탄소 기술에 대한 인사이트를 전합니다.")}</p>
@@ -838,7 +844,7 @@ export default function App() {
         <section className="contact" id="contact">
           <div>
             <SectionLabel light>LET'S BUILD TRUSTED DATA</SectionLabel>
-            <h2><span>{tr("우리 회사에 필요한")}</span><span>{tr("DMRV를 함께")}</span><span>{tr("설계해 보세요.")}</span></h2>
+            <h2>{tr("우리 회사에 필요한")}<ResponsiveBreak locale={locale} />{tr("DMRV를 함께")}<ResponsiveBreak locale={locale} />{tr("설계해 보세요.")}</h2>
           </div>
           <div className="contact__action">
             <p>{tr("데이터 환경과 업무를 이해하는 것에서 시작해, 확장 가능한 하나의 시스템을 만듭니다.")}</p>
