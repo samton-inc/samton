@@ -1,14 +1,14 @@
 ---
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
-title: '"One Tonne" Is the Product of Measurement — CO₂e, XPRIZE, and DMRV'
+title: 'How the Carbon Market Produces “One Tonne” — CO₂e and DMRV'
 summary: How data, methodologies, conversion calculations, and verification produce a market-ready 1tCO₂e—and why DMRV is best understood as production infrastructure.
 date: "2026.07.20"
 featured: false
 published: true
 ---
 
-# "One Tonne" Is the Product of Measurement — CO₂e, XPRIZE, and DMRV
+# How the Carbon Market Produces “One Tonne” — CO₂e and DMRV
 
 Carbon markets express many different carbon credits using the same unit: one tonne. Yet two credits representing one tonne are not necessarily created in the same way or supported by the same level of confidence.
 

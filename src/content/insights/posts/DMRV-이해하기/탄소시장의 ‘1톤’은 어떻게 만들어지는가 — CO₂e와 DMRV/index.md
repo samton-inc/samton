@@ -1,14 +1,14 @@
 ---
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
-title: '"1톤"은 측정의 산물입니다 — CO₂e, XPRIZE, 그리고 DMRV'
+title: '탄소시장의 ‘1톤’은 어떻게 만들어지는가 — CO₂e와 DMRV'
 summary: 탄소시장에서 거래되는 1tCO₂e가 데이터와 방법론, 환산 계산과 검증을 거쳐 어떻게 만들어지는지, 그리고 DMRV가 왜 생산 인프라가 되는지 살펴봅니다.
 date: "2026.07.20"
 featured: false
 published: true
 ---
 
-# "1톤"은 측정의 산물입니다 — CO₂e, XPRIZE, 그리고 DMRV
+# 탄소시장의 ‘1톤’은 어떻게 만들어지는가 — CO₂e와 DMRV
 
 탄소시장에서는 서로 다른 탄소 크레딧을 모두 ‘1톤’이라는 같은 단위로 표시합니다. 하지만 같은 1톤이라고 해서 만들어진 과정과 신뢰도까지 같은 것은 아닙니다.
 

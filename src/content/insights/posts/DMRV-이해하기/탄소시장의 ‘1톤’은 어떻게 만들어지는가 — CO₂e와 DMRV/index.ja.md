@@ -1,14 +1,14 @@
 ---
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
-title: '「1トン」は測定の産物です — CO₂e、XPRIZE、そしてDMRV'
+title: '炭素市場の「1トン」はどう作られるのか — CO₂eとDMRV'
 summary: 炭素市場で取引される1tCO₂eが、データ、方法論、換算計算、検証を経てどのように生まれるのか、そしてDMRVがなぜ生産インフラといえるのかを解説します。
 date: "2026.07.20"
 featured: false
 published: true
 ---
 
-# 「1トン」は測定の産物です — CO₂e、XPRIZE、そしてDMRV
+# 炭素市場の「1トン」はどう作られるのか — CO₂eとDMRV
 
 炭素市場では、さまざまなカーボンクレジットが同じ「1トン」という単位で表示されます。しかし、同じ1トンであっても、その成り立ちや信頼性まで同じとは限りません。
 
