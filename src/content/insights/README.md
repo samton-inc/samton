@@ -66,3 +66,7 @@ posts/
 본문에 이미지가 있으면 가장 먼저 등장하는 이미지가 소식·인사이트 목록의 카드 썸네일로 자동 사용됩니다.
 
 지원 형식은 PNG, JPG, JPEG, WebP, GIF, AVIF, SVG입니다. 이미지 파일도 사이트 빌드에 자동 포함됩니다.
+
+## 공유 미리보기(OG) 카드
+
+게시물 상세 주소는 `/insights/<slug>/` 형식입니다. 빌드 시 `scripts/generate-insight-pages.mjs`가 글마다 이 주소의 정적 페이지를 만들어 `title`, `summary`, 본문 첫 이미지를 링크 공유 미리보기(Open Graph) 카드로 넣습니다. 본문에 이미지가 없으면 공용 샘튼 카드(`/og-image.png`)가 대신 사용됩니다. 별도의 태그 작업은 필요 없지만, 카카오톡에 이미 공유된 적 있는 주소는 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화해야 새 카드가 보입니다.

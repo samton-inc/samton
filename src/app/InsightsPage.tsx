@@ -57,7 +57,8 @@ export default function InsightsPage() {
   const { locale, setLocale, tr } = useLocale();
   const insightArticles = getInsightArticles(locale);
   const featuredInsight = getFeaturedInsight(locale);
-  const articleSlug = new URLSearchParams(window.location.search).get("article");
+  const pathSlug = decodeURIComponent(window.location.pathname).match(/^\/insights\/([^/]+)\/?$/)?.[1];
+  const articleSlug = pathSlug ?? new URLSearchParams(window.location.search).get("article");
   const activeArticle = articleSlug ? insightArticles.find((article) => article.slug === articleSlug) : undefined;
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterId>("all");
@@ -174,7 +175,7 @@ export default function InsightsPage() {
                 </div>
               </div>
 
-              <a className="journal-editor-row" href={localizedHref(`/insights/?article=${featuredInsight.slug}`, locale)}>
+              <a className="journal-editor-row" href={localizedHref(`/insights/${featuredInsight.slug}/`, locale)}>
                     <ArticleVisual article={featuredInsight} />
                   <div className="journal-editor-row__copy">
                     <div className="journal-card-meta">
@@ -200,7 +201,7 @@ export default function InsightsPage() {
               {filteredArticles.map((article) => {
                 const category = categories.find((item) => item.id === article.category)!;
                 return (
-                  <a className="journal-card" href={localizedHref(`/insights/?article=${article.slug}`, locale)} key={article.slug}>
+                  <a className="journal-card" href={localizedHref(`/insights/${article.slug}/`, locale)} key={article.slug}>
                     <ArticleVisual article={article} />
                     <div className="journal-card__copy">
                       <div className="journal-card-meta">
