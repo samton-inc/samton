@@ -1,14 +1,14 @@
 ---
 slug: samton-serving-hands-samburu-dmrv-poc
 type: PARTNERSHIP
-title: Samton、ケニア現地NGOとサンブルDMRV PoCの協力基盤を構築
+title: Samton、ケニアの現地NGOとサンブルDMRV PoCの実施基盤を整備
 summary: Serving Hands Societyと業務協約を締結し、レスルワ地域コミュニティの同意とPoC推進基盤を整えました。
 date: 2026.07.01
 featured: false
 published: true
 ---
 
-# Samton、ケニア現地NGOとサンブルDMRV PoCの協力基盤を構築
+# Samton、ケニアの現地NGOとサンブルDMRV PoCの実施基盤を整備
 
 Samtonは2026年6月27日から7月6日までケニアを訪問し、北部サンブル地域の電力アクセス改善とSamton-DMRVの現場実証に向けた協力基盤を構築しました。
 

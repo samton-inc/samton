@@ -1,14 +1,14 @@
 ---
 slug: samton-impact-hub-nairobi-dmrv-poc-network
 type: GLOBAL NETWORK
-title: Samton、Impact Hub NairobiとケニアDMRV PoCの協力ネットワークを協議
+title: Samton、Impact Hub NairobiとケニアDMRV PoCの連携ネットワークを検討
 summary: ナイロビのインパクト・スタートアップ・エコシステムと現地企業・投資家との連携を通じ、Samton-DMRV PoCの実施と展開基盤を検討しました。
 date: "2026.07.03"
 featured: false
 published: true
 ---
 
-# Samton、Impact Hub NairobiとケニアDMRV PoCの協力ネットワークを協議
+# Samton、Impact Hub NairobiとケニアDMRV PoCの連携ネットワークを検討
 
 Samtonは2026年のケニア現地出張中に**Impact Hub Nairobi**を訪問し、Samton-DMRV PoCの現地実施と展開に向けたネットワーク構築について協議しました。
 

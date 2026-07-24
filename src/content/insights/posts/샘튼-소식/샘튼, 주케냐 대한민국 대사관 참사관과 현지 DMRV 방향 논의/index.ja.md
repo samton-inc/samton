@@ -1,14 +1,14 @@
 ---
 slug: samton-kenya-embassy-dmrv-discussion
 type: FIELD NOTE
-title: サムトン、駐ケニア韓国大使館参事官と現地DMRVの方向性を意見交換
+title: Samton、駐ケニア韓国大使館参事官とケニアにおけるDMRVの方向性を協議
 summary: ケニア出張中、駐ケニア韓国大使館の参事官と面会し、韓国とケニアの気候・エネルギー政策の方向性とDMRVの役割について意見を交わしました。
 date: "2026.07.03"
 featured: false
 published: true
 ---
 
-# サムトン、駐ケニア韓国大使館参事官と現地DMRVの方向性を意見交換
+# Samton、駐ケニア韓国大使館参事官とケニアにおけるDMRVの方向性を協議
 
 サムトンはケニア出張中に得たご縁を通じて、**駐ケニア大韓民国大使館の参事官**と面会し、短い意見交換を行いました。
 

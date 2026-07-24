@@ -1,14 +1,14 @@
 ---
 slug: what-is-dmrv
 type: DMRV BASICS
-title: DMRVとは何ですか？
+title: DMRVとは？
 summary: 現場・企業の運用データが検証可能な削減成果となり、炭素クレジットや炭素資産へつながるまでのDMRVの役割を説明します。
 date: 2026.07.15
 featured: false
 published: true
 ---
 
-# DMRVとは何ですか？
+# DMRVとは？
 
 ![太陽光ミニグリッドのメーターとデジタルデータ収集装置](images/dmrv-field-data-system.jpg)
 
@@ -53,7 +53,7 @@ DMRVは紙の報告書をPDFへ変えるだけではありません。
 
 世界銀行の研究は、IoT、衛星画像、分散型台帳が収集・処理・品質管理を改善できると説明します。同時に、技術だけでは不十分で、方法論、データ標準、ガバナンス、制度間互換性も必要だと強調します。[World Bank, Digital Monitoring, Reporting, and Verification Systems](https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099605006272210909)
 
-## 企業データはどうクレジットへつながるか
+## 企業データは炭素クレジットにどうつながるのか
 
 クレジット1単位は一般にCO₂換算1トンの追加的な削減・除去を表します。その1トンが発行されるまで、運用データは複数段階を通ります。
 
@@ -99,7 +99,7 @@ DMRVデータは次の価値を生みます。
 
 クレジットでなくても、信頼できるデータは規制対応、投資判断、コスト削減、サプライチェーン協力に使えます。
 
-## DMRVは小規模事業を一つの資産枠組みにまとめられる
+## DMRVは小規模事業を一つの資産化の枠組みにまとめられる
 
 小規模太陽光、クリーンクッキング、EV充電器は1設備の削減量が小さく、従来MRV費用を負担しにくい場合があります。数千設備を訪問し文書化すると、収益より管理費が大きくなるためです。
 
@@ -147,4 +147,4 @@ Samton-DMRVは企業・削減事業ごとに異なるデータ環境と方法論
 
 企業の運用データが炭素資産として認められるには、最終数字よりその生成過程を説明できなければなりません。**DMRVは既存データを検証可能な削減成果へ変え、その成果を炭素市場と気候金融で利用可能にするデータインフラです。**
 
-発行構造は[炭素クレジットとは何ですか？](/insights/?article=what-is-carbon-credit)、主要プログラムは[炭素クレジット基準機関の歴史と役割](/insights/?article=carbon-credit-standards)、発行後の品質・市場・環境・社会条件は[炭素クレジットのラベルを読む方法](/insights/?article=carbon-credit-labels)で説明します。
+発行の仕組みは[炭素クレジットとは？](/insights/?article=what-is-carbon-credit)、主要プログラムは[炭素クレジット基準機関の歴史と役割](/insights/?article=carbon-credit-standards)、発行後の品質・市場・環境・社会条件は[炭素クレジットのラベルを読み解く](/insights/?article=carbon-credit-labels)で説明します。

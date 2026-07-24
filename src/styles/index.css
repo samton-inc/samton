@@ -104,7 +104,7 @@ button { color: inherit; }
   min-height: 40px;
   padding: 0 9px;
   display: grid;
-  grid-template-columns: 31px minmax(0, 1fr) 17px;
+  grid-template-columns: minmax(0, 1fr) 17px;
   align-items: center;
   gap: 7px;
   border: 0;
@@ -117,24 +117,23 @@ button { color: inherit; }
 }
 .language-switcher__option:hover { background: #f1f4ff; color: var(--blue); }
 .language-switcher__option.is-active { background: #eef2ff; color: var(--blue); }
-.language-switcher__code { color: #8a94a7; font: 650 9px/1 ui-monospace, monospace; letter-spacing: .06em; }
 .language-switcher__name { font-size: 12px; font-weight: 620; }
 .language-switcher__option > svg { justify-self: end; }
 .language-switcher--footer { align-self: flex-start; margin-top: 7px; }
 .language-switcher--footer .language-switcher__trigger {
-  height: auto;
-  padding: 3px 0;
+  height: 38px;
+  padding: 0 11px;
   gap: 6px;
-  border: 0;
-  border-radius: 0;
+  border: 1px solid #40506c;
+  border-radius: 8px;
   background: transparent;
-  color: #a9b3c6;
+  color: #d5ddeb;
   box-shadow: none;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 620;
 }
 .language-switcher--footer .language-switcher__trigger:hover,
-.language-switcher--footer .language-switcher__trigger[aria-expanded="true"] { border-color: transparent; background: transparent; color: white; box-shadow: none; }
+.language-switcher--footer .language-switcher__trigger[aria-expanded="true"] { border-color: #75839b; background: rgba(255,255,255,.06); color: white; box-shadow: none; }
 .language-switcher--footer .language-switcher__trigger:focus-visible { outline-color: white; outline-offset: 4px; }
 .language-switcher--footer .language-switcher__trigger > svg:last-child { color: currentColor; }
 .language-switcher--footer .language-switcher__menu { top: auto; right: auto; bottom: calc(100% + 8px); left: 0; animation-name: language-menu-up-in; }

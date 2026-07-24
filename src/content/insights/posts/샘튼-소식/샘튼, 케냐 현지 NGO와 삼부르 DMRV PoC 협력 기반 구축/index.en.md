@@ -1,14 +1,14 @@
 ---
 slug: samton-serving-hands-samburu-dmrv-poc
 type: PARTNERSHIP
-title: Samton Builds the Foundation for a Samburu DMRV PoC with a Kenyan NGO
+title: Samton Lays the Groundwork for a Samburu DMRV PoC with a Kenyan NGO
 summary: Samton signed an MOU with Serving Hands Society and secured community support and a foundation for the Lesuruwa PoC.
 date: 2026.07.01
 featured: false
 published: true
 ---
 
-# Samton Builds the Foundation for a Samburu DMRV PoC with a Kenyan NGO
+# Samton Lays the Groundwork for a Samburu DMRV PoC with a Kenyan NGO
 
 Samton visited Kenya from June 27 to July 6, 2026, to build a partnership foundation for improving electricity access in Samburu, northern Kenya, and demonstrating Samton-DMRV in the field.
 

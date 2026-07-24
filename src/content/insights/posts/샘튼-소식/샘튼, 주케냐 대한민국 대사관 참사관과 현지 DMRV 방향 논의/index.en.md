@@ -1,14 +1,14 @@
 ---
 slug: samton-kenya-embassy-dmrv-discussion
 type: FIELD NOTE
-title: Samton Discusses the Direction of DMRV with a Counsellor at the Embassy of the Republic of Korea in Kenya
-summary: During its visit to Kenya, Samton met with a counsellor at the Embassy of the Republic of Korea to exchange views on the climate and energy policy directions of Korea and Kenya and the role of DMRV.
+title: Samton Discusses DMRV in Kenya with the Korean Embassy
+summary: During its visit to Kenya, Samton met with a counsellor at the Embassy of the Republic of Korea to exchange views on climate and energy policy in Korea and Kenya, and on the role of DMRV.
 date: "2026.07.03"
 featured: false
 published: true
 ---
 
-# Samton Discusses the Direction of DMRV with a Counsellor at the Embassy of the Republic of Korea in Kenya
+# Samton Discusses DMRV in Kenya with the Korean Embassy
 
 During its visit to Kenya, Samton had an opportunity to meet with a **counsellor at the Embassy of the Republic of Korea in Kenya** for a brief exchange of views.
 

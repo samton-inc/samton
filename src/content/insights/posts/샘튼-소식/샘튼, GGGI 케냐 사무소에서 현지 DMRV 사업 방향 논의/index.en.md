@@ -1,14 +1,14 @@
 ---
 slug: samton-gggi-kenya-dmrv-discussion
 type: FIELD NOTE
-title: Samton Discusses the Direction of Local DMRV Projects with GGGI Kenya
+title: Samton Discusses DMRV Deployment in Kenya with GGGI
 summary: During its visit to Kenya, Samton met with the GGGI Kenya office to discuss how a Samburu DMRV PoC could connect with local green-growth initiatives.
 date: "2026.06.29"
 featured: false
 published: true
 ---
 
-# Samton Discusses the Direction of Local DMRV Projects with GGGI Kenya
+# Samton Discusses DMRV Deployment in Kenya with GGGI
 
 During its visit to Kenya, Samton met with the **Global Green Growth Institute (GGGI) Kenya office** to exchange views on the direction of local DMRV projects.
 

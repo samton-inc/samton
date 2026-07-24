@@ -1,14 +1,14 @@
 ---
 slug: samton-sk-innovation-ai-impact-route-architect-poc
 type: PROGRAM
-title: Samton、SK Innovation「AI Impact Solution」でRoute Architect PoCを開始
+title: Samton、SK Innovation「AI Impact Solution」の一環としてRoute Architect PoCを開始
 summary: 運行データを学習したAIでエネルギー使用を最小化する配車・経路を設計し、Samton-DMRVで削減効果を検証するRoute Architectの実証を開始しました。
 date: "2026.07.14"
 featured: false
 published: true
 ---
 
-# Samton、SK Innovation「AI Impact Solution」でRoute Architect PoCを開始
+# Samton、SK Innovation「AI Impact Solution」の一環としてRoute Architect PoCを開始
 
 SamtonはSK Innovationが主催する**AI Impact Solution**に「Route Architect」として参加し、2026年7月14日にキックオフ・ブートキャンプを開始しました。
 

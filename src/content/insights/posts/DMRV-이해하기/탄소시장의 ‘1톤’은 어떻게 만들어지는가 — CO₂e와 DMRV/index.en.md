@@ -1,14 +1,14 @@
 ---
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
-title: 'How the Carbon Market Produces “One Tonne” — CO₂e and DMRV'
+title: 'How the Carbon Market Creates “One Tonne” — CO₂e and DMRV'
 summary: How data, methodologies, conversion calculations, and verification produce a market-ready 1tCO₂e—and why DMRV is best understood as production infrastructure.
 date: "2026.07.20"
 featured: false
 published: true
 ---
 
-# How the Carbon Market Produces “One Tonne” — CO₂e and DMRV
+# How the Carbon Market Creates “One Tonne” — CO₂e and DMRV
 
 Carbon markets express many different carbon credits using the same unit: one tonne. Yet two credits representing one tonne are not necessarily created in the same way or supported by the same level of confidence.
 
@@ -80,7 +80,7 @@ The critical stage therefore comes before the data are recorded on the blockchai
 
 **DMRV (Digital Monitoring, Reporting and Verification)** connects this chain of evidence in a digital environment.
 
-## DMRV is not software attached after a credit, but production infrastructure
+## DMRV is production infrastructure, not software added after credit issuance
 
 This is where the role of DMRV needs to be reconsidered. DMRV is not a program used only to prepare a report after a mitigation project has finished or to add information to a credit that has already been issued. It is part of the foundation required from the outset to produce a tonne that the market can recognize.
 
@@ -104,7 +104,7 @@ Even when two projects generate the same amount of electricity from the same typ
 
 In this sense, DMRV is not accessory software added to a credit. It is **evidence-production infrastructure that turns field-level mitigation outcomes into verifiable tonnes**.
 
-## Samton-DMRV first creates confidence in the numbers
+## Samton-DMRV starts by making the numbers trustworthy
 
 This is why Samton is building its DMRV system from the outset of its solar mini-grid project in Kenya. DMRV is not treated as a tool to be added later at the credit-issuance stage, but as project infrastructure that must accumulate evidence as operations take place.
 

@@ -1,14 +1,14 @@
 ---
 slug: carbon-credit-standards
 type: CARBON STANDARD
-title: The History and Role of Carbon-Credit Standards
+title: Carbon Credit Standards: Their History and Role
 summary: From UNFCCC mechanisms to Verra, Gold Standard, ACR, CAR and GCC, this article explains the major programs that set carbon-credit rules and manage issuance.
 date: 2026.06.28
 featured: false
 published: true
 ---
 
-# The History and Role of Carbon-Credit Standards
+# Carbon Credit Standards: Their History and Role
 
 ![A technical review room with carbon methodologies and field-verification documents](images/carbon-credit-standards-review.jpg)
 
@@ -128,4 +128,4 @@ Standards create the rules for recognizing mitigation outcomes, but assessment b
 
 Samton-DMRV connects field source data, methodology calculations, supporting documents, reporting and verification history in one flow. Whatever standard is chosen, trust depends on **being able to trace where the reduction began and how it became a credit**.
 
-For the complete creation process, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For quality, market and co-benefit marks added after issuance, see [How to Read Carbon-Credit Labels](/insights/?article=carbon-credit-labels). For the connection between development projects and carbon standards, see [Where ODA and Carbon Credits Meet](/insights/?article=oda-and-carbon-credit).
+For the complete creation process, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For quality, market and co-benefit marks added after issuance, see [How to Read Carbon-Credit Labels](/insights/?article=carbon-credit-labels). For the connection between development projects and carbon standards, see [Where ODA and Carbon Credits Converge](/insights/?article=oda-and-carbon-credit).

@@ -65,7 +65,7 @@ GCC's approval as a CORSIA program does not make every ACC eligible; the same ap
 
 The label is less a quality award than a statement that a unit can be used for international aviation compliance under specified conditions.
 
-## Article 6 authorization is connected to preventing double counting
+## Article 6 authorization helps prevent double counting
 
 When a mitigation outcome from one country is used by another country or an international scheme, both must not count the same result.
 
@@ -79,7 +79,7 @@ In the Article 6.4 registry, an A6.4ER authorized for international use becomes 
 
 Authorization clarifies accounting rights, not the scale of biodiversity or community benefits. Nor is an MCU worthless: it may support the host country's target, domestic carbon-pricing system or results-based climate finance.
 
-## Co-benefit labels show change beyond one tonne of carbon
+## Co-benefit labels capture benefits beyond carbon
 
 Carbon projects can affect income, health, energy access, biodiversity and water as well as greenhouse gases. Co-benefit labels assess those outcomes separately.
 
@@ -111,7 +111,7 @@ Read each label as an answer to a particular question:
 - Does it verify environmental, social or SDG co-benefits?
 - Does it apply to the whole project or only to credits from a specific vintage?
 
-## Six things to check together in the registry
+## Six elements to check in the registry
 
 Do not rely only on logos shown on a trading screen. Review the official registry in this order:
 
@@ -130,4 +130,4 @@ For a label to be credible, its supporting data and documents must be traceable.
 
 Samton-DMRV manages field data, methodologies, reduction calculations, environmental and social indicators, and verification evidence in one flow. The role of digital carbon data is not only to display **which labels a credit has, but to explain the evidence for why those labels can be used**.
 
-For the underlying credit structure, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For the programs that issue the base units before labels are added, continue to [The History and Role of Carbon-Credit Standards](/insights/?article=carbon-credit-standards).
+For the underlying credit structure, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For the programs that issue the base units before labels are added, continue to [Carbon Credit Standards: Their History and Role](/insights/?article=carbon-credit-standards).

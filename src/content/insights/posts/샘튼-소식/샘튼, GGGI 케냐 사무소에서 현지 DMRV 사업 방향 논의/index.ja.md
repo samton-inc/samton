@@ -1,14 +1,14 @@
 ---
 slug: samton-gggi-kenya-dmrv-discussion
 type: FIELD NOTE
-title: Samton、GGGIケニア事務所と現地DMRV事業の方向性を協議
+title: Samton、GGGIケニア事務所とケニアでのDMRV事業展開を協議
 summary: ケニア出張中にGGGIケニア事務所を訪問し、サンブルDMRV PoCと現地のグリーン成長事業との接点について意見を交わしました。
 date: "2026.06.29"
 featured: false
 published: true
 ---
 
-# Samton、GGGIケニア事務所と現地DMRV事業の方向性を協議
+# Samton、GGGIケニア事務所とケニアでのDMRV事業展開を協議
 
 Samtonはケニア出張中、**グローバル・グリーン成長研究所（GGGI）ケニア事務所**を訪問し、現地におけるDMRV事業の方向性について意見を交わしました。
 

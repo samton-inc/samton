@@ -100,4 +100,4 @@ Through Samton-DMRV, Samton connects source-data collection, reduction calculati
 
 The starting point for a trustworthy carbon market is not only the final credit figure, but the ability to explain **where it came from, which rules were applied and how it was verified**.
 
-For the history and differences among major crediting programs, see [The History and Role of Carbon-Credit Standards](/insights/?article=carbon-credit-standards). For a closer comparison of allowances and credits and the limits on credit use in some compliance systems, continue to [Carbon Allowances and Carbon Credits: What Is the Difference?](/insights/?article=allowance-vs-carbon-credit).
+For the history and differences among major crediting programs, see [Carbon Credit Standards: Their History and Role](/insights/?article=carbon-credit-standards). For a closer comparison of allowances and credits and the limits on credit use in some compliance systems, continue to [How Carbon Allowances Differ from Carbon Credits](/insights/?article=allowance-vs-carbon-credit).

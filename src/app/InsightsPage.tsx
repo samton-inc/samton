@@ -55,8 +55,8 @@ function ArticleVisual({ article }: { article: InsightArticle }) {
 
 export default function InsightsPage() {
   const { locale, setLocale, tr } = useLocale();
-  const insightArticles = getInsightArticles(locale);
-  const featuredInsight = getFeaturedInsight(locale);
+  const insightArticles = useMemo(() => getInsightArticles(locale), [locale]);
+  const featuredInsight = useMemo(() => getFeaturedInsight(locale), [locale]);
   const pathSlug = decodeURIComponent(window.location.pathname).match(/^\/insights\/([^/]+)\/?$/)?.[1];
   const articleSlug = pathSlug ?? new URLSearchParams(window.location.search).get("article");
   const activeArticle = articleSlug ? insightArticles.find((article) => article.slug === articleSlug) : undefined;
@@ -97,7 +97,7 @@ export default function InsightsPage() {
 
   const filteredArticles = useMemo(
     () => activeFilter === "all" ? insightArticles : insightArticles.filter((article) => article.category === activeFilter),
-    [activeFilter],
+    [activeFilter, insightArticles],
   );
 
   const activeCategory = categories.find((category) => category.id === activeFilter);

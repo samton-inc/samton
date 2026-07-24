@@ -1,14 +1,14 @@
 ---
 slug: samton-sk-innovation-ai-impact-route-architect-poc
 type: PROGRAM
-title: Samton Launches Route Architect PoC through SK Innovation's AI Impact Solution
+title: Samton Launches Route Architect PoC as Part of SK Innovation's AI Impact Solution
 summary: Route Architect uses AI trained on operating data to design dispatch and routes for minimum energy use, then verifies the reductions through Samton-DMRV.
 date: "2026.07.14"
 featured: false
 published: true
 ---
 
-# Samton Launches Route Architect PoC through SK Innovation's AI Impact Solution
+# Samton Launches Route Architect PoC as Part of SK Innovation's AI Impact Solution
 
 Samton is participating in **AI Impact Solution**, hosted by SK Innovation, with its Route Architect project and began the kickoff boot camp on July 14, 2026.
 
