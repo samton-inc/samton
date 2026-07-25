@@ -130,4 +130,4 @@ GCCには次の追加ラベルがあります。
 
 Samton-DMRVは現場データ、方法論、削減計算、環境・社会指標、検証証跡を一つの流れで管理します。デジタル炭素データの役割は、**どのラベルがあるかだけでなく、なぜそのラベルを使えるかを根拠まで説明すること**です。
 
-基本構造は[炭素クレジットとは？](/insights/?article=what-is-carbon-credit)で、ラベルが付く前の基本単位を発行するプログラムは[炭素クレジット基準機関の歴史と役割](/insights/?article=carbon-credit-standards)で説明します。
+基本構造は[炭素クレジットとは？](/insights/what-is-carbon-credit/)で、ラベルが付く前の基本単位を発行するプログラムは[炭素クレジット基準機関の歴史と役割](/insights/carbon-credit-standards/)で説明します。

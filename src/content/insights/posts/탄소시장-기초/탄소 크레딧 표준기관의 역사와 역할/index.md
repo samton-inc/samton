@@ -128,4 +128,4 @@ GCC는 국제항공 탄소상쇄·감축제도인 CORSIA에서도 승인된 프�
 
 Samton-DMRV는 현장의 원천 데이터부터 방법론에 따른 계산, 증빙자료, 보고와 검증 이력을 하나의 흐름으로 연결합니다. 어떤 표준을 선택하더라도 **감축량이 어디에서 시작됐고 어떤 과정을 거쳐 크레딧이 됐는지 추적할 수 있게 만드는 것**이 신뢰의 기반입니다.
 
-탄소 크레딧이 만들어지는 전체 과정은 [탄소 크레딧이 무엇인가요?](/insights/?article=what-is-carbon-credit)에서, 발급된 크레딧에 추가되는 품질·시장·공동편익 표시는 [탄소 크레딧 라벨을 읽는 법](/insights/?article=carbon-credit-labels)에서 살펴볼 수 있습니다. 개발협력 사업과 탄소표준이 연결되는 방식은 [ODA와 탄소 크레딧이 만나는 지점](/insights/?article=oda-and-carbon-credit)에서 이어서 설명합니다.
+탄소 크레딧이 만들어지는 전체 과정은 [탄소 크레딧이 무엇인가요?](/insights/what-is-carbon-credit/)에서, 발급된 크레딧에 추가되는 품질·시장·공동편익 표시는 [탄소 크레딧 라벨을 읽는 법](/insights/carbon-credit-labels/)에서 살펴볼 수 있습니다. 개발협력 사업과 탄소표준이 연결되는 방식은 [ODA와 탄소 크레딧이 만나는 지점](/insights/oda-and-carbon-credit/)에서 이어서 설명합니다.

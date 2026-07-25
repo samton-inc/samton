@@ -147,4 +147,4 @@ Samton-DMRV configures the different data environments and methodologies of each
 
 For operational data to be recognized as a carbon asset, the process behind the number must be explainable. **DMRV is the data infrastructure that turns existing corporate data into verifiable mitigation outcomes and enables those outcomes to be used in carbon markets and climate finance.**
 
-For the issuance process, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For major crediting programs, see [Carbon Credit Standards: Their History and Role](/insights/?article=carbon-credit-standards). For quality, market, environmental and social conditions added after issuance, see [How to Read Carbon-Credit Labels](/insights/?article=carbon-credit-labels).
+For the issuance process, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/). For major crediting programs, see [Carbon Credit Standards: Their History and Role](/insights/carbon-credit-standards/). For quality, market, environmental and social conditions added after issuance, see [How to Read Carbon-Credit Labels](/insights/carbon-credit-labels/).

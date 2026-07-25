@@ -147,4 +147,4 @@ Samton-DMRV는 기업과 감축사업마다 다른 데이터 환경과 방법론
 
 기업의 운영 데이터가 탄소자산으로 인정받으려면 최종 숫자보다 그 숫자가 만들어진 과정을 설명할 수 있어야 합니다. **DMRV는 기업이 이미 보유한 데이터를 검증 가능한 감축성과로 바꾸고, 그 성과가 탄소시장과 기후금융에서 사용될 수 있도록 만드는 데이터 인프라**입니다.
 
-탄소 크레딧의 발급 구조는 [탄소 크레딧이 무엇인가요?](/insights/?article=what-is-carbon-credit)에서, 주요 표준기관의 차이는 [탄소 크레딧 표준기관의 역사와 역할](/insights/?article=carbon-credit-standards)에서 살펴볼 수 있습니다. 크레딧 발급 이후에 붙는 품질·시장·환경·사회 조건은 [탄소 크레딧 라벨을 읽는 법](/insights/?article=carbon-credit-labels)에서 이어서 설명합니다.
+탄소 크레딧의 발급 구조는 [탄소 크레딧이 무엇인가요?](/insights/what-is-carbon-credit/)에서, 주요 표준기관의 차이는 [탄소 크레딧 표준기관의 역사와 역할](/insights/carbon-credit-standards/)에서 살펴볼 수 있습니다. 크레딧 발급 이후에 붙는 품질·시장·환경·사회 조건은 [탄소 크레딧 라벨을 읽는 법](/insights/carbon-credit-labels/)에서 이어서 설명합니다.

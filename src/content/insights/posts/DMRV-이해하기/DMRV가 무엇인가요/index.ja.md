@@ -147,4 +147,4 @@ Samton-DMRVは企業・削減事業ごとに異なるデータ環境と方法論
 
 企業の運用データが炭素資産として認められるには、最終数字よりその生成過程を説明できなければなりません。**DMRVは既存データを検証可能な削減成果へ変え、その成果を炭素市場と気候金融で利用可能にするデータインフラです。**
 
-発行の仕組みは[炭素クレジットとは？](/insights/?article=what-is-carbon-credit)、主要プログラムは[炭素クレジット基準機関の歴史と役割](/insights/?article=carbon-credit-standards)、発行後の品質・市場・環境・社会条件は[炭素クレジットのラベルを読み解く](/insights/?article=carbon-credit-labels)で説明します。
+発行の仕組みは[炭素クレジットとは？](/insights/what-is-carbon-credit/)、主要プログラムは[炭素クレジット基準機関の歴史と役割](/insights/carbon-credit-standards/)、発行後の品質・市場・環境・社会条件は[炭素クレジットのラベルを読み解く](/insights/carbon-credit-labels/)で説明します。

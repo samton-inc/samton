@@ -30,6 +30,7 @@ const localeMeta = {
     htmlLang: "ko",
     ogLocale: "ko_KR",
     insightsName: "소식·인사이트",
+    backToList: "소식·인사이트로 돌아가기",
     home: {
       title: "Samton | 맞춤형 DMRV 데이터 기술기업",
       description: "검증된 데이터 기술로 기업에 맞는 DMRV 시스템을 구축하는 환경·탄소·데이터 기술기업, 주식회사 샘튼.",
@@ -43,6 +44,7 @@ const localeMeta = {
     htmlLang: "en",
     ogLocale: "en_US",
     insightsName: "News & Insights",
+    backToList: "Back to News & Insights",
     home: {
       title: "Samton | Tailored DMRV Data Technology Company",
       description:
@@ -58,6 +60,7 @@ const localeMeta = {
     htmlLang: "ja",
     ogLocale: "ja_JP",
     insightsName: "ニュース・インサイト",
+    backToList: "ニュース・インサイトに戻る",
     home: {
       title: "Samton | カスタムDMRVデータテクノロジー企業",
       description:
@@ -138,6 +141,15 @@ const readTemplate = (relativePath, label) => {
       process.exit(1);
     }
   }
+  // 이미 이 스크립트가 본문을 넣어 둔 dist를 다시 템플릿으로 쓰면 결과가 겹친다.
+  // vite build를 건너뛰고 두 번 돌린 경우이므로 원인을 그대로 알려주고 멈춘다.
+  if (!/<div id="root">\s*<\/div>/.test(template)) {
+    console.error(
+      `generate-static-pages: dist/${relativePath}의 #root가 비어 있지 않습니다.\n` +
+        "  이미 생성이 끝난 dist를 다시 템플릿으로 쓰려 한 것입니다. `npm run build`로 vite build부터 다시 실행하세요.",
+    );
+    process.exit(1);
+  }
   return template;
 };
 
@@ -202,13 +214,28 @@ for (const categoryEntry of readdirSync(postsDir, { withFileTypes: true })) {
     }
 
     // 번역본이 없는 언어는 한국어 원문을 그대로 쓴다. registry.ts의 폴백 규칙과 같다.
-    const byLocale = { ko: { title: metadata.title, summary: metadata.summary, type: metadata.type } };
+    // displayDate는 화면에 그대로 보이는 frontmatter 표기(2026.07.15)다.
+    const byLocale = {
+      ko: {
+        title: metadata.title,
+        summary: metadata.summary,
+        type: metadata.type,
+        body,
+        displayDate: metadata.date,
+      },
+    };
     for (const locale of locales.filter((item) => item !== "ko")) {
       const translationPath = path.join(articleDir, `index.${locale}.md`);
-      const translated = existsSync(translationPath) ? parseFrontmatter(translationPath).metadata : null;
+      const translated = existsSync(translationPath) ? parseFrontmatter(translationPath) : null;
       byLocale[locale] =
-        translated?.title && translated?.summary
-          ? { title: translated.title, summary: translated.summary, type: translated.type ?? metadata.type }
+        translated?.metadata.title && translated?.metadata.summary
+          ? {
+              title: translated.metadata.title,
+              summary: translated.metadata.summary,
+              type: translated.metadata.type ?? metadata.type,
+              body: translated.body,
+              displayDate: translated.metadata.date ?? metadata.date,
+            }
           : byLocale.ko;
     }
 
@@ -256,7 +283,178 @@ const alternateLinks = (pagePath) =>
 const renderJsonLd = (graph) =>
   `<script type="application/ld+json">${JSON.stringify(graph).replaceAll("<", "\\u003c")}</script>`;
 
-const renderPage = ({ template, locale, pagePath, title, description, imageUrl, ogType, graph, keepImageSize }) => {
+// ── 본문 프리렌더 ─────────────────────────────────────────────────────────
+// JS를 실행하지 않는 크롤러(GPTBot·ClaudeBot 같은 AI 봇, 네이버 Yeti, 다음)에게도
+// 글 내용을 보여주려고 마크다운을 정적 HTML로 미리 그려 #root 안에 넣는다.
+// 앱이 뜨면 insights.tsx가 #root를 비우고 React가 같은 화면을 다시 그린다.
+//
+// 규칙은 src/app/components/MarkdownContent.tsx와 같게 맞춘다. 그 파일의
+// 블록·인라인 처리를 고치면 아래 renderMarkdown도 함께 고쳐야 한다.
+// 본문 이미지는 Vite가 /assets/ 해시 경로로 옮기므로 상대경로가 dist에서 깨진다.
+// 대표 이미지 신호는 og:image와 ImageObject가 이미 담당하므로 여기서는 글자만 그린다.
+// 작은따옴표까지 React의 renderToStaticMarkup과 같은 방식으로 이스케이프한다.
+// 출력이 바이트 단위로 같아야 프리렌더와 실제 화면이 어긋났을 때 바로 드러난다.
+const escapeHtml = (value) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#x27;");
+
+const safeHref = (href) => (/^(https?:\/\/|mailto:|\/|#)/.test(href) ? href : "#");
+
+const inlinePattern = /(!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+
+const renderInline = (text, locale) =>
+  text
+    .split(inlinePattern)
+    .filter(Boolean)
+    .map((token) => {
+      if (/^!\[[^\]]*\]\([^)]+\)$/.test(token)) return "";
+
+      const link = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (link) {
+        const safe = safeHref(link[2]);
+        // 내부 링크는 localizedHref와 같은 규칙으로 언어 접두사를 붙인다.
+        const href = safe.startsWith("/") ? `${localePrefix(locale)}${safe}` : safe;
+        const external = href.startsWith("http");
+        return `<a href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noreferrer"' : ""}>${escapeHtml(link[1])}</a>`;
+      }
+      if (token.startsWith("**") && token.endsWith("**")) return `<strong>${escapeHtml(token.slice(2, -2))}</strong>`;
+      if (token.startsWith("*") && token.endsWith("*")) return `<em>${renderInline(token.slice(1, -1), locale)}</em>`;
+      if (token.startsWith("`") && token.endsWith("`")) return `<code>${escapeHtml(token.slice(1, -1))}</code>`;
+      return escapeHtml(token);
+    })
+    .join("");
+
+const renderMarkdown = (markdown, title, locale) => {
+  const blocks = markdown.trim().split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
+  if (blocks[0] === `# ${title}`) blocks.shift();
+
+  const isImageBlock = (block) => /^!\[[^\]]*\]\([^)]+\)$/.test(block);
+  const isItalicBlock = (block) => /^\*[^*]+\*$/.test(block);
+  const splitTableRow = (line) =>
+    line.replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
+  const isTableDivider = (line) => {
+    const cells = splitTableRow(line);
+    return cells.length > 1 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+  };
+
+  const html = [];
+  blocks.forEach((block, index) => {
+    const heading = block.match(/^(#{1,3})\s+(.+)$/);
+    if (heading) {
+      const tag = heading[1].length === 1 ? "h2" : heading[1].length === 2 ? "h3" : "h4";
+      html.push(`<${tag}>${renderInline(heading[2], locale)}</${tag}>`);
+      return;
+    }
+
+    const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+    if (!lines.length) return;
+
+    if (lines.length >= 2 && lines[0].includes("|") && isTableDivider(lines[1])) {
+      const headers = splitTableRow(lines[0]);
+      const rows = lines.slice(2).map(splitTableRow);
+      html.push(
+        '<div class="markdown-table-wrap"><table><thead><tr>' +
+          headers.map((cell) => `<th>${renderInline(cell, locale)}</th>`).join("") +
+          "</tr></thead><tbody>" +
+          rows
+            .map(
+              (row) =>
+                "<tr>" + headers.map((_, i) => `<td>${renderInline(row[i] ?? "", locale)}</td>`).join("") + "</tr>",
+            )
+            .join("") +
+          "</tbody></table></div>",
+      );
+      return;
+    }
+
+    if (lines.every((line) => /^[-*]\s+/.test(line))) {
+      html.push(
+        "<ul>" +
+          lines.map((line) => `<li>${renderInline(line.replace(/^[-*]\s+/, ""), locale)}</li>`).join("") +
+          "</ul>",
+      );
+      return;
+    }
+
+    if (lines.every((line) => /^\d+\.\s+/.test(line))) {
+      html.push(
+        "<ol>" +
+          lines.map((line) => `<li>${renderInline(line.replace(/^\d+\.\s+/, ""), locale)}</li>`).join("") +
+          "</ol>",
+      );
+      return;
+    }
+
+    if (lines.every((line) => line.startsWith(">"))) {
+      html.push(`<blockquote>${renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), locale)}</blockquote>`);
+      return;
+    }
+
+    // 이미지를 빼면 바로 뒤의 캡션도 함께 뺀다. 사진 없이 설명만 남으면
+    // 글이 정체불명의 사진 설명으로 시작해 크롤러가 읽는 첫 문장이 엉뚱해진다.
+    if (isImageBlock(block)) return;
+    if (isItalicBlock(block) && index > 0 && isImageBlock(blocks[index - 1])) return;
+
+    const inner = renderInline(lines.join(" "), locale);
+    if (inner.trim()) html.push(`<p>${inner}</p>`);
+  });
+
+  return `<div class="markdown-content">${html.join("")}</div>`;
+};
+
+// registry.ts의 categoryFolders와 같은 대응이다. 목록 페이지의 분류 앵커로 쓴다.
+const categoryAnchors = {
+  "DMRV-이해하기": "dmrv",
+  "탄소시장-기초": "carbon",
+  "샘튼-소식": "news",
+  "리포트": "reports",
+  "기술-조직-이야기": "technology",
+};
+
+const localPath = (locale, pagePath) => `${localePrefix(locale)}${pagePath}`;
+
+const prerenderArticle = (article, locale) => {
+  const localized = article.byLocale[locale];
+  const anchor = categoryAnchors[article.category];
+  // 목록으로 돌아가는 링크를 넣는다. 이게 없으면 JS를 실행하지 않는 크롤러에게
+  // 게시물 페이지가 나가는 길이 없는 막다른 페이지가 된다.
+  const back = `<a class="insight-article__back" href="${localPath(locale, "/insights/")}${anchor ? `#${anchor}` : ""}">${escapeHtml(localeMeta[locale].backToList)}</a>`;
+  return (
+    `<div class="site-shell site-shell--${locale} insights-page"><main class="journal journal--article">` +
+    `<article class="insight-article">${back}<header class="insight-article__header">` +
+    `<div class="insight-article__meta"><time datetime="${article.date}">${escapeHtml(localized.displayDate)}</time></div>` +
+    `<h1>${escapeHtml(localized.title)}</h1><p>${escapeHtml(localized.summary)}</p></header>` +
+    renderMarkdown(localized.body, localized.title, locale) +
+    "</article></main></div>"
+  );
+};
+
+// 목록 페이지에는 글마다 진짜 <a> 링크를 넣는다. 이게 없으면 JS를 실행하지 않는
+// 크롤러는 사이트맵 말고는 글을 찾아갈 경로가 없다.
+// 클래스는 InsightsPage.tsx의 실제 마크업과 같게 맞춰서, JS가 뜨기 전에도
+// 이미 받아 둔 CSS가 그대로 적용되게 한다.
+const prerenderList = (locale) =>
+  `<div class="site-shell site-shell--${locale} insights-page"><main class="journal">` +
+  `<section class="journal-masthead"><div><h1>${escapeHtml(localeMeta[locale].insightsName)}</h1></div></section>` +
+  '<div class="journal-body"><section class="journal-archive"><div class="journal-card-grid">' +
+  articles
+    .map((article) => {
+      const localized = article.byLocale[locale];
+      return (
+        `<a class="journal-card" href="${localPath(locale, `/insights/${article.slug}/`)}">` +
+        '<div class="journal-card__copy"><div class="journal-card-meta">' +
+        `<time datetime="${article.date}">${escapeHtml(localized.displayDate)}</time></div>` +
+        `<h3>${escapeHtml(localized.title)}</h3><p>${escapeHtml(localized.summary)}</p></div></a>`
+      );
+    })
+    .join("") +
+  "</div></section></div></main></div>";
+
+const renderPage = ({ template, locale, pagePath, title, description, imageUrl, ogType, graph, keepImageSize, prerender }) => {
   const canonicalUrl = absoluteUrl(locale, pagePath);
   const safeTitle = escapeAttr(title);
   const safeDescription = escapeAttr(description);
@@ -281,6 +479,14 @@ const renderPage = ({ template, locale, pagePath, title, description, imageUrl, 
     () => `<link rel="canonical" href="${canonicalUrl}" />\n    ${alternateLinks(pagePath)}`,
   );
   page = page.replace(jsonLdPattern, () => renderJsonLd(graph));
+  if (prerender) {
+    const rootPattern = /<div id="root">\s*<\/div>/;
+    if (!rootPattern.test(page)) {
+      console.error(`generate-static-pages: ${pagePath}에 <div id="root"></div>가 없어 본문을 넣지 못했습니다.`);
+      process.exit(1);
+    }
+    page = page.replace(rootPattern, () => `<div id="root">${prerender}</div>`);
+  }
 
   const target = outputPath(locale, pagePath);
   mkdirSync(path.dirname(target), { recursive: true });
@@ -347,6 +553,7 @@ for (const locale of locales) {
     imageUrl: `${siteOrigin}/og-image.png`,
     ogType: "website",
     keepImageSize: true,
+    prerender: prerenderList(locale),
     graph: {
       "@context": "https://schema.org",
       "@graph": [
@@ -394,6 +601,7 @@ for (const locale of locales) {
       description: localized.summary,
       imageUrl: article.imageUrl,
       ogType: "article",
+      prerender: prerenderArticle(article, locale),
       graph: {
         "@context": "https://schema.org",
         "@graph": [

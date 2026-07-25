@@ -1,5 +1,21 @@
 # Samton project guidance
 
+## 글쓰기 규칙
+
+**긴 줄표(`—`, em dash)를 쓰지 않는다. 붙임표(`-`)를 쓴다.**
+
+- 적용 범위에 예외가 없다. 사용자에게 보내는 채팅 답변, 이 저장소의 문서, 커밋 메시지, 코드 주석, 소식·인사이트 게시물 본문과 제목에 모두 해당한다.
+- 짧은 줄표(`–`, en dash)도 같은 이유로 쓰지 않는다.
+- 문장 중간에 덧붙이는 말을 넣을 때는 붙임표를 쓰거나, 쉼표나 괄호로 바꿔 쓴다.
+
+  ```text
+  쓰지 않는다: 검증은 끝났습니다 — 45개 페이지 전부 통과했습니다.
+  이렇게 쓴다:  검증은 끝났습니다. 45개 페이지 전부 통과했습니다.
+  이렇게 써도 된다: 검증은 끝났습니다 - 45개 페이지 전부 통과했습니다.
+  ```
+
+- 새 글을 쓰거나 기존 글을 고칠 때 본문에 긴 줄표가 보이면 붙임표로 바꾼다. 한국어 원문뿐 아니라 `index.en.md`, `index.ja.md`에도 같이 적용한다.
+
 ## 소식·인사이트 포스트 작업
 
 `src/content/insights` 또는 샘튼 홈페이지의 소식·인사이트 포스트와 관련된 요청에는 설치된 `samton-insights-publisher` 플러그인의 `$manage-samton-insights` 스킬을 반드시 사용한다.
@@ -37,6 +53,45 @@
 - 예전 `?lang=en` 주소는 `useLocale`이 마운트 시 경로 형식으로 바꿔 준다. 공유된 옛 링크가 깨지지 않도록 이 처리를 지우지 않는다.
 - 언어를 추가하면 `src/i18n/index.tsx`의 `supportedLocales`·`localeMeta`, `scripts/generate-static-pages.mjs`의 `locales`·`localeMeta`, `vite.config.ts`의 `localizedRouteFallback` 정규식 **네 곳**을 함께 고친다.
 - 개발 서버에서 `/en/...`, `/ja/...`가 열리는 것은 `vite.config.ts`의 `localizedRouteFallback` 미들웨어 덕분이다. 배포본에서는 빌드가 경로마다 진짜 파일을 만든다.
+
+## 본문 프리렌더 규칙
+
+이 사이트는 SPA라 원래 배포 HTML의 `<body>`가 `<div id="root"></div>` 하나뿐이었다. 그러면 JS를 실행하지 않는 크롤러(GPTBot·ClaudeBot 같은 AI 봇, 네이버 Yeti, 다음)에게 모든 글이 "제목 + 요약 두 줄"짜리 빈 문서로 보인다. 그래서 빌드가 본문을 정적 HTML로 미리 그려 넣는다.
+
+- `scripts/generate-static-pages.mjs`의 `renderMarkdown`·`renderInline`이 마크다운을 HTML로 바꾸고, `prerenderArticle`·`prerenderList`가 그 결과를 `<div id="root">` 안에 넣는다. 앱이 뜨면 `src/insights.tsx`가 `container.innerHTML = ""`로 지우고 React가 같은 화면을 다시 그린다.
+- **`src/app/components/MarkdownContent.tsx`를 고치면 `renderMarkdown`도 같이 고친다.** 두 렌더러의 출력은 바이트 단위로 같아야 한다. 이스케이프 방식(작은따옴표를 `&#x27;`로)까지 React의 `renderToStaticMarkup`에 맞춰 두었다.
+- 확인 방법: `MarkdownContent.tsx`를 esbuild로 번들해 `renderToStaticMarkup`으로 그린 결과와 `renderMarkdown` 결과를 13글 × 3언어에 대해 문자열 비교한다. 차이가 나도 되는 것은 아래 두 가지뿐이고, 비교 전에 React 쪽에서 지우고 맞춘다.
+  - `<p class="markdown-image-block"></p>` (React는 빈 문단을 남기고 빌드 렌더러는 블록을 통째로 뺀다)
+  - `<p class="markdown-image-caption">…</p>` (빌드 렌더러는 캡션도 뺀다)
+- **본문 이미지와 그 캡션은 프리렌더에서 뺀다.** Vite가 이미지를 `/assets/` 해시 경로로 옮기므로 마크다운의 상대경로가 dist에서 깨진다. 대표 이미지 신호는 `og:image`와 `ImageObject`가 이미 담당한다. 사진을 빼면서 캡션만 남기면 글이 정체불명의 사진 설명으로 시작하므로 캡션도 함께 뺀다.
+- 프리렌더에는 나가는 링크가 최소 하나 있어야 한다. 게시물에는 목록으로 돌아가는 `insight-article__back` 링크를, 목록에는 글마다 `journal-card` 링크를 넣는다. 이게 없으면 JS를 실행하지 않는 크롤러에게 막다른 페이지가 된다. 목록은 `CollectionPage`의 `ItemList`와 같은 목록을 쓴다.
+- 프리렌더의 클래스는 `InsightsPage.tsx`의 실제 마크업과 같게 쓴다(`journal-card-grid`, `journal-card`, `insight-article__header` 등). 그래야 JS가 뜨기 전에도 이미 받아 둔 CSS가 그대로 적용되어 화면이 뭉개지지 않는다.
+- 빌드는 `dist`를 템플릿으로 삼으므로 `vite build` 없이 `generate-static-pages.mjs`만 두 번 돌릴 수 없다. 두 번째 실행은 `#root`가 비어 있지 않은 것을 보고 아무것도 쓰기 전에 멈춘다. 항상 `npm run build`로 실행한다.
+- 홈(`index.html`)에는 프리렌더가 없다. 홈 내용은 마크다운이 아니라 `App.tsx`의 React 컴포넌트라 같은 방식으로 그릴 수 없다. 홈까지 필요해지면 별도 작업으로 다룬다.
+- 프리렌더 내용은 화면에 실제로 그려지는 것과 같아야 한다. `hidden`이나 `display:none`으로 감추지 않는다.
+
+## 사진 규칙
+
+**새 사진을 저장소에 넣을 때는 반드시 HDR 게인맵을 먼저 제거한다.** 아이폰 등으로 찍은 사진에는 원본 뒤에 게인맵이 한 장 더 붙어 있는데, 그대로 두면 HDR을 지원하는 화면에서 그 사진만 주변 UI보다 밝게 떠서 혼자 튄다. 게시물 이미지든 `src/assets`의 사이트 이미지든 예외 없이 적용한다.
+
+- **확인**: JPEG 안에 SOI 마커(`FF D8`)가 2개 이상이면 이미지가 여러 장 들어 있는 것이고, 게인맵이 붙어 있다는 뜻이다.
+
+  ```bash
+  node -e 'const b=require("fs").readFileSync(process.argv[1]);let c=0;for(let i=0;i<b.length-1;i++)if(b[i]===0xFF&&b[i+1]===0xD8)c++;console.log(c>1?"HDR 게인맵 있음":"없음")' <파일>
+  ```
+
+  문자열 `MPF`를 grep으로 찾는 방법은 쓰지 않는다. 압축 데이터에 우연히 같은 글자가 섞여 오탐이 난다(실제로 `samton-serving-hands-mou-natural.jpg`가 그렇게 잡혔다). 정식 마커는 널 문자까지 포함한 `MPF\0`이고, ISO 게인맵은 `urn:iso:std:iso:ts:21496` 문자열로 확인한다.
+
+- **제거**: 임시 파일로 다시 인코딩한 뒤 원본 자리로 옮긴다.
+
+  ```bash
+  sips -s format jpeg -s formatOptions 95 <파일> --out /tmp/out.jpg && mv /tmp/out.jpg <파일>
+  ```
+
+  해상도와 색 프로파일(Display P3 등)은 그대로 남고 용량은 오히려 조금 줄어든다. `formatOptions best`는 원본보다 커지므로 쓰지 않는다.
+
+- 작업 후에는 해상도와 프로파일이 그대로인지 `sips -g pixelWidth -g pixelHeight -g profile <파일>`로 확인한다.
+- 게시물 대표 이미지는 가로 1200px 이상을 권장한다. 그래야 구글 Discover의 대형 카드 조건을 채운다. 현재 `samton-featured-in-hankyung-job-and-joy`(1000×667), `samton-kenya-embassy-dmrv-discussion`(1024×768), `samton-serving-hands-samburu-dmrv-poc`(1024×768) 세 글이 이 기준에 미달한다.
 
 ## 구조화 데이터(스키마 마크업) 규칙
 

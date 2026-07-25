@@ -1,14 +1,14 @@
 ---
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
-title: 'How the Carbon Market Creates “One Tonne” — CO₂e and DMRV'
-summary: How data, methodologies, conversion calculations, and verification produce a market-ready 1tCO₂e—and why DMRV is best understood as production infrastructure.
+title: 'How the Carbon Market Creates “One Tonne” - CO₂e and DMRV'
+summary: How data, methodologies, conversion calculations, and verification produce a market-ready 1tCO₂e-and why DMRV is best understood as production infrastructure.
 date: "2026.07.20"
 featured: false
 published: true
 ---
 
-# How the Carbon Market Creates “One Tonne” — CO₂e and DMRV
+# How the Carbon Market Creates “One Tonne” - CO₂e and DMRV
 
 Carbon markets express many different carbon credits using the same unit: one tonne. Yet two credits representing one tonne are not necessarily created in the same way or supported by the same level of confidence.
 
@@ -114,4 +114,4 @@ Samton-DMRV links field equipment and operating data, methodology-based calculat
 
 One tonne traded in the carbon market is an outcome, not a starting point. **Only when a field activity becomes trustworthy data and that data becomes a verifiable emissions reduction does 1tCO₂e become a carbon asset.**
 
-For the basic structure of DMRV and how corporate data can become a carbon asset, see [What Is DMRV?](/insights/?article=what-is-dmrv). For how credit values differ according to regulatory eligibility and mitigation quality, continue with [The Difference Between Emissions Allowances and Carbon Credits](/insights/?article=allowance-vs-carbon-credit).
+For the basic structure of DMRV and how corporate data can become a carbon asset, see [What Is DMRV?](/insights/what-is-dmrv/). For how credit values differ according to regulatory eligibility and mitigation quality, continue with [The Difference Between Emissions Allowances and Carbon Credits](/insights/allowance-vs-carbon-credit/).

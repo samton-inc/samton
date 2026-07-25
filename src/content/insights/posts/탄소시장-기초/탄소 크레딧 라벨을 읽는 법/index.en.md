@@ -130,4 +130,4 @@ For a label to be credible, its supporting data and documents must be traceable.
 
 Samton-DMRV manages field data, methodologies, reduction calculations, environmental and social indicators, and verification evidence in one flow. The role of digital carbon data is not only to display **which labels a credit has, but to explain the evidence for why those labels can be used**.
 
-For the underlying credit structure, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For the programs that issue the base units before labels are added, continue to [Carbon Credit Standards: Their History and Role](/insights/?article=carbon-credit-standards).
+For the underlying credit structure, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/). For the programs that issue the base units before labels are added, continue to [Carbon Credit Standards: Their History and Role](/insights/carbon-credit-standards/).

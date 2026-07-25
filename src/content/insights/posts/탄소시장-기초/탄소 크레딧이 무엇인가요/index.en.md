@@ -62,7 +62,7 @@ This requires MRV:
 
 Verified reductions are issued as credits after review by the relevant carbon standard and registry. Transfers are recorded in the registry, and credits are cancelled or retired upon final use so they cannot be reused.
 
-Applying digital technology to this process creates **DMRV**. DMRV connects source data from sensors and meters with calculations, evidence and change history in a digital environment to create a verifiable data flow. [What Is DMRV?](/insights/?article=what-is-dmrv) explains how DMRV connects corporate operating data with carbon-credit issuance.
+Applying digital technology to this process creates **DMRV**. DMRV connects source data from sensors and meters with calculations, evidence and change history in a digital environment to create a verifiable data flow. [What Is DMRV?](/insights/what-is-dmrv/) explains how DMRV connects corporate operating data with carbon-credit issuance.
 
 DMRV does not automatically issue credits. Eligibility depends on the applicable standard and methodology, independent verification and registry review. DMRV improves the reliability and traceability of the data needed for those decisions.
 
@@ -100,4 +100,4 @@ Through Samton-DMRV, Samton connects source-data collection, reduction calculati
 
 The starting point for a trustworthy carbon market is not only the final credit figure, but the ability to explain **where it came from, which rules were applied and how it was verified**.
 
-For the history and differences among major crediting programs, see [Carbon Credit Standards: Their History and Role](/insights/?article=carbon-credit-standards). For a closer comparison of allowances and credits and the limits on credit use in some compliance systems, continue to [How Carbon Allowances Differ from Carbon Credits](/insights/?article=allowance-vs-carbon-credit).
+For the history and differences among major crediting programs, see [Carbon Credit Standards: Their History and Role](/insights/carbon-credit-standards/). For a closer comparison of allowances and credits and the limits on credit use in some compliance systems, continue to [How Carbon Allowances Differ from Carbon Credits](/insights/allowance-vs-carbon-credit/).

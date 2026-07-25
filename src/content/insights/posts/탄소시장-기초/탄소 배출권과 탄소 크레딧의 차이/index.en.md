@@ -44,7 +44,7 @@ The Paris Agreement Article 6.4 crediting mechanism is likewise designed to iden
 
 The value of a credit therefore lies not simply in a “right to emit,” but in **demonstrating where a reduction occurred, how it was achieved, to whom it was transferred and how it was ultimately used**.
 
-For the origins of carbon credits and the integrity requirements that have become more important under Article 6, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit).
+For the origins of carbon credits and the integrity requirements that have become more important under Article 6, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/).
 
 ## Carbon credits are no longer confined to voluntary markets
 
@@ -119,4 +119,4 @@ As carbon credits become more important, the number “one tonne” is no longer
 
 Samton-DMRV connects source data, calculations and evidence from mitigation projects in one traceable flow. **Making policy and market eligibility explainable through data** is the foundation for greater trust and value in carbon credits.
 
-For an example of how a mitigation project initiated with public development finance can secure follow-on funding through carbon markets, see [Where ODA and Carbon Credits Converge](/insights/?article=oda-and-carbon-credit).
+For an example of how a mitigation project initiated with public development finance can secure follow-on funding through carbon markets, see [Where ODA and Carbon Credits Converge](/insights/oda-and-carbon-credit/).

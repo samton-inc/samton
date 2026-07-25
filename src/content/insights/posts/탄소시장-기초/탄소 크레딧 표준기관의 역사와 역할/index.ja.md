@@ -128,4 +128,4 @@ ICAOはプログラム設計と環境・社会的健全性を評価し、適用�
 
 Samton-DMRVは現場原データ、方法論計算、証拠資料、報告・検証履歴を一つの流れでつなぎます。どの基準を選んでも、**削減量がどこで始まり、どうクレジットになったか追跡できること**が信頼の基盤です。
 
-発行の全体像は[炭素クレジットとは？](/insights/?article=what-is-carbon-credit)、追加ラベルは[炭素クレジットのラベルを読み解く](/insights/?article=carbon-credit-labels)、開発協力との接点は[ODAと炭素クレジットの接点](/insights/?article=oda-and-carbon-credit)で説明します。
+発行の全体像は[炭素クレジットとは？](/insights/what-is-carbon-credit/)、追加ラベルは[炭素クレジットのラベルを読み解く](/insights/carbon-credit-labels/)、開発協力との接点は[ODAと炭素クレジットの接点](/insights/oda-and-carbon-credit/)で説明します。

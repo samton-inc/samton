@@ -128,4 +128,4 @@ Standards create the rules for recognizing mitigation outcomes, but assessment b
 
 Samton-DMRV connects field source data, methodology calculations, supporting documents, reporting and verification history in one flow. Whatever standard is chosen, trust depends on **being able to trace where the reduction began and how it became a credit**.
 
-For the complete creation process, see [What Is a Carbon Credit?](/insights/?article=what-is-carbon-credit). For quality, market and co-benefit marks added after issuance, see [How to Read Carbon-Credit Labels](/insights/?article=carbon-credit-labels). For the connection between development projects and carbon standards, see [Where ODA and Carbon Credits Converge](/insights/?article=oda-and-carbon-credit).
+For the complete creation process, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/). For quality, market and co-benefit marks added after issuance, see [How to Read Carbon-Credit Labels](/insights/carbon-credit-labels/). For the connection between development projects and carbon standards, see [Where ODA and Carbon Credits Converge](/insights/oda-and-carbon-credit/).

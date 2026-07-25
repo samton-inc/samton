@@ -1,14 +1,14 @@
 ---
 slug: one-ton-is-a-measured-result
 type: DMRV INSIGHT
-title: '탄소시장의 ‘1톤’은 어떻게 만들어지는가 — CO₂e와 DMRV'
+title: '탄소시장의 ‘1톤’은 어떻게 만들어지는가 - CO₂e와 DMRV'
 summary: 탄소시장에서 거래되는 1tCO₂e가 데이터와 방법론, 환산 계산과 검증을 거쳐 어떻게 만들어지는지, 그리고 DMRV가 왜 생산 인프라가 되는지 살펴봅니다.
 date: "2026.07.20"
 featured: false
 published: true
 ---
 
-# 탄소시장의 ‘1톤’은 어떻게 만들어지는가 — CO₂e와 DMRV
+# 탄소시장의 ‘1톤’은 어떻게 만들어지는가 - CO₂e와 DMRV
 
 탄소시장에서는 서로 다른 탄소 크레딧을 모두 ‘1톤’이라는 같은 단위로 표시합니다. 하지만 같은 1톤이라고 해서 만들어진 과정과 신뢰도까지 같은 것은 아닙니다.
 
@@ -114,4 +114,4 @@ Samton-DMRV는 현장 장비와 운영 데이터, 방법론에 따른 계산, �
 
 탄소시장에서 거래되는 1톤은 출발점이 아니라 결과입니다. **현장의 활동이 신뢰 가능한 데이터가 되고, 그 데이터가 검증 가능한 감축량으로 바뀔 때 비로소 1tCO₂e가 탄소자산이 됩니다.**
 
-DMRV의 기본 구조와 기업 데이터가 탄소자산으로 이어지는 과정은 [DMRV가 무엇인가요?](/insights/?article=what-is-dmrv)에서, 제도 적격성과 감축 품질에 따라 달라지는 크레딧의 가치는 [탄소 배출권과 탄소 크레딧의 차이](/insights/?article=allowance-vs-carbon-credit)에서 이어서 살펴볼 수 있습니다.
+DMRV의 기본 구조와 기업 데이터가 탄소자산으로 이어지는 과정은 [DMRV가 무엇인가요?](/insights/what-is-dmrv/)에서, 제도 적격성과 감축 품질에 따라 달라지는 크레딧의 가치는 [탄소 배출권과 탄소 크레딧의 차이](/insights/allowance-vs-carbon-credit/)에서 이어서 살펴볼 수 있습니다.
