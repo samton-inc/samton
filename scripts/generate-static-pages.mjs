@@ -7,7 +7,7 @@
 // CollectionPage+ItemList / Article·NewsArticle)를 언어에 맞게 넣는다.
 // 마지막으로 언어별 대체 주소를 담은 dist/sitemap.xml을 만든다.
 // `npm run build`(vite build 다음 단계)에서 실행된다.
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -84,6 +84,10 @@ const categoryLabels = {
 };
 // 회사 활동을 알리는 글은 NewsArticle, 나머지 설명·분석 글은 Article로 표시한다.
 const newsCategories = new Set(["샘튼-소식"]);
+// 프리렌더 본문에 실제 사진을 넣을 분류. 샘튼-소식 폴더의 사진은 전부 우리가
+// 현장에서 직접 찍은 것이라 크롤러가 읽을 값어치가 있다. 나머지 분류의 삽화는
+// 사진 대신 같은 크기의 빈 자리(스켈레톤)만 넣어 화면이 밀리지 않게 한다.
+const prerenderImageCategories = new Set(["샘튼-소식"]);
 
 // 빌드 결과의 모든 페이지가 이 노드를 쓴다. 소스의 index.html, insights/index.html에도
 // 같은 @id로 같은 내용을 적어 두었으니 회사 정보가 바뀌면 세 곳을 함께 고친다.
@@ -247,6 +251,7 @@ for (const categoryEntry of readdirSync(postsDir, { withFileTypes: true })) {
     articles.push({
       slug: metadata.slug,
       category: categoryEntry.name,
+      dir: articleDir,
       date: toIsoDate(metadata.date, markdownPath),
       imagePath: imageCandidates.find(existsSync),
       byLocale,
@@ -304,14 +309,74 @@ const escapeHtml = (value) =>
 
 const safeHref = (href) => (/^(https?:\/\/|mailto:|\/|#)/.test(href) ? href : "#");
 
+// 이미지 크기를 파일 헤더에서 직접 읽는다. 빌드가 우분투(GitHub Actions)에서도
+// 돌아야 하므로 sips 같은 macOS 전용 도구를 쓰지 않는다.
+const imageSize = (file) => {
+  const b = readFileSync(file);
+  if (b.toString("latin1", 1, 4) === "PNG") return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
+  if (b[0] === 0xff && b[1] === 0xd8) {
+    let i = 2;
+    while (i < b.length - 9) {
+      if (b[i] !== 0xff) { i += 1; continue; }
+      const marker = b[i + 1];
+      // SOF0~SOF15에서 크기를 읽는다. DHT(c4)·JPG(c8)·DAC(cc)는 크기 정보가 아니다.
+      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+        return { height: b.readUInt16BE(i + 5), width: b.readUInt16BE(i + 7) };
+      }
+      i += 2 + b.readUInt16BE(i + 2);
+    }
+  }
+  return null;
+};
+
+// vite build가 남긴 manifest에서 원본 경로 -> 해시 경로 대응을 읽는다.
+// React가 쓰는 것과 같은 주소를 넣어야 브라우저가 같은 사진을 두 번 받지 않는다.
+const manifestPath = path.join(distDir, ".vite", "manifest.json");
+const assetManifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : {};
+
+// skeleton이면 사진을 내려받지 않고 같은 크기의 빈 자리만 잡는다.
+// 어느 쪽이든 원본 비율을 알아야 React가 그릴 때 화면이 밀리지 않는다.
+const articleImages = (articleDir, { skeleton }) => {
+  const imagesDir = path.join(articleDir, "images");
+  if (!existsSync(imagesDir)) return {};
+  const map = {};
+  for (const entry of readdirSync(imagesDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !/\.(png|jpe?g|webp|gif|avif|svg)$/i.test(entry.name)) continue;
+    const size = imageSize(path.join(imagesDir, entry.name));
+    if (!size) continue;
+    const sourceKey = path.relative(root, path.join(imagesDir, entry.name)).split(path.sep).join("/");
+    const built = assetManifest[sourceKey]?.file;
+    if (!skeleton && !built) continue;
+    map[`images/${entry.name}`] = { url: built ? `/${built}` : "", ...size, skeleton };
+  }
+  return map;
+};
+
 const inlinePattern = /(!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
 
-const renderInline = (text, locale) =>
+// 찾는 이미지가 map에 없으면 아무것도 그리지 않는다. MarkdownContent.tsx의 resolveImage와 같은 규칙이다.
+// skeleton은 사진 자리만 잡는 빈 상자다. index.css의 .markdown-content img와 같은
+// 여백·모서리를 인라인 스타일로 준다(프리렌더 전용이라 CSS 파일을 건드리지 않는다).
+const renderImage = (source, alt, images) => {
+  const found = images[source.replace(/^\.\//, "")];
+  if (!found) return "";
+  if (found.skeleton) {
+    return (
+      '<span aria-hidden="true" style="display:block;width:100%;' +
+      `aspect-ratio:${found.width}/${found.height};` +
+      'background:#eef1f5;border-radius:var(--radius-md);margin:18px 0"></span>'
+    );
+  }
+  return `<img src="${escapeHtml(found.url)}" alt="${escapeHtml(alt)}" width="${found.width}" height="${found.height}">`;
+};
+
+const renderInline = (text, locale, images) =>
   text
     .split(inlinePattern)
     .filter(Boolean)
     .map((token) => {
-      if (/^!\[[^\]]*\]\([^)]+\)$/.test(token)) return "";
+      const image = token.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (image) return renderImage(image[2], image[1], images);
 
       const link = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (link) {
@@ -322,13 +387,13 @@ const renderInline = (text, locale) =>
         return `<a href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noreferrer"' : ""}>${escapeHtml(link[1])}</a>`;
       }
       if (token.startsWith("**") && token.endsWith("**")) return `<strong>${escapeHtml(token.slice(2, -2))}</strong>`;
-      if (token.startsWith("*") && token.endsWith("*")) return `<em>${renderInline(token.slice(1, -1), locale)}</em>`;
+      if (token.startsWith("*") && token.endsWith("*")) return `<em>${renderInline(token.slice(1, -1), locale, images)}</em>`;
       if (token.startsWith("`") && token.endsWith("`")) return `<code>${escapeHtml(token.slice(1, -1))}</code>`;
       return escapeHtml(token);
     })
     .join("");
 
-const renderMarkdown = (markdown, title, locale) => {
+const renderMarkdown = (markdown, title, locale, images = {}) => {
   const blocks = markdown.trim().split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
   if (blocks[0] === `# ${title}`) blocks.shift();
 
@@ -346,7 +411,7 @@ const renderMarkdown = (markdown, title, locale) => {
     const heading = block.match(/^(#{1,3})\s+(.+)$/);
     if (heading) {
       const tag = heading[1].length === 1 ? "h2" : heading[1].length === 2 ? "h3" : "h4";
-      html.push(`<${tag}>${renderInline(heading[2], locale)}</${tag}>`);
+      html.push(`<${tag}>${renderInline(heading[2], locale, images)}</${tag}>`);
       return;
     }
 
@@ -358,12 +423,12 @@ const renderMarkdown = (markdown, title, locale) => {
       const rows = lines.slice(2).map(splitTableRow);
       html.push(
         '<div class="markdown-table-wrap"><table><thead><tr>' +
-          headers.map((cell) => `<th>${renderInline(cell, locale)}</th>`).join("") +
+          headers.map((cell) => `<th>${renderInline(cell, locale, images)}</th>`).join("") +
           "</tr></thead><tbody>" +
           rows
             .map(
               (row) =>
-                "<tr>" + headers.map((_, i) => `<td>${renderInline(row[i] ?? "", locale)}</td>`).join("") + "</tr>",
+                "<tr>" + headers.map((_, i) => `<td>${renderInline(row[i] ?? "", locale, images)}</td>`).join("") + "</tr>",
             )
             .join("") +
           "</tbody></table></div>",
@@ -374,7 +439,7 @@ const renderMarkdown = (markdown, title, locale) => {
     if (lines.every((line) => /^[-*]\s+/.test(line))) {
       html.push(
         "<ul>" +
-          lines.map((line) => `<li>${renderInline(line.replace(/^[-*]\s+/, ""), locale)}</li>`).join("") +
+          lines.map((line) => `<li>${renderInline(line.replace(/^[-*]\s+/, ""), locale, images)}</li>`).join("") +
           "</ul>",
       );
       return;
@@ -383,23 +448,32 @@ const renderMarkdown = (markdown, title, locale) => {
     if (lines.every((line) => /^\d+\.\s+/.test(line))) {
       html.push(
         "<ol>" +
-          lines.map((line) => `<li>${renderInline(line.replace(/^\d+\.\s+/, ""), locale)}</li>`).join("") +
+          lines.map((line) => `<li>${renderInline(line.replace(/^\d+\.\s+/, ""), locale, images)}</li>`).join("") +
           "</ol>",
       );
       return;
     }
 
     if (lines.every((line) => line.startsWith(">"))) {
-      html.push(`<blockquote>${renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), locale)}</blockquote>`);
+      html.push(`<blockquote>${renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), locale, images)}</blockquote>`);
       return;
     }
 
-    // 이미지를 빼면 바로 뒤의 캡션도 함께 뺀다. 사진 없이 설명만 남으면
+    // 사진을 그릴 수 있으면 MarkdownContent.tsx와 같은 문단으로 감싸고 바로 뒤 캡션도 살린다.
+    // 그릴 수 없으면 캡션도 함께 뺀다. 사진 없이 설명만 남으면
     // 글이 정체불명의 사진 설명으로 시작해 크롤러가 읽는 첫 문장이 엉뚱해진다.
-    if (isImageBlock(block)) return;
-    if (isItalicBlock(block) && index > 0 && isImageBlock(blocks[index - 1])) return;
+    if (isImageBlock(block)) {
+      const rendered = renderInline(block, locale, images);
+      if (rendered) html.push(`<p class="markdown-image-block">${rendered}</p>`);
+      return;
+    }
+    if (isItalicBlock(block) && index > 0 && isImageBlock(blocks[index - 1])) {
+      if (!renderInline(blocks[index - 1], locale, images)) return;
+      html.push(`<p class="markdown-image-caption">${renderInline(lines.join(" "), locale, images)}</p>`);
+      return;
+    }
 
-    const inner = renderInline(lines.join(" "), locale);
+    const inner = renderInline(lines.join(" "), locale, images);
     if (inner.trim()) html.push(`<p>${inner}</p>`);
   });
 
@@ -428,7 +502,7 @@ const prerenderArticle = (article, locale) => {
     `<article class="insight-article">${back}<header class="insight-article__header">` +
     `<div class="insight-article__meta"><time datetime="${article.date}">${escapeHtml(localized.displayDate)}</time></div>` +
     `<h1>${escapeHtml(localized.title)}</h1><p>${escapeHtml(localized.summary)}</p></header>` +
-    renderMarkdown(localized.body, localized.title, locale) +
+    renderMarkdown(localized.body, localized.title, locale, article.images) +
     "</article></main></div>"
   );
 };
@@ -506,6 +580,12 @@ const breadcrumbNode = (locale, pagePath, trail) => ({
     })),
   ],
 });
+
+// 렌더 함수가 모두 정의된 뒤에 사진 맵을 채운다.
+// 우리가 직접 찍은 사진이 있는 분류만 실제 이미지를 넣고, 나머지는 자리만 잡는다.
+for (const article of articles) {
+  article.images = articleImages(article.dir, { skeleton: !prerenderImageCategories.has(article.category) });
+}
 
 let pageCount = 0;
 for (const locale of locales) {
@@ -691,6 +771,9 @@ writeFileSync(
     "",
   ].join("\n"),
 );
+
+// 빌드 도구 정보이므로 배포본에 남기지 않는다.
+if (existsSync(path.join(distDir, ".vite"))) rmSync(path.join(distDir, ".vite"), { recursive: true, force: true });
 
 console.log(
   `generate-static-pages: ${locales.join("/")} ${pageCount}개 페이지 생성 (게시물 ${articles.length}개, 대표 이미지 ${withImageCount}개, 공용 카드 폴백 ${articles.length - withImageCount}개), sitemap.xml 주소 ${sitemapUrls.length}개`,

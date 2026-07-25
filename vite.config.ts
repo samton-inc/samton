@@ -33,6 +33,9 @@ export default defineConfig({
   },
   assetsInclude: ['**/*.svg', '**/*.csv'],
   build: {
+    // scripts/generate-static-pages.mjs가 본문 이미지의 해시 경로를 찾는 데 쓴다.
+    // 스크립트가 다 쓰고 나면 dist/.vite를 지운다.
+    manifest: true,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),

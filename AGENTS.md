@@ -60,10 +60,13 @@
 
 - `scripts/generate-static-pages.mjs`의 `renderMarkdown`·`renderInline`이 마크다운을 HTML로 바꾸고, `prerenderArticle`·`prerenderList`가 그 결과를 `<div id="root">` 안에 넣는다. 앱이 뜨면 `src/insights.tsx`가 `container.innerHTML = ""`로 지우고 React가 같은 화면을 다시 그린다.
 - **`src/app/components/MarkdownContent.tsx`를 고치면 `renderMarkdown`도 같이 고친다.** 두 렌더러의 출력은 바이트 단위로 같아야 한다. 이스케이프 방식(작은따옴표를 `&#x27;`로)까지 React의 `renderToStaticMarkup`에 맞춰 두었다.
-- 확인 방법: `MarkdownContent.tsx`를 esbuild로 번들해 `renderToStaticMarkup`으로 그린 결과와 `renderMarkdown` 결과를 13글 × 3언어에 대해 문자열 비교한다. 차이가 나도 되는 것은 아래 두 가지뿐이고, 비교 전에 React 쪽에서 지우고 맞춘다.
-  - `<p class="markdown-image-block"></p>` (React는 빈 문단을 남기고 빌드 렌더러는 블록을 통째로 뺀다)
-  - `<p class="markdown-image-caption">…</p>` (빌드 렌더러는 캡션도 뺀다)
-- **본문 이미지와 그 캡션은 프리렌더에서 뺀다.** Vite가 이미지를 `/assets/` 해시 경로로 옮기므로 마크다운의 상대경로가 dist에서 깨진다. 대표 이미지 신호는 `og:image`와 `ImageObject`가 이미 담당한다. 사진을 빼면서 캡션만 남기면 글이 정체불명의 사진 설명으로 시작하므로 캡션도 함께 뺀다.
+- 확인 방법: `MarkdownContent.tsx`를 esbuild로 번들해 `renderToStaticMarkup`으로 그린 결과와 `renderMarkdown` 결과를 13글 × 3언어에 대해 문자열 비교한다. 차이가 나도 되는 것은 `<p class="markdown-image-block">…</p>` 하나뿐이고, 비교 전에 양쪽에서 지우고 맞춘다.
+- **본문 이미지는 분류에 따라 다르게 넣는다.**
+  - `샘튼-소식`: 실제 `<img src width height>`를 넣는다. 이 폴더의 사진은 전부 현장에서 직접 찍은 것이라 크롤러가 읽을 값어치가 있다. 주소는 `vite build`가 남긴 `dist/.vite/manifest.json`에서 찾아 React가 쓰는 해시 경로를 그대로 쓴다. 그래야 브라우저가 같은 사진을 두 번 받지 않는다. 스크립트가 manifest를 다 쓰면 `dist/.vite`를 지운다.
+  - 나머지 분류: 사진 대신 원본 비율만 맞춘 빈 상자(스켈레톤)를 넣는다. 삽화라 크롤러가 읽을 값어치는 없지만, 자리를 비워 두면 React가 사진을 끼워 넣을 때 본문이 아래로 밀린다. 스켈레톤을 넣으면 밀림이 0px이 된다.
+  - 분류를 바꾸려면 `generate-static-pages.mjs`의 `prerenderImageCategories`를 고친다.
+- 이미지 캡션은 그 사진(또는 스켈레톤)이 그려졌을 때만 남긴다. 사진 없이 캡션만 남으면 글이 정체불명의 사진 설명으로 시작한다.
+- 이미지 크기는 `imageSize()`가 파일 헤더에서 직접 읽는다. 빌드가 GitHub Actions(우분투)에서도 돌아야 하므로 `sips` 같은 macOS 전용 도구를 쓰지 않는다.
 - 프리렌더에는 나가는 링크가 최소 하나 있어야 한다. 게시물에는 목록으로 돌아가는 `insight-article__back` 링크를, 목록에는 글마다 `journal-card` 링크를 넣는다. 이게 없으면 JS를 실행하지 않는 크롤러에게 막다른 페이지가 된다. 목록은 `CollectionPage`의 `ItemList`와 같은 목록을 쓴다.
 - 프리렌더의 클래스는 `InsightsPage.tsx`의 실제 마크업과 같게 쓴다(`journal-card-grid`, `journal-card`, `insight-article__header` 등). 그래야 JS가 뜨기 전에도 이미 받아 둔 CSS가 그대로 적용되어 화면이 뭉개지지 않는다.
 - 빌드는 `dist`를 템플릿으로 삼으므로 `vite build` 없이 `generate-static-pages.mjs`만 두 번 돌릴 수 없다. 두 번째 실행은 `#root`가 비어 있지 않은 것을 보고 아무것도 쓰기 전에 멈춘다. 항상 `npm run build`로 실행한다.
