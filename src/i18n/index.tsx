@@ -389,7 +389,24 @@ const dictionaries: Record<Locale, Record<string, string>> = {
 
 export const translate = (locale: Locale, source: string) => dictionaries[locale][source] ?? source;
 
+// 언어를 주소 경로로 나타낸다. 한국어는 접두사 없이 루트를 쓰고, 나머지는 /en, /ja를 앞에 붙인다.
+// 검색엔진이 언어별 페이지를 따로 색인할 수 있도록 빌드가 경로마다 정적 HTML을 만든다.
+export const localePathPrefix = (locale: Locale) => (locale === "ko" ? "" : `/${locale}`);
+
+// "/en/insights/foo/" -> { locale: "en", path: "/insights/foo/" }
+export const splitLocalePath = (pathname: string): { locale: Locale; path: string } => {
+  const match = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
+  const candidate = match?.[1] as Locale | undefined;
+  if (candidate && candidate !== "ko" && supportedLocales.includes(candidate)) {
+    return { locale: candidate, path: match?.[2] || "/" };
+  }
+  return { locale: "ko", path: pathname };
+};
+
 const readLocale = (): Locale => {
+  const fromPath = splitLocalePath(window.location.pathname).locale;
+  if (fromPath !== "ko") return fromPath;
+  // 예전 ?lang= 주소로 들어온 경우를 위한 하위 호환. 아래 useLocale에서 경로 형식으로 정리한다.
   const parameter = new URLSearchParams(window.location.search).get("lang");
   if (supportedLocales.includes(parameter as Locale)) return parameter as Locale;
   const saved = window.localStorage.getItem("samton-locale");
@@ -399,9 +416,9 @@ const readLocale = (): Locale => {
 export const localizedHref = (href: string, locale: Locale) => {
   if (!href.startsWith("/")) return href;
   const url = new URL(href, window.location.origin);
-  if (locale === "ko") url.searchParams.delete("lang");
-  else url.searchParams.set("lang", locale);
-  return `${url.pathname}${url.search}${url.hash}`;
+  url.searchParams.delete("lang");
+  const { path } = splitLocalePath(url.pathname);
+  return `${localePathPrefix(locale)}${path}${url.search}${url.hash}`;
 };
 
 export function useLocale() {
@@ -412,11 +429,23 @@ export function useLocale() {
     window.localStorage.setItem("samton-locale", locale);
   }, [locale]);
 
+  // 주소를 현재 언어의 경로 형식으로 맞춘다. 예전 ?lang= 주소와
+  // 저장된 언어로 루트에 들어온 경우가 여기서 /en, /ja 경로로 정리된다.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("lang");
+    const { path } = splitLocalePath(url.pathname);
+    const expected = `${localePathPrefix(locale)}${path}${url.search}${url.hash}`;
+    if (expected !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      window.history.replaceState(null, "", expected);
+    }
+  }, [locale]);
+
   const setLocale = (nextLocale: Locale) => {
     const url = new URL(window.location.href);
-    if (nextLocale === "ko") url.searchParams.delete("lang");
-    else url.searchParams.set("lang", nextLocale);
-    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    url.searchParams.delete("lang");
+    const { path } = splitLocalePath(url.pathname);
+    window.history.replaceState(null, "", `${localePathPrefix(nextLocale)}${path}${url.search}${url.hash}`);
     setLocaleState(nextLocale);
   };
 

@@ -51,7 +51,7 @@ posts/
 
 새 글은 한국어 `index.md`만 만들지 않고 영어 `index.en.md`, 일본어 `index.ja.md`까지 한 세트로 작성합니다. 이후 한국어 제목, 요약이나 본문을 수정할 때도 같은 작업 안에서 영문·일문 번역본에 동일한 변경 내용을 반영해 세 언어의 구조와 의미를 동기화합니다.
 
-새 언어가 추가되면 `src/i18n/index.tsx`의 `supportedLocales`와 언어 정보를 추가하고, 같은 규칙으로 `index.{언어코드}.md` 파일을 만들면 됩니다. 번역본이 아직 없는 글은 해당 언어 화면에서 한국어 원문으로 자동 대체됩니다.
+새 언어가 추가되면 `src/i18n/index.tsx`의 `supportedLocales`와 언어 정보, `scripts/generate-static-pages.mjs`의 `locales`와 `localeMeta`, `vite.config.ts`의 `localizedRouteFallback` 정규식을 함께 고치고, 같은 규칙으로 `index.{언어코드}.md` 파일을 만들면 됩니다. 번역본이 아직 없는 글은 해당 언어 화면에서 한국어 원문으로 자동 대체됩니다.
 
 이미지는 해당 글의 `images` 폴더에 넣고 `index.md` 본문에서 다음처럼 불러옵니다.
 
@@ -67,6 +67,10 @@ posts/
 
 지원 형식은 PNG, JPG, JPEG, WebP, GIF, AVIF, SVG입니다. 이미지 파일도 사이트 빌드에 자동 포함됩니다.
 
-## 공유 미리보기(OG) 카드
+## 주소와 검색 노출
 
-게시물 상세 주소는 `/insights/<slug>/` 형식입니다. 빌드 시 `scripts/generate-insight-pages.mjs`가 글마다 이 주소의 정적 페이지를 만들어 `title`, `summary`, 본문 첫 이미지를 링크 공유 미리보기(Open Graph) 카드로 넣습니다. 본문에 이미지가 없으면 공용 샘튼 카드(`/og-image.png`)가 대신 사용됩니다. 별도의 태그 작업은 필요 없지만, 카카오톡에 이미 공유된 적 있는 주소는 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화해야 새 카드가 보입니다.
+게시물 상세 주소는 한국어가 `/insights/<slug>/`, 영어가 `/en/insights/<slug>/`, 일본어가 `/ja/insights/<slug>/` 형식입니다. 빌드 시 `scripts/generate-static-pages.mjs`가 언어마다 이 주소의 정적 페이지를 만들고, 그 언어 원고의 `title`과 `summary`를 제목·설명에 넣습니다. 번역본이 없는 언어는 한국어 원문을 그대로 씁니다.
+
+같은 작업에서 링크 공유 미리보기(Open Graph) 카드, JSON-LD 구조화 데이터, `canonical`, 언어별 `hreflang`, `sitemap.xml` 항목도 함께 만들어집니다. 대표 이미지는 본문 첫 이미지이고, 본문에 이미지가 없으면 공용 샘튼 카드(`/og-image.png`)가 대신 사용됩니다.
+
+**새 글을 쓸 때 태그나 주소를 손으로 만들 일은 없습니다.** frontmatter만 규칙대로 채우면 됩니다. 다만 카카오톡에 이미 공유된 적 있는 주소는 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화해야 새 카드가 보입니다.

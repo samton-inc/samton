@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "vite build && node scripts/generate-insight-pages.mjs",
+    "build": "vite build && node scripts/generate-static-pages.mjs",
     "dev": "vite",
     "preview": "vite preview"
   },

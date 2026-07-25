@@ -110,7 +110,7 @@ const contactItems = [
   {
     icon: MapPin,
     label: "주소",
-    value: "인천광역시 연수구 갯벌로 12, 미추홀캠퍼스 별관 A동 412호",
+    value: "인천광역시 연수구 갯벌로 12, 미추홀캠퍼스 별관 A동 401호",
     href: null,
   },
 ];
