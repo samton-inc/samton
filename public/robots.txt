@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samton.co.kr/sitemap.xml

@@ -25,3 +25,23 @@
 - 소식·인사이트 게시물은 빌드 시 `scripts/generate-insight-pages.mjs`가 게시물마다 `dist/insights/<slug>/index.html`을 생성해 그 글의 `title`, `summary`, 본문 첫 이미지를 OG 태그로 넣는다. 본문에 이미지가 없는 글은 공용 `/og-image.png`로 자동 폴백한다. 새 게시물은 frontmatter만 규칙대로 채우면 되고 OG 태그를 손으로 만들지 않는다.
 - 게시물 상세 링크는 `/insights/<slug>/` 경로 형식을 사용한다. 예전 `/insights/?article=<slug>` 쿼리 형식은 하위 호환용으로만 남아 있으므로 새 링크에는 쓰지 않는다.
 - 미리보기 관련 변경을 배포한 뒤 카카오톡에 이전 카드가 계속 보이면 카카오 공유 디버거(https://developers.kakao.com/tool/debugger/sharing)에서 해당 URL의 캐시를 초기화한다.
+
+## 구조화 데이터(스키마 마크업) 규칙
+
+검색엔진과 AI 크롤러가 읽는 JSON-LD 구조화 데이터를 **모든 페이지마다** 넣는다. 스키마 없는 URL이 배포되면 안 된다.
+
+- **새 소식·인사이트 게시물**: 빌드 시 `scripts/generate-insight-pages.mjs`가 글마다 `Organization` + `WebSite` + `WebPage` + `ImageObject` + `BreadcrumbList` + `Article`(또는 `NewsArticle`) 그래프를 자동으로 넣는다. frontmatter의 `slug`, `title`, `summary`, `date`, 분류 폴더명, 본문 첫 이미지를 그대로 쓰므로 **스키마를 손으로 만들지 않는다.** frontmatter만 규칙대로 채우면 된다.
+  - `date`는 `2026.07.15` 형식이어야 하며 빌드가 ISO 8601(`2026-07-15`)로 바꿔 `datePublished`·`dateModified`에 넣는다. 형식이 틀리면 빌드가 실패한다.
+  - `샘튼-소식` 분류의 글은 `NewsArticle`, 나머지 분류는 `Article`로 자동 분기된다. 분류를 추가하면 `generate-insight-pages.mjs`의 `categoryLabels`에 표기를 등록하고, 회사 활동 소식이면 `newsCategories`에도 넣는다.
+- **새 정적 HTML 엔트리**(`vite.config.ts`의 `build.rollupOptions.input`에 항목이 늘어날 때): 그 HTML의 `<head>`에 `<link rel="canonical">`과 `<script type="application/ld+json">` 블록을 손으로 넣는다. 기존 `index.html`처럼 `@graph` 안에서 `Organization`(`@id`: `https://samton.co.kr/#organization`)과 `WebSite`(`@id`: `https://samton.co.kr/#website`)를 참조하고, 그 페이지에 맞는 `WebPage`/`CollectionPage`와 `BreadcrumbList`를 더한다.
+- **회사 정보(상호, 주소, 전화, 이메일, 로고)가 바뀌면** `index.html`, `insights/index.html`, `scripts/generate-insight-pages.mjs`의 `organizationNode` **세 곳을 함께 고친다.** 같은 `@id`를 쓰는 노드라 한 곳만 고치면 값이 어긋난다.
+- `insights/index.html`은 게시물 페이지의 템플릿이다. 이 파일의 `<link rel="canonical">`이나 `ld+json` 블록을 지우면 게시물 생성이 실패하도록 되어 있으니 태그 자체는 유지한다.
+- 배포 후에는 [리치 결과 테스트](https://search.google.com/test/rich-results)와 [스키마 검증기](https://validator.schema.org/)로 대표 URL을 한 번 확인한다.
+
+## 색인(sitemap·robots·canonical) 규칙
+
+- `dist/sitemap.xml`은 빌드 때 `scripts/generate-insight-pages.mjs`가 홈, `/insights/`, 게시물 상세를 최신 글 순으로 자동 생성한다. 새 게시물은 자동 반영되므로 손대지 않는다.
+- **새 정적 HTML 엔트리를 추가하면** `generate-insight-pages.mjs`의 `sitemapEntries` 목록에도 그 주소를 직접 추가한다. 이 목록은 자동 수집이 아니다.
+- `public/robots.txt`는 전체 허용에 사이트맵 주소를 알린다. AI 검색 노출을 위해 크롤러를 임의로 차단하지 않는다.
+- 모든 페이지에 `<link rel="canonical">`을 절대 URL로 넣는다. 게시물 페이지는 빌드가 `/insights/<slug>/`로 자동 채운다.
+- 다국어는 현재 `?lang=en`, `?lang=ja` 쿼리로 클라이언트에서 전환한다. 정적 호스팅(GitHub Pages)에서는 쿼리별로 다른 HTML을 줄 수 없어 `hreflang`을 정확히 넣을 수 없으므로 **일부러 넣지 않았다.** 언어별 검색 노출이 필요해지면 `?lang=` 대신 `/en/`, `/ja/` 경로 방식으로 옮긴 뒤 `hreflang`과 언어별 canonical을 함께 넣는다.
