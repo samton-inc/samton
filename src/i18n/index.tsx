@@ -21,7 +21,7 @@ const english: Record<string, string> = {
   "주요 메뉴": "Main navigation",
   "고객과 파트너": "Clients and partners",
   "순환하는 고객과 파트너 로고": "Rotating client and partner logos",
-  "크레딧 발급까지, End-to-End": "From raw data to carbon credit issuance—end to end",
+  "크레딧 발급까지, End-to-End": "From raw data to carbon credit issuance - end to end",
   "탄소 데이터 시스템을 구축합니다.": "We build carbon data systems.",
   "탄소 데이터의 수집과 산정부터 보고·검증(DMRV)까지, 기업의 현장과 업무에 맞는 하나의 시스템으로 설계합니다. 모든 결과의 근거를 확인할 수 있고 변화에도 유연하게 확장됩니다.": "From carbon-data collection and calculation to reporting and verification (DMRV), we design one system around your operations and workflows. Every result remains traceable to its evidence, and the system expands flexibly as requirements change.",
   "구축 사례 보기": "See How It Works",
@@ -501,8 +501,9 @@ export function LanguageSwitcher({
         onClick={() => setOpen((current) => !current)}
         ref={triggerRef}
       >
-        {variant === "header" && <Languages size={15} strokeWidth={1.8} aria-hidden="true" />}
-        <span>{localeMeta[locale].label}</span>
+        <Languages size={15} strokeWidth={1.8} aria-hidden="true" />
+        <span className="language-switcher__label">Language</span>
+        <span className="language-switcher__current">{localeMeta[locale].label}</span>
         <ChevronDown className={open ? "is-open" : ""} size={14} strokeWidth={1.8} aria-hidden="true" />
       </button>
 
