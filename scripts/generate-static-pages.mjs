@@ -733,6 +733,16 @@ for (const locale of locales) {
 }
 
 // 사이트맵: 언어별 주소를 각각 한 줄씩 넣고, 줄마다 나머지 언어판을 대체 주소로 붙인다.
+// 게시물 사진이 이미지 검색에 잡히도록 이미지 사이트맵 확장(image:loc)도 붙인다.
+// 본문에 실제로 그려지는 사진(해시 경로)을 우선하고, 스켈레톤 분류는 대표 이미지로 대신한다.
+const articleImageUrls = (article) => {
+  const bodyImages = Object.values(article.images ?? {})
+    .filter((image) => image.url)
+    .map((image) => `${siteOrigin}${image.url}`);
+  if (bodyImages.length > 0) return [...new Set(bodyImages)];
+  return article.imagePath ? [article.imageUrl] : [];
+};
+
 const latestDate = articles.reduce((latest, article) => (article.date > latest ? article.date : latest), "");
 const sitemapPaths = [
   { pagePath: "/", priority: "1.0", changefreq: "monthly" },
@@ -742,6 +752,7 @@ const sitemapPaths = [
     priority: "0.6",
     changefreq: "monthly",
     lastmod: article.date,
+    images: articleImageUrls(article),
   })),
 ];
 const sitemapUrls = sitemapPaths.flatMap((entry) =>
@@ -757,6 +768,9 @@ const sitemapUrls = sitemapPaths.flatMap((entry) =>
       ...(entry.lastmod ? [`    <lastmod>${entry.lastmod}</lastmod>`] : []),
       `    <changefreq>${entry.changefreq}</changefreq>`,
       `    <priority>${entry.priority}</priority>`,
+      ...(entry.images ?? []).map(
+        (imageUrl) => `    <image:image><image:loc>${escapeXml(imageUrl)}</image:loc></image:image>`,
+      ),
       "  </url>",
     ].join("\n"),
   ),
@@ -765,7 +779,7 @@ writeFileSync(
   path.join(distDir, "sitemap.xml"),
   [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     ...sitemapUrls,
     "</urlset>",
     "",
