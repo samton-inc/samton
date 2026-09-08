@@ -10,6 +10,7 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderHome } from "./render-home.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const postsDir = path.join(root, "src", "content", "insights", "posts");
@@ -591,6 +592,33 @@ for (const article of articles) {
   article.images = articleImages(article.dir, { skeleton: !prerenderImageCategories.has(article.category) });
 }
 
+// 홈은 마크다운이 아니라 React 컴포넌트라 renderMarkdown으로 그릴 수 없다.
+// App.tsx를 그대로 서버 렌더해 JS를 실행하지 않는 크롤러도 회사 소개와
+// 내부 링크를 읽을 수 있게 한다. 자세한 내용은 scripts/render-home.mjs 참고.
+const inlineMimeTypes = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".webp": "image/webp",
+  ".avif": "image/avif",
+};
+const assetUrlFor = (absolutePath) => {
+  const key = path.relative(root, absolutePath).split(path.sep).join("/");
+  const built = assetManifest[key]?.file;
+  if (built) return `/${built}`;
+  // vite는 4KB 미만 파일을 번들에 data URI로 넣으므로 manifest에 남지 않는다.
+  // 프리렌더도 같은 그림을 넣어야 화면과 어긋나지 않는다.
+  const mime = inlineMimeTypes[path.extname(absolutePath).toLowerCase()];
+  if (!mime || !existsSync(absolutePath)) {
+    console.error(`generate-static-pages: 홈 이미지를 찾지 못했습니다 -> ${key}`);
+    process.exit(1);
+  }
+  return `data:${mime};base64,${readFileSync(absolutePath).toString("base64")}`;
+};
+const homeHtml = await renderHome({ projectRoot: root, locales, siteOrigin, assetUrlFor });
+
 let pageCount = 0;
 for (const locale of locales) {
   const meta = localeMeta[locale];
@@ -605,6 +633,7 @@ for (const locale of locales) {
     imageUrl: `${siteOrigin}/og-image.png`,
     ogType: "website",
     keepImageSize: true,
+    prerender: homeHtml[locale],
     graph: {
       "@context": "https://schema.org",
       "@graph": [

@@ -17,4 +17,5 @@
 - 게시물은 `scripts/generate-static-pages.mjs`가 빌드 때 언어별로 자동 처리하므로 손으로 만들지 않는다. 새 정적 HTML 엔트리만 직접 넣는다.
 - 언어는 주소 경로로 구분한다. 한국어는 루트(`/insights/<slug>/`), 영어·일본어는 `/en`, `/ja` 접두사를 쓴다. 내부 링크는 `localizedHref`, 주소 파싱은 `splitLocalePath`를 거친다.
 - 빌드가 본문을 정적 HTML로 프리렌더해 `<div id="root">`에 넣는다. `MarkdownContent.tsx`를 고치면 `generate-static-pages.mjs`의 `renderMarkdown`도 같이 고쳐 출력이 일치하게 유지한다.
+- 홈은 `scripts/render-home.mjs`가 `App.tsx`를 서버 렌더해 넣는다. 홈에 애니메이션 라이브러리를 새로 쓰면 그 스크립트의 `motion/react` 대체 모듈에도 같이 넣는다.
 - **새 사진은 HDR 게인맵을 제거한 뒤에 넣는다.** 게인맵이 남으면 HDR 화면에서 그 사진만 밝게 튄다. 확인은 JPEG 안 SOI 마커(`FF D8`) 개수가 2 이상인지 보고, 제거는 `sips -s format jpeg -s formatOptions 95 <파일> --out /tmp/out.jpg && mv /tmp/out.jpg <파일>`. `MPF` 문자열 grep은 오탐이 나므로 쓰지 않는다. 자세한 절차는 AGENTS.md의 「사진 규칙」.

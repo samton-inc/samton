@@ -70,7 +70,11 @@
 - 프리렌더에는 나가는 링크가 최소 하나 있어야 한다. 게시물에는 목록으로 돌아가는 `insight-article__back` 링크를, 목록에는 글마다 `journal-card` 링크를 넣는다. 이게 없으면 JS를 실행하지 않는 크롤러에게 막다른 페이지가 된다. 목록은 `CollectionPage`의 `ItemList`와 같은 목록을 쓴다.
 - 프리렌더의 클래스는 `InsightsPage.tsx`의 실제 마크업과 같게 쓴다(`journal-card-grid`, `journal-card`, `insight-article__header` 등). 그래야 JS가 뜨기 전에도 이미 받아 둔 CSS가 그대로 적용되어 화면이 뭉개지지 않는다.
 - 빌드는 `dist`를 템플릿으로 삼으므로 `vite build` 없이 `generate-static-pages.mjs`만 두 번 돌릴 수 없다. 두 번째 실행은 `#root`가 비어 있지 않은 것을 보고 아무것도 쓰기 전에 멈춘다. 항상 `npm run build`로 실행한다.
-- 홈(`index.html`)에는 프리렌더가 없다. 홈 내용은 마크다운이 아니라 `App.tsx`의 React 컴포넌트라 같은 방식으로 그릴 수 없다. 홈까지 필요해지면 별도 작업으로 다룬다.
+- **홈은 `scripts/render-home.mjs`가 `App.tsx`를 그대로 서버 렌더해 넣는다.** 홈 내용은 마크다운이 아니라 React 컴포넌트라 `renderMarkdown`으로 그릴 수 없다. 그래서 esbuild로 `App.tsx`를 묶고 `renderToStaticMarkup`으로 실제 React의 출력을 받아 `<div id="root">`에 넣는다. 손으로 옮겨 적지 않으므로 화면과 프리렌더가 어긋나지 않는다.
+  - 서버 렌더에서 세 가지를 바꿔 끼운다. `motion/react`는 애니메이션 **시작** 상태(`opacity: 0` 등)가 정적 HTML에 남으면 크롤러에게 감춘 내용이 되므로, 최종 상태와 같은 맨 요소로 그리는 대체 모듈을 쓴다. CSS는 빈 모듈로 대체한다. 이미지는 manifest의 해시 주소를 쓰고, vite가 인라인한 4KB 미만 파일은 같은 그림을 data URI로 넣는다.
+  - `App.tsx`는 그리는 도중에 `window.location`과 `localStorage`를 읽는다(`readLocale`, `localizedHref`). `installBrowserGlobals`가 이 둘을 채우고 `?lang=`으로 언어를 정한다. `useEffect`는 `renderToStaticMarkup`에서 실행되지 않으므로 나머지는 채울 필요가 없다.
+  - **홈에 애니메이션 라이브러리를 새로 쓰거나 `motion/react`의 새 export를 쓰면 `render-home.mjs`의 대체 모듈에도 같이 넣는다.** 빠뜨리면 빌드가 그 지점에서 멈춘다.
+  - `src/main.tsx`는 `insights.tsx`와 같게 `container.innerHTML = ""`로 프리렌더를 지운 뒤 React를 올린다.
 - 프리렌더 내용은 화면에 실제로 그려지는 것과 같아야 한다. `hidden`이나 `display:none`으로 감추지 않는다.
 
 ## 사진 규칙
