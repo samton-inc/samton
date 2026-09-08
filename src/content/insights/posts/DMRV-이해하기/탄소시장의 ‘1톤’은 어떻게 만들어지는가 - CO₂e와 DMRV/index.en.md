@@ -34,7 +34,7 @@ Measurement data are therefore the **starting point for facts**, a methodology i
 
 Carbon dioxide is not the only greenhouse gas. Methane, nitrous oxide, and refrigerant gases differ in both their warming effect and how long they remain in the atmosphere.
 
-The **Global Warming Potential (GWP)** is used to compare these different gases in a single unit. It converts the climate effect of a greenhouse gas over a defined period into CO₂e by comparing it with carbon dioxide. The IPCC likewise explains CO₂-equivalent emissions as emissions of each greenhouse gas multiplied by its GWP for the relevant time horizon. [IPCC glossary](https://archive.ipcc.ch/publications_and_data/ar4/wg1/en/annexessglossary-e-o.html)
+The **Global Warming Potential (GWP)** is used to compare these different gases in a single unit. It converts the climate effect of a greenhouse gas over a defined period into CO₂e by comparing it with carbon dioxide. The IPCC likewise explains CO₂-equivalent emissions as emissions of each greenhouse gas multiplied by its GWP for the relevant time horizon. [IPCC glossary](https://apps.ipcc.ch/glossary/)
 
 Even when a project reduces methane emissions in the field, that value does not immediately become a quantity of carbon credits. The methane must first be monitored and converted into CO₂e using the applicable methodology and GWP value.
 

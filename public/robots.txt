@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://samton.co.kr/sitemap.xml
+Sitemap: https://samton.co.kr/feed.xml
+Sitemap: https://samton.co.kr/en/feed.xml
+Sitemap: https://samton.co.kr/ja/feed.xml

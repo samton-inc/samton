@@ -18,6 +18,6 @@ During its visit to Kenya, Samton met with the **Global Green Growth Institute (
 
 Samton introduced the Samton-DMRV PoC it is preparing for a solar mini-grid in Samburu, northern Kenya. The team also shared its plan to connect field data on electricity generation and use with measurable emissions-reduction outcomes, while improving energy access and supporting sustainable operation in the community.
 
-The discussion also covered local conditions and practical considerations for applying DMRV to green-growth and development-cooperation projects in Kenya.
+The discussion also covered local conditions and practical considerations for applying DMRV to green-growth and development-cooperation projects in Kenya. For the basic structure of DMRV and how field data becomes a verifiable mitigation outcome, see [What Is DMRV?](/insights/what-is-dmrv/). For how projects that begin with public development finance connect to carbon markets, see [Where ODA and Carbon Credits Converge](/insights/oda-and-carbon-credit/).
 
 This visit was an exchange of views intended to learn from local experience and perspectives, rather than a meeting for a formal agreement. Building on the discussion, Samton will continue refining a DMRV demonstration model suited to Samburu's environment and project structure.

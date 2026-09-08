@@ -22,6 +22,8 @@ const websiteId = `${siteOrigin}/#website`;
 const locales = ["ko", "en", "ja"];
 const localePrefix = (locale) => (locale === "ko" ? "" : `/${locale}`);
 const absoluteUrl = (locale, pagePath) => `${siteOrigin}${localePrefix(locale)}${pagePath}`;
+// RSS 피드는 언어마다 하나씩 두고 주소 규칙은 다른 페이지와 같게 접두사를 쓴다.
+const feedUrl = (locale) => absoluteUrl(locale, "/feed.xml");
 const outputPath = (locale, pagePath) =>
   path.join(distDir, localePrefix(locale).slice(1), pagePath.slice(1), "index.html");
 
@@ -550,7 +552,9 @@ const renderPage = ({ template, locale, pagePath, title, description, imageUrl, 
   page = fillAttr(page, /(<meta name="twitter:image" content=")[^"]*(")/, imageUrl);
   page = page.replace(
     canonicalPattern,
-    () => `<link rel="canonical" href="${canonicalUrl}" />\n    ${alternateLinks(pagePath)}`,
+    () =>
+      `<link rel="canonical" href="${canonicalUrl}" />\n    ${alternateLinks(pagePath)}\n    ` +
+      `<link rel="alternate" type="application/rss+xml" title="${escapeHtml(localeMeta[locale].insights.title)}" href="${feedUrl(locale)}" />`,
   );
   page = page.replace(jsonLdPattern, () => renderJsonLd(graph));
   if (prerender) {
@@ -785,6 +789,63 @@ writeFileSync(
     "",
   ].join("\n"),
 );
+
+// RSS 피드: 최신 글부터 담아 언어마다 /feed.xml에 쓴다.
+// 사이트맵은 주소가 전부 들어간 무거운 파일이라 검색엔진이 가끔 읽지만,
+// 피드는 최근 글만 담긴 가벼운 파일이라 더 자주 읽는다. 새 글 발견이 그만큼 빨라진다.
+// 네이버 서치어드바이저도 RSS를 따로 받으므로 국내 색인에도 쓰인다.
+const feedItemLimit = 20;
+
+// RSS 2.0은 RFC 822 형식을 요구한다. 빌드가 우분투에서도 돌아야 하므로
+// 실행 환경의 로캘·시간대에 기대지 않고 직접 조립한다. 날짜는 KST 자정으로 본다.
+const rfc822Date = (isoDate) => {
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const value = new Date(`${isoDate}T00:00:00Z`);
+  if (Number.isNaN(value.getTime())) throw new Error(`피드 날짜를 읽을 수 없습니다: ${isoDate}`);
+  const day = dayNames[value.getUTCDay()];
+  const date = String(value.getUTCDate()).padStart(2, "0");
+  const month = monthNames[value.getUTCMonth()];
+  return `${day}, ${date} ${month} ${value.getUTCFullYear()} 00:00:00 +0900`;
+};
+
+const feedItems = articles.slice(0, feedItemLimit);
+for (const locale of locales) {
+  const meta = localeMeta[locale];
+  const items = feedItems.map((article) => {
+    const localized = article.byLocale[locale];
+    const url = absoluteUrl(locale, `/insights/${article.slug}/`);
+    return [
+      "    <item>",
+      `      <title>${escapeXml(localized.title)}</title>`,
+      `      <link>${escapeXml(url)}</link>`,
+      `      <guid isPermaLink="true">${escapeXml(url)}</guid>`,
+      `      <pubDate>${rfc822Date(article.date)}</pubDate>`,
+      `      <description>${escapeXml(localized.summary)}</description>`,
+      `      <category>${escapeXml(categoryLabels[article.category] ?? article.category)}</category>`,
+      `      <media:content url="${escapeXml(article.imageUrl)}" medium="image" />`,
+      "    </item>",
+    ].join("\n");
+  });
+  const feed = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">',
+    "  <channel>",
+    `    <title>${escapeXml(meta.insights.title)}</title>`,
+    `    <link>${escapeXml(absoluteUrl(locale, "/insights/"))}</link>`,
+    `    <description>${escapeXml(meta.insights.description)}</description>`,
+    `    <language>${meta.htmlLang}</language>`,
+    ...(feedItems.length > 0 ? [`    <lastBuildDate>${rfc822Date(feedItems[0].date)}</lastBuildDate>`] : []),
+    `    <atom:link href="${escapeXml(feedUrl(locale))}" rel="self" type="application/rss+xml" />`,
+    ...items,
+    "  </channel>",
+    "</rss>",
+    "",
+  ].join("\n");
+  const feedTarget = path.join(distDir, localePrefix(locale).slice(1), "feed.xml");
+  mkdirSync(path.dirname(feedTarget), { recursive: true });
+  writeFileSync(feedTarget, feed);
+}
 
 // 빌드 도구 정보이므로 배포본에 남기지 않는다.
 if (existsSync(path.join(distDir, ".vite"))) rmSync(path.join(distDir, ".vite"), { recursive: true, force: true });

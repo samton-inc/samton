@@ -32,7 +32,7 @@ By designing an architecture capable of handling millions of data records per da
 
 ## Turning field data into trusted carbon information
 
-The feature shows that Samton’s MRV is more than a carbon calculation tool. Carbon data can support reduction decisions, disclosure, and carbon credit issuance only when field data is collected, calculated under the appropriate rules, and retained in a form that can be reviewed and verified.
+The feature shows that Samton’s MRV is more than a carbon calculation tool. Carbon data can support reduction decisions, disclosure, and carbon credit issuance only when field data is collected, calculated under the appropriate rules, and retained in a form that can be reviewed and verified. For how this process is connected digitally, see [What Is DMRV?](/insights/what-is-dmrv/). For how the resulting data becomes an issued credit, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/).
 
 With mobility MRV and emissions-reduction DMRV as its two pillars, Samton will continue building the infrastructure that helps companies and project developers understand and use their carbon data with greater confidence.
 

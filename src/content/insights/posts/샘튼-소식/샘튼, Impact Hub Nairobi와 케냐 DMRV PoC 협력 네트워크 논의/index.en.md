@@ -20,7 +20,7 @@ The meeting covered Samton's plan to demonstrate DMRV for a solar mini-grid in S
 
 ## The network required for local implementation
 
-The Samton-DMRV PoC will directly meter electricity generation and consumption from a solar mini-grid and connect those measurements to carbon-reduction calculations and verifiable monitoring data. Reliable local operation requires more than software. It also requires implementation partners capable of equipment procurement, construction, maintenance and community support.
+The Samton-DMRV PoC will directly meter electricity generation and consumption from a solar mini-grid and connect those measurements to carbon-reduction calculations and verifiable monitoring data. For how metered data becomes a verifiable mitigation outcome, see [What Is DMRV?](/insights/what-is-dmrv/). For how that outcome becomes a carbon credit, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/). Reliable local operation requires more than software. It also requires implementation partners capable of equipment procurement, construction, maintenance and community support.
 
 It is particularly important to identify solar and mini-grid operators suited to conditions in Lesuruwa and to establish a collaboration model that can expand to neighboring areas after the PoC. Through this meeting, Samton reviewed the technical and operational capabilities of local companies and discussed how they could connect with Samton-DMRV.
 

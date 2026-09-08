@@ -24,7 +24,7 @@ A credit can therefore carry several labels because each answers a different que
 
 ## Standards, labels and ratings are different
 
-- A **standard or crediting program**—such as Verra VCS, Gold Standard, ACR, CAR or GCC—operates methodologies, verification and registry procedures and issues the underlying credit.
+- A **standard or crediting program**, such as Verra VCS, Gold Standard, ACR, CAR or GCC, operates methodologies, verification and registry procedures and issues the underlying credit.
 - A **label or tag** is displayed in a registry to show that an issued credit meets additional criteria or can be used in a particular market.
 - A **rating or score** is an opinion from a separate ratings provider that analyzes project risk and quality. It is not the program's issuance decision or a regulator's eligibility approval.
 

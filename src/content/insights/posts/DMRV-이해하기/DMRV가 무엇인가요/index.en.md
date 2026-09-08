@@ -18,7 +18,7 @@ Companies already generate enormous amounts of data. Electricity and fuel consum
 
 The existence of data alone does not lead to carbon-credit issuance or turn it into a carbon asset. A company must be able to explain which equipment produced the data and when, which baseline and methodology were applied, whether values changed during calculation, and whether an independent verifier can reproduce the result.
 
-The system that connects this process in a digital environment is **DMRV—Digital Monitoring, Reporting and Verification**.
+The system that connects this process in a digital environment is **DMRV - Digital Monitoring, Reporting and Verification**.
 
 > **DMRV is a digital MRV framework that turns field data into evidence of mitigation and keeps that evidence traceable through reporting, verification and issuance.**
 
@@ -131,7 +131,7 @@ Issuance is not the end. Registries record the project, vintage, issuance batch,
 
 Quality labels such as CCP, CORSIA eligibility, host-country LOAs and Article 6 authorization may then be added. Field reductions, issued credits and nationally authorized quantities must correspond accurately to prevent double issuance and use.
 
-DMRV should not stop at sensor collection. The full connection—**field → calculation → verification → issuance → label → national authorization → transfer and retirement**—matters.
+DMRV should not stop at sensor collection. The full connection matters: **field → calculation → verification → issuance → label → national authorization → transfer and retirement**.
 
 ## What does Samton-DMRV connect?
 

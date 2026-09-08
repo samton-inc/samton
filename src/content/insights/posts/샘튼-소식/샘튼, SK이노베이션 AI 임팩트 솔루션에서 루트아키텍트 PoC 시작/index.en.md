@@ -35,7 +35,7 @@ The goal is to apply the same optimization structure not only to regularly sched
 
 ## Measure, reduce and verify again
 
-Route Architect does not end with an AI-recommended route. It establishes a baseline from pre-operation data, applies optimized dispatch and routes to real vehicles, and then uses **Samton-DMRV** to determine how fuel consumption and carbon emissions changed after operation.
+Route Architect does not end with an AI-recommended route. It establishes a baseline from pre-operation data, applies optimized dispatch and routes to real vehicles, and then uses **Samton-DMRV** to determine how fuel consumption and carbon emissions changed after operation. For the structure that links measurement and verification digitally, see [What Is DMRV?](/insights/what-is-dmrv/).
 
 > By linking measurement, optimization and verification in one flow, reductions are demonstrated with data rather than asserted.
 
@@ -50,6 +50,8 @@ Verification results are fed back into the AI model as training data. As field d
 The PoC is planned across two different operating environments. Samton expects to secure actual operating data and verify AI-based dispatch and route optimization on three to five commuter-bus routes operated by partner **Swiss Tour** and two to three vehicles from **HAID**, Healbeing Care's mobility service for passengers with limited mobility.
 
 In July, the team will select target routes and define baselines. In August, it will train the AI model and develop an engine prototype. From September, the system will be applied to real vehicles, followed by verification of reductions and model refinement through Samton-DMRV in October. Fuel use, empty mileage, dispatch waiting time and carbon reductions are the principal metrics for the demonstration.
+
+For how the CO₂e unit used to count reductions is produced, see [How One Tonne Is Made: CO₂e and DMRV](/insights/one-ton-is-a-measured-result/).
 
 The figures currently presented are targets to be tested through the PoC, not achieved results. Samton will compare conditions before and after optimization using data collected from real vehicles and identify the specific conditions under which reductions occur.
 

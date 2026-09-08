@@ -82,7 +82,7 @@ The World Bank designed the carbon revenue to flow back into a fund supporting f
 
 ## What is ASCENT?
 
-ASCENT—Accelerating Sustainable and Clean Energy Access Transformation—is a World Bank program to expand electricity and clean-cooking access across Eastern and Southern Africa.
+ASCENT (Accelerating Sustainable and Clean Energy Access Transformation) is a World Bank program to expand electricity and clean-cooking access across Eastern and Southern Africa.
 
 Across more than 20 countries, it aims to:
 
@@ -124,7 +124,7 @@ If 10,000 households receive clean-cooking appliances, the project must determin
 - How much did greenhouse-gas emissions fall as a result?
 - Are the calculation method and source evidence reliable?
 
-DMRV collects this information digitally and connects it with calculation and verification.
+DMRV collects this information digitally and connects it with calculation and verification. For the underlying structure, see [What Is DMRV?](/insights/what-is-dmrv/).
 
 In a program such as ASCENT, with equipment dispersed across many countries, repeated manual site visits are impractical. DMRV manages equipment data, calculations and evidence in one place, lowering survey costs while making the basis of each credit easier to review.
 
@@ -149,6 +149,8 @@ Carbon-credit revenue is not a simple substitute for limited ODA budgets. It is 
 ## From a supported project to a sustainable mitigation project
 
 The meeting point between ODA and carbon credits is not merely a way to raise more money.
+
+For the basic concept of a carbon credit, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/). For the standards bodies that run issuance rules, see [Carbon Credit Standards: Their History and Role](/insights/carbon-credit-standards/).
 
 ODA builds equipment, institutions and local capacity. Carbon credits verify the project's mitigation outcomes and connect them with new revenue. Reinvesting that revenue in maintenance and further deployment increases the likelihood that the project continues after the support period.
 

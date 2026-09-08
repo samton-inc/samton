@@ -20,7 +20,7 @@ During the visit, Samton signed an MOU with local NGO **Serving Hands Society**.
 
 ## A PoC that begins with the local community
 
-Samton's proposed project will install a solar mini-grid in an underserved area of Samburu County and use Samton-DMRV to directly measure and verify electricity generation and consumption data. Rather than stopping at equipment installation, the project aims to verify the full process through which field data becomes evidence of carbon reductions and supports carbon-credit issuance.
+Samton's proposed project will install a solar mini-grid in an underserved area of Samburu County and use Samton-DMRV to directly measure and verify electricity generation and consumption data. Rather than stopping at equipment installation, the project aims to verify the full process through which field data becomes evidence of carbon reductions and supports carbon-credit issuance. For how DMRV links that chain, see [What Is DMRV?](/insights/what-is-dmrv/). For how credits are issued, see [What Is a Carbon Credit?](/insights/what-is-carbon-credit/).
 
 The field survey compared candidate sites including Namayiana, Kiltamani, Lesuruwa and Lerata A based on electricity demand, land, accessibility, communications and community cooperation. **Lesuruwa**, home to approximately 200 households and covered by the Safaricom network, was selected as the PoC site.
 
@@ -54,4 +54,4 @@ The PoC aims to supply electricity to 50 households and more than 100 people thr
 
 Samton and its local partners will next detail beneficiary agreements, baseline surveys and the process for free, prior and informed consent. They will also prepare local operator training and a data-collection framework so the community can sustain the equipment and operational capacity after the demonstration.
 
-The MOU and community consent mark the first step toward applying Samton-DMRV in a real development-cooperation setting. Drawing on data and partnership experience from Lesuruwa, Samton will develop a verifiable model that connects improved electricity access with carbon finance.
+The MOU and community consent mark the first step toward applying Samton-DMRV in a real development-cooperation setting. Drawing on data and partnership experience from Lesuruwa, Samton will develop a verifiable model that connects improved electricity access with carbon finance. For where development cooperation and carbon markets meet, see [Where ODA and Carbon Credits Converge](/insights/oda-and-carbon-credit/).

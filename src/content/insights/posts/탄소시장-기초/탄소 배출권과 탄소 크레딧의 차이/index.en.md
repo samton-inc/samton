@@ -52,7 +52,7 @@ Carbon credits are often known as voluntary offsets purchased by companies. Toda
 
 The clearest example is ICAO's Carbon Offsetting and Reduction Scheme for International Aviation (CORSIA). Airlines must cancel **CORSIA Eligible Emissions Units** equal to their final offsetting requirements as calculated by their states. These units do not merely fill a shortage of another allowance; they directly satisfy an obligation under an international aviation regime.
 
-Not every credit is eligible. The ICAO Council assesses programs for their design and environmental and social integrity, and only units satisfying detailed requirements—including phase, vintage and host-country authorization—may be used. ICAO's April 2026 information distinguishes the programs and conditions applicable in the 2024–2026 first phase and beyond. [ICAO CORSIA Eligible Emissions Units](https://www.icao.int/CORSIA/corsia-eligible-emissions-units)
+Not every credit is eligible. The ICAO Council assesses programs for their design and environmental and social integrity, and only units satisfying detailed requirements, including phase, vintage and host-country authorization, may be used. ICAO's April 2026 information distinguishes the programs and conditions applicable in the 2024-2026 first phase and beyond. [ICAO CORSIA Eligible Emissions Units](https://www.icao.int/CORSIA/corsia-eligible-emissions-units)
 
 Under Paris Agreement Article 6, countries can also transfer authorized mitigation outcomes for use toward another country's nationally determined contribution (NDC). Authorization, reporting and corresponding adjustments are essential to prevent both countries from claiming the same reduction.
 
@@ -109,7 +109,7 @@ Before asking whether a carbon credit is cheaper than an allowance, a company sh
 
 - Will it be used for CORSIA, national compliance, net-zero neutralization or additional climate action?
 - Does it meet the relevant program's requirements for standard, methodology, country and vintage?
-- Is the reduction additional—would it have occurred without the project?
+- Is the reduction additional? Would it have occurred without the project?
 - Will the reduction or removal endure long enough?
 - Is host-country authorization or Article 6 accounting required?
 - Can the source data, calculation process and independent verification be reviewed?

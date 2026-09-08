@@ -118,4 +118,7 @@
 - `dist/sitemap.xml`은 빌드 때 `scripts/generate-static-pages.mjs`가 언어 × (홈, `/insights/`, 게시물 상세)를 최신 글 순으로 자동 생성한다. 각 주소마다 `xhtml:link`로 다른 언어판을 대체 주소로 붙인다. 새 게시물은 자동 반영되므로 손대지 않는다.
 - **새 정적 HTML 엔트리를 추가하면** `generate-static-pages.mjs`의 `sitemapPaths` 목록에도 그 경로를 직접 추가한다. 이 목록은 자동 수집이 아니다.
 - `public/robots.txt`는 전체 허용에 사이트맵 주소를 알린다. AI 검색 노출을 위해 크롤러를 임의로 차단하지 않는다.
+- **RSS 피드**는 빌드 때 언어마다 `dist/feed.xml`, `dist/en/feed.xml`, `dist/ja/feed.xml`로 자동 생성된다. 최신 글부터 최대 20편을 담는다. 사이트맵은 주소가 전부 든 무거운 파일이라 검색엔진이 가끔 읽지만, 피드는 최근 글만 담겨 더 자주 읽힌다. 새 글 발견이 그만큼 빨라지고 네이버 서치어드바이저도 RSS를 따로 받는다. 새 게시물은 자동 반영되므로 손대지 않는다.
+- 피드 주소는 `robots.txt`의 `Sitemap:` 줄과 모든 페이지 `<head>`의 `<link rel="alternate" type="application/rss+xml">`로 알린다. `generate-static-pages.mjs`의 `feedUrl`이 주소를 만든다.
+- 피드 날짜는 RSS 2.0이 요구하는 RFC 822 형식이다. 빌드가 우분투에서도 돌아야 하므로 `rfc822Date`가 실행 환경의 로캘·시간대에 기대지 않고 직접 조립한다.
 - 모든 페이지에 `<link rel="canonical">`(자기 언어 주소)과 `ko`·`en`·`ja`·`x-default` `hreflang`을 절대 URL로 넣는다. `x-default`는 한국어를 가리킨다. 빌드가 자동으로 채우므로 손으로 넣지 않는다.

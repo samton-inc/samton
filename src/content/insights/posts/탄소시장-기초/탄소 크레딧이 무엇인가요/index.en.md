@@ -26,7 +26,7 @@ The roots of carbon credits reach back to the UN Framework Convention on Climate
 
 The Kyoto Protocol set legally binding reduction targets for developed countries and established market mechanisms: international emissions trading, Joint Implementation (JI) and the Clean Development Mechanism (CDM). The aim was to direct finance to places where reductions could be achieved and recognize those outcomes in common units. [UNFCCC Kyoto Protocol](https://unfccc.int/process-and-meetings/the-kyoto-protocol)
 
-The CDM in particular allowed developed countries to participate in mitigation projects in developing countries and receive Certified Emission Reductions (CERs) for verified results. One CER represented one tonne of CO₂. The basic structure used today—project registration, approved methodology, demonstration of additionality, monitoring, verification and issuance—became established internationally through this process. [UNFCCC Clean Development Mechanism](https://unfccc.int/process-and-meetings/the-kyoto-protocol/mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism)
+The CDM in particular allowed developed countries to participate in mitigation projects in developing countries and receive Certified Emission Reductions (CERs) for verified results. One CER represented one tonne of CO₂. The basic structure used today (project registration, approved methodology, demonstration of additionality, monitoring, verification and issuance) became established internationally through this process. [UNFCCC Clean Development Mechanism](https://unfccc.int/process-and-meetings/the-kyoto-protocol/mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism)
 
 Carbon credits were therefore never merely eco-friendly certificates. They developed as **a policy instrument that measures mitigation outcomes, converts them into verifiable units and connects international cooperation with climate finance**.
 
@@ -52,7 +52,7 @@ The Article 6.4 mechanism is building an international framework for methodologi
 
 Take a project that captures and treats methane from a landfill. Installing methane-recovery equipment alone does not immediately produce credits.
 
-The project first determines the baseline quantity of methane that would have been released without the project. It must show that the activity creates additional mitigation beyond common practice or legal requirements. It then collects field data—such as recovered methane volume and concentration and equipment operating hours—under an approved methodology and calculates actual reductions.
+The project first determines the baseline quantity of methane that would have been released without the project. It must show that the activity creates additional mitigation beyond common practice or legal requirements. It then collects field data, such as recovered methane volume and concentration and equipment operating hours, under an approved methodology and calculates actual reductions.
 
 This requires MRV:
 
@@ -72,7 +72,7 @@ First, after the Paris Agreement, carbon credits are more closely connected to n
 
 Second, carbon credits are a climate-finance instrument. Renewable-energy, methane-reduction, forest-protection and carbon-removal projects that require large upfront investment or lack conventional commercial viability can secure additional finance through credit revenue. Credit purchases should complement, not replace, direct reductions by companies and countries.
 
-Third, eligible carbon credits play an expanding role in sector-specific regulation such as international aviation. ICAO's CORSIA is a global market-based measure for international aviation emissions. Airlines cannot use just any credit; units must meet detailed conditions concerning approved programs, vintages, project scope and host-country attestation. Rules also define the units eligible for the 2024–2026 first phase. [ICAO CORSIA](https://www.icao.int/CORSIA) · [ICAO Eligible Emissions Units for 2024–2026](https://www.icao.int/sites/default/files/environmental-protection/CORSIA/TAB/2026/Programme-Eligibility-Summary-Table-Apr2026.pdf)
+Third, eligible carbon credits play an expanding role in sector-specific regulation such as international aviation. ICAO's CORSIA is a global market-based measure for international aviation emissions. Airlines cannot use just any credit; units must meet detailed conditions concerning approved programs, vintages, project scope and host-country attestation. Rules also define the units eligible for the 2024-2026 first phase. [ICAO CORSIA](https://www.icao.int/CORSIA) · [ICAO Eligible Emissions Units for 2024-2026](https://www.icao.int/sites/default/files/environmental-protection/CORSIA/TAB/2026/Programme-Eligibility-Summary-Table-Apr2026.pdf)
 
 The increasing importance of carbon credits therefore means more than higher trading volume. As credits connect with national targets, sectoral regulation and corporate climate strategies, **demonstrating policy- and regulation-aligned quality** becomes more important.
 
@@ -80,7 +80,7 @@ The increasing importance of carbon credits therefore means more than higher tra
 
 Not every credit has the same quality or value. The conditions behind the stated tonne matter as much as the number itself.
 
-- Is the reduction additional—would it not have occurred without the project?
+- Is the reduction additional? Would it not have occurred without the project?
 - Are the baseline and calculation methodology sound?
 - Can source data and supporting evidence be reviewed?
 - Did an independent body verify the result?
