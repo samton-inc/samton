@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  ArrowLeft,
   ArrowRight,
-  BookOpen,
   Calculator,
   CheckCircle2,
   Cpu,
   Database,
+  Download,
+  ExternalLink,
   FileCheck2,
-  FileText,
   Menu,
   Network,
-  Newspaper,
   Scale,
   ShieldCheck,
   Workflow,
@@ -18,12 +18,8 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { LanguageSwitcher, localizedHref, translate, useLocale, type Locale } from "@/i18n";
+import { getInsightArticles } from "@/content/insights/registry";
 import logo from "@/assets/Samton_logo_with_text.png";
-import carbonBasicsImage from "@/assets/insights/carbon-basics-industrial.jpg";
-import dmrvUnderstandingImage from "@/assets/insights/dmrv-understanding.jpg";
-import reportsImage from "@/assets/insights/reports-desk.jpg";
-import samtonNewsImage from "@/assets/insights/samton-news-embassy.jpg";
-import techPeopleImage from "@/assets/insights/tech-people-field.jpg";
 import cnttechLogo from "@/assets/partners/cnttech.png";
 import haidLogo from "@/assets/partners/haid.svg";
 import healbeingCareLogo from "@/assets/partners/healbeing-care.jpg";
@@ -39,6 +35,25 @@ import petelLogo from "@/assets/partners/petel.png";
 import servingHandsLogo from "@/assets/partners/serving-hands-logo.jpg";
 import swissTourLogo from "@/assets/partners/swiss-tour.jpg";
 import yeonsuSymbolLogo from "@/assets/partners/yeonsu-symbol.gif";
+
+const downloadableResources = [
+  {
+    id: "samton-dmrv-introduction-ko",
+    category: "회사·솔루션 소개",
+    title: "샘튼 및 Samton-DMRV 소개",
+    description: "샘튼의 사업과 현장 데이터를 산정·보고·검증으로 연결하는 Samton-DMRV를 소개합니다.",
+    size: "5.2 MB",
+    filename: "샘튼 및 Samton-DMRV 소개.pdf",
+  },
+  {
+    id: "carbon-market-starter-guide-ko",
+    category: "탄소시장 입문",
+    title: "탄소시장 입문 가이드",
+    description: "배출권과 크레딧의 차이부터 발행 과정, MRV와 국제 탄소시장의 기본 개념을 살펴봅니다.",
+    size: "0.7 MB",
+    filename: "탄소시장 입문 가이드_샘튼.pdf",
+  },
+] as const;
 
 const partnerLogos = [
   { name: "Kakao Mobility", logo: kakaoMobilityLogo, kind: "wide" },
@@ -200,58 +215,24 @@ const carbonAssetOutputs = [
   onlyWithoutTrust?: boolean;
 }>;
 
-const insightCategories = [
-  {
-    type: "DMRV",
-    title: "DMRV 이해하기",
-    description: "현장 데이터가 검증 가능한 탄소 데이터와 자산으로 이어지는 과정을 설명합니다.",
-    tone: "blue",
-    href: "/insights/#dmrv",
-    icon: Database,
-    image: dmrvUnderstandingImage,
-    imageAlt: "태양광 발전 현장의 데이터 계측 장비와 모니터링 화면",
-  },
-  {
-    type: "CARBON BASICS",
-    title: "탄소시장 기초",
-    description: "탄소크레딧과 배출권, 표준과 국제 규칙 등 탄소시장의 구조를 쉽게 설명합니다.",
-    tone: "cyan",
-    href: "/insights/#carbon",
-    icon: BookOpen,
-    image: carbonBasicsImage,
-    imageAlt: "연기를 배출하는 산업 시설과 굴뚝",
-  },
-  {
-    type: "SAMTON NEWS",
-    title: "샘튼 소식",
-    description: "협약, 프로젝트, 출장과 행사, 새로운 시스템 업데이트를 전합니다.",
-    tone: "green",
-    href: "/insights/#news",
-    icon: Newspaper,
-    image: samtonNewsImage,
-    imageAlt: "주케냐 대한민국 대사관에서 진행한 샘튼 현장 미팅",
-  },
-  {
-    type: "REPORTS",
-    title: "리포트",
-    description: "탄소시장의 규모·가격·발급량과 규제 동향 등 최신 정량 데이터를 분석합니다.",
-    tone: "orange",
-    href: "/insights/#reports",
-    icon: FileText,
-    image: reportsImage,
-    imageAlt: "책상 위의 보고서와 문서를 검토하는 모습",
-  },
-  {
-    type: "TECH & PEOPLE",
-    title: "기술·조직 이야기",
-    description: "샘튼의 시스템을 만드는 기술과 설계 과정, 사람들의 이야기를 담습니다.",
-    tone: "purple",
-    href: "/insights/#technology",
-    icon: Cpu,
-    image: techPeopleImage,
-    imageAlt: "케냐 현장에서 관계자들과 논의하는 샘튼 기술 조직",
-  },
+// 홈에서 소개할 게시물 순서. 내용과 번역은 게시물 원고에서 가져온다.
+const homepageInsightSlugs = [
+  "samton-korea-vcm-ecosystem-event",
+  "samton-kenya-embassy-dmrv-discussion",
+  "what-is-carbon-credit",
+  "samton-sk-innovation-ai-impact-route-architect-poc",
+  "what-is-dmrv",
+  "samton-featured-in-hankyung-job-and-joy",
+  "samton-serving-hands-samburu-dmrv-poc",
 ];
+
+const insightCategoryLabels = {
+  dmrv: "DMRV 이해하기",
+  carbon: "탄소시장 기초",
+  news: "샘튼 소식",
+  reports: "리포트",
+  technology: "기술·조직 이야기",
+};
 
 function SectionLabel({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return <div className={`section-label${light ? " section-label--light" : ""}`}>{children}</div>;
@@ -569,6 +550,44 @@ function EngineModal({
 
 export default function App() {
   const { locale, setLocale, tr } = useLocale();
+  const homepageInsights = useMemo(() => {
+    const articles = getInsightArticles(locale);
+    return homepageInsightSlugs.flatMap((slug) => {
+      const article = articles.find((item) => item.slug === slug);
+      return article ? [article] : [];
+    });
+  }, [locale]);
+  const insightTrackRef = useRef<HTMLDivElement>(null);
+  const [insightScroll, setInsightScroll] = useState({ previous: false, next: true });
+
+  useEffect(() => {
+    const track = insightTrackRef.current;
+    if (!track) return;
+    const updateScroll = () => setInsightScroll({
+      previous: track.scrollLeft > 2,
+      next: track.scrollLeft + track.clientWidth < track.scrollWidth - 2,
+    });
+    const observer = new ResizeObserver(updateScroll);
+    observer.observe(track);
+    track.addEventListener("scroll", updateScroll, { passive: true });
+    updateScroll();
+    return () => {
+      observer.disconnect();
+      track.removeEventListener("scroll", updateScroll);
+    };
+  }, [locale]);
+
+  const scrollInsights = (direction: number) => {
+    const track = insightTrackRef.current;
+    const card = track?.firstElementChild;
+    if (!track || !card) return;
+    const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+    track.scrollBy({
+      left: direction * step,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    });
+  };
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedEngineId, setSelectedEngineId] = useState<EngineId | null>(null);
   const selectedEngine = selectedEngineId
@@ -702,10 +721,120 @@ export default function App() {
           </motion.div>
         </section>
 
+        <section className="news section" id="news">
+          <div className="section-heading section-heading--split">
+            <div>
+              <SectionLabel>01 · NEWS & INSIGHTS</SectionLabel>
+              <h2>{tr("샘튼의 활동과 생각을")}<ResponsiveBreak locale={locale} />{tr("전합니다.")}</h2>
+            </div>
+            <div className="news__intro">
+              <p>{tr("현장의 협력 소식부터 탄소시장과 DMRV에 대한 인사이트까지 만나보세요.")}</p>
+              <a href={localizedHref("/insights/", locale)}>{tr("전체 소식·인사이트 보기")} <ArrowRight size={16} /></a>
+            </div>
+          </div>
+          <div className={`home-insight-carousel${insightScroll.next ? " has-more" : ""}`}>
+            <div className="home-insight-track" id="home-insight-track" ref={insightTrackRef} role="region" aria-label={tr("주요 게시물")} tabIndex={0}>
+              {homepageInsights.map((article) => (
+                <a className="journal-card home-insight-card" href={localizedHref(`/insights/${article.slug}/`, locale)} key={article.slug}>
+                  <div className={`journal-card-visual journal-card-visual--${article.category}${article.thumbnail ? " has-thumbnail" : ""}`}>
+                    {article.thumbnail && <img src={article.thumbnail} alt={article.thumbnailAlt ?? article.title} loading="lazy" />}
+                    <span>{article.type}</span>
+                  </div>
+                  <div className="journal-card__copy">
+                    <div className="journal-card-meta">
+                      <span>{tr(insightCategoryLabels[article.category])}</span>
+                      <time dateTime={article.date.replace(/\./g, "-")}>{article.date}</time>
+                    </div>
+                    <h3>{article.title}</h3>
+                    <p>{article.summary}</p>
+                    <span className="home-insight-card__link">{tr("자세히 보기")} <ArrowRight size={16} aria-hidden="true" /></span>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <button className="home-insight-nav home-insight-nav--previous" type="button" onClick={() => scrollInsights(-1)} disabled={!insightScroll.previous} aria-label={tr("이전 게시물 보기")} aria-controls="home-insight-track">
+              <ArrowLeft size={22} aria-hidden="true" />
+            </button>
+            <button className="home-insight-nav home-insight-nav--next" type="button" onClick={() => scrollInsights(1)} disabled={!insightScroll.next} aria-label={tr("다음 게시물 보기")} aria-controls="home-insight-track">
+              <ArrowRight size={22} aria-hidden="true" />
+            </button>
+          </div>
+        </section>
+
+        <section className="company section" id="company">
+          <div className="section-heading">
+            <SectionLabel>02 · WHO WE ARE</SectionLabel>
+            <h2>{tr("소프트웨어를 넘어,")}<ResponsiveBreak locale={locale} /><em>{tr("데이터 자산화")}</em>{tr("를 지원합니다.")}</h2>
+          </div>
+          <div className="company__content">
+            <div className="company__statement">
+              <p>{tr("주식회사 샘튼은 환경·탄소·모빌리티 데이터의 수집부터 검증, 산정과 보고까지 연결하는 B2B 데이터 기술기업입니다.")}</p>
+              <p>{tr("고객에게는 하나의 완성된 맞춤형 시스템을 제공합니다. 그 내부에는 현장과 프로젝트에서 검증된 기술 엔진이 작동해 새로운 데이터와 규제, 업무 기능을 유연하게 확장할 수 있습니다.")}</p>
+              <a className="company-download" href={localizedHref(`/downloads/${downloadableResources[0].id}.pdf`, "ko")} download={downloadableResources[0].filename}>
+                {tr("회사소개서 다운로드")} <Download size={16} aria-hidden="true" />
+                <small>{tr("한국어 PDF")}</small>
+              </a>
+            </div>
+            <div className="trust-formula">
+              <div className="trust-formula__title">DATA TRUST FORMULA</div>
+              <div className="trust-formula__row"><span>01</span><b>{tr("출처를 확인할 수 있는 데이터")}</b><CheckCircle2 /></div>
+              <div className="trust-formula__row"><span>02</span><b>{tr("검증과 처리 과정이 남는 데이터")}</b><CheckCircle2 /></div>
+              <div className="trust-formula__row"><span>03</span><b>{tr("산정 기준과 결과를 설명할 수 있는 데이터")}</b><CheckCircle2 /></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="engines section" id="engines">
+          <div className="section-heading section-heading--split">
+            <div>
+              <SectionLabel>03 · TECHNOLOGY ENGINES</SectionLabel>
+              <h2>{tr("하나의 맞춤형 시스템을")}<ResponsiveBreak locale={locale} />{tr("구성하는 ")}<em>{tr("검증된 소프트웨어 엔진")}</em></h2>
+            </div>
+            <p>{tr("엔진은 별개의 제품이 아닙니다. 고객의 데이터와 업무에 맞춘 하나의 시스템 안에서 필요한 역할을 수행하며, 확장성과 데이터 공신력을 함께 만듭니다.")}</p>
+          </div>
+          <div className="engine-grid">
+            {engines.map((engine, index) => {
+              const Icon = engine.icon;
+              return (
+                <motion.button
+                  type="button"
+                  className="engine-card"
+                  key={engine.id}
+                  aria-haspopup="dialog"
+                  aria-label={`${tr(engine.name)} ${tr("자세히 보기")}`}
+                  onClick={() => setSelectedEngineId(engine.id)}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: (index % 5) * 0.05, duration: 0.45 }}
+                >
+                  <div className="engine-card__top"><span>{String(index + 1).padStart(2, "0")}</span><Icon size={34} strokeWidth={1.6} /></div>
+                  <h3>{tr(engine.name)}</h3>
+                  <p>{tr(engine.description)}</p>
+                  <div className="engine-card__proof" aria-label={`${tr(engine.name)} ${tr("지원 범위")}`}>
+                    {engine.tags.map((tag) => <b key={tag}>{tr(tag)}</b>)}
+                  </div>
+                  <span className="engine-card__more">{tr("자세히 보기")} <ArrowRight size={14} /></span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="projects section" id="projects">
+          <div className="section-heading section-heading--light">
+            <SectionLabel light>04 · SAMTON DMRV ARCHITECTURE</SectionLabel>
+            <h2>{tr("필요한 엔진을 조립해 만드는,")}<ResponsiveBreak locale={locale} /><em>{tr("하나의 Samton DMRV")}</em></h2>
+            <p>{tr("고정된 데이터 기반 위에 사업과 목적에 필요한 방법론·탄소 산정 엔진과 규제 엔진을 복수로 조합해 맞춤형 DMRV를 구성합니다.")}</p>
+          </div>
+
+          <DmrvConfigurator locale={locale} />
+        </section>
+
         <section className="partner-showcase" aria-label={tr("고객과 파트너")}>
           <div className="partner-showcase__heading">
             <div>
-              <SectionLabel>CLIENTS & PARTNERS</SectionLabel>
+              <SectionLabel>05 · CLIENTS & PARTNERS</SectionLabel>
               <h2>{tr("신뢰로 함께하는 고객과 파트너")}</h2>
             </div>
             <p>{tr("글로벌 완성차 기업부터 모빌리티·환경·공공기관까지, 다양한 산업의 데이터 과제를 함께 해결해 왔습니다.")}</p>
@@ -743,107 +872,43 @@ export default function App() {
           </div>
         </section>
 
-        <section className="company section" id="company">
+        <section className="resources section" id="resources" aria-labelledby="resources-title">
           <div className="section-heading">
-            <SectionLabel>01 · WHO WE ARE</SectionLabel>
-            <h2>{tr("소프트웨어를 넘어,")}<ResponsiveBreak locale={locale} /><em>{tr("데이터 자산화")}</em>{tr("를 지원합니다.")}</h2>
+            <SectionLabel>06 · RESOURCES</SectionLabel>
+            <h2 id="resources-title">{tr("자료 다운로드")}</h2>
           </div>
-          <div className="company__content">
-            <div className="company__statement">
-              <p>{tr("주식회사 샘튼은 환경·탄소·모빌리티 데이터의 수집부터 검증, 산정과 보고까지 연결하는 B2B 데이터 기술기업입니다.")}</p>
-              <p>{tr("고객에게는 하나의 완성된 맞춤형 시스템을 제공합니다. 그 내부에는 현장과 프로젝트에서 검증된 기술 엔진이 작동해 새로운 데이터와 규제, 업무 기능을 유연하게 확장할 수 있습니다.")}</p>
-            </div>
-            <div className="trust-formula">
-              <div className="trust-formula__title">DATA TRUST FORMULA</div>
-              <div className="trust-formula__row"><span>01</span><b>{tr("출처를 확인할 수 있는 데이터")}</b><CheckCircle2 /></div>
-              <div className="trust-formula__row"><span>02</span><b>{tr("검증과 처리 과정이 남는 데이터")}</b><CheckCircle2 /></div>
-              <div className="trust-formula__row"><span>03</span><b>{tr("산정 기준과 결과를 설명할 수 있는 데이터")}</b><CheckCircle2 /></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="engines section" id="engines">
-          <div className="section-heading section-heading--split">
-            <div>
-              <SectionLabel>02 · TECHNOLOGY ENGINES</SectionLabel>
-              <h2>{tr("하나의 맞춤형 시스템을")}<ResponsiveBreak locale={locale} />{tr("구성하는 ")}<em>{tr("검증된 소프트웨어 엔진")}</em></h2>
-            </div>
-            <p>{tr("엔진은 별개의 제품이 아닙니다. 고객의 데이터와 업무에 맞춘 하나의 시스템 안에서 필요한 역할을 수행하며, 확장성과 데이터 공신력을 함께 만듭니다.")}</p>
-          </div>
-          <div className="engine-grid">
-            {engines.map((engine, index) => {
-              const Icon = engine.icon;
+          <div className="resource-grid">
+            {downloadableResources.map((resource) => {
+              // 모든 언어에서 같은 한국어 원본 파일을 제공합니다.
+              const pdfHref = localizedHref(`/downloads/${resource.id}.pdf`, "ko");
               return (
-                <motion.button
-                  type="button"
-                  className="engine-card"
-                  key={engine.id}
-                  aria-haspopup="dialog"
-                  aria-label={`${tr(engine.name)} ${tr("자세히 보기")}`}
-                  onClick={() => setSelectedEngineId(engine.id)}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ delay: (index % 5) * 0.05, duration: 0.45 }}
-                >
-                  <div className="engine-card__top"><span>{String(index + 1).padStart(2, "0")}</span><Icon size={34} strokeWidth={1.6} /></div>
-                  <h3>{tr(engine.name)}</h3>
-                  <p>{tr(engine.description)}</p>
-                  <div className="engine-card__proof" aria-label={`${tr(engine.name)} ${tr("지원 범위")}`}>
-                    {engine.tags.map((tag) => <b key={tag}>{tr(tag)}</b>)}
+                <article className="resource-card" key={resource.id} aria-labelledby={`${resource.id}-title`}>
+                  <a className="resource-card__preview" href={pdfHref} target="_blank" rel="noopener noreferrer" aria-label={`${tr(resource.title)} · ${tr("미리보기 (새 탭)")}`}>
+                    <img src={`/downloads/${resource.id}.jpg`} width="1400" height="788" alt={tr(resource.title)} loading="lazy" />
+                  </a>
+                  <div className="resource-card__body">
+                    <h3 id={`${resource.id}-title`}>{tr(resource.title)}</h3>
+                    <p>{tr(resource.description)}</p>
+                    <div className="resource-card__meta">{tr("한국어 PDF")} · {tr("1페이지")} · {resource.size}</div>
+                    <div className="resource-card__actions">
+                      <a className="button button--primary" href={pdfHref} download={resource.filename} aria-label={`${tr(resource.title)} · ${tr("PDF 다운로드")}`}>
+                        {tr("PDF 다운로드")} <Download size={17} aria-hidden="true" />
+                      </a>
+                      <a className="resource-card__open" href={pdfHref} target="_blank" rel="noopener noreferrer" aria-label={`${tr(resource.title)} · ${tr("미리보기 (새 탭)")}`}>
+                        {tr("미리보기")} <ExternalLink size={15} aria-hidden="true" />
+                      </a>
+                    </div>
                   </div>
-                  <span className="engine-card__more">{tr("자세히 보기")} <ArrowRight size={14} /></span>
-                </motion.button>
+                </article>
               );
             })}
           </div>
         </section>
 
-        <section className="projects section" id="projects">
-          <div className="section-heading section-heading--light">
-            <SectionLabel light>03 · SAMTON DMRV ARCHITECTURE</SectionLabel>
-            <h2>{tr("필요한 엔진을 조립해 만드는,")}<ResponsiveBreak locale={locale} /><em>{tr("하나의 Samton DMRV")}</em></h2>
-            <p>{tr("고정된 데이터 기반 위에 사업과 목적에 필요한 방법론·탄소 산정 엔진과 규제 엔진을 복수로 조합해 맞춤형 DMRV를 구성합니다.")}</p>
-          </div>
-
-          <DmrvConfigurator locale={locale} />
-        </section>
-
-        <section className="news section" id="news">
-          <div className="section-heading section-heading--split">
-            <div>
-              <SectionLabel>04 · NEWS & INSIGHTS</SectionLabel>
-              <h2>{tr("샘튼의 기술과 현장을")}<ResponsiveBreak locale={locale} />{tr("더 깊이 살펴보세요.")}</h2>
-            </div>
-            <div className="news__intro">
-              <p>{tr("샘튼의 새로운 활동과 데이터·규제·탄소 기술에 대한 인사이트를 전합니다.")}</p>
-              <a href={localizedHref("/insights/", locale)}>{tr("전체 소식·인사이트 보기")} <ArrowRight size={16} /></a>
-            </div>
-          </div>
-          <div className="news-category-grid">
-            {insightCategories.map((category, index) => {
-              const Icon = category.icon;
-              return (
-                <a className={`news-category-card news-category-card--${category.tone}`} href={localizedHref(category.href, locale)} key={category.title}>
-                  <div className="news-category-card__image">
-                    <img src={category.image} alt={tr(category.imageAlt)} />
-                    <span>0{index + 1}</span>
-                  </div>
-                  <div className="news-category-card__body">
-                    <div className="news-category-card__top"><Icon size={22} strokeWidth={1.55} /><span>{category.type}</span></div>
-                    <h3>{tr(category.title)}</h3>
-                    <p>{tr(category.description)}</p>
-                    <span className="news-category-card__link">{tr("바로가기")} <ArrowRight size={15} /></span>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </section>
 
         <section className="contact" id="contact">
           <div>
-            <SectionLabel light>LET'S BUILD TRUSTED DATA</SectionLabel>
+            <SectionLabel light>07 · LET'S BUILD TRUSTED DATA</SectionLabel>
             <h2>{tr("우리 회사에 필요한")}<ResponsiveBreak locale={locale} />{tr("DMRV를 함께")}<ResponsiveBreak locale={locale} />{tr("설계해 보세요.")}</h2>
           </div>
           <div className="contact__action">
