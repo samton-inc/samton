@@ -13,6 +13,28 @@ const resolveImage = (source: string, images: Record<string, string>) => {
   return "";
 };
 
+const parseBookmark = (block: string) => {
+  const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+  const match = lines[0]?.match(/^::bookmark\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+  const image = lines[2]?.match(/^image:\s*(.+)$/)?.[1]?.trim() ?? "";
+  if (!match || lines.length > 3 || (lines.length === 3 && !image)) return null;
+
+  const href = safeHref(match[2]);
+  if (!href.startsWith("http")) return null;
+
+  try {
+    return {
+      title: match[1].trim(),
+      href,
+      meta: lines[1] ?? "",
+      image,
+      hostname: new URL(href).hostname.replace(/^www\./, ""),
+    };
+  } catch {
+    return null;
+  }
+};
+
 const renderInline = (text: string, images: Record<string, string>, locale: Locale): ReactNode[] => {
   const tokenPattern = /(\!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
 
@@ -53,6 +75,21 @@ export default function MarkdownContent({ markdown, title, images, locale }: { m
   return (
     <div className="markdown-content">
       {blocks.map((block, index) => {
+        const bookmark = parseBookmark(block);
+        if (bookmark) {
+          const bookmarkImage = bookmark.image ? resolveImage(bookmark.image, images) : "";
+          return (
+            <a className={`markdown-bookmark${bookmarkImage ? " has-thumbnail" : ""}`} href={bookmark.href} target="_blank" rel="noreferrer" key={index}>
+              <span className="markdown-bookmark__copy">
+                <span className="markdown-bookmark__title">{bookmark.title}</span>
+                {bookmark.meta && <span className="markdown-bookmark__meta">{bookmark.meta}</span>}
+                <span className="markdown-bookmark__url">{bookmark.hostname}</span>
+              </span>
+              {bookmarkImage && <span className="markdown-bookmark__visual" aria-hidden="true"><img src={bookmarkImage} alt="" /></span>}
+            </a>
+          );
+        }
+
         const heading = block.match(/^(#{1,3})\s+(.+)$/);
         if (heading) {
           const Heading = heading[1].length === 1 ? "h2" : heading[1].length === 2 ? "h3" : "h4";

@@ -12,7 +12,11 @@ published: true
 
 샘튼은 SK이노베이션이 주최하는 **AI 임팩트 솔루션**에 ‘루트아키텍트(Route Architect)’로 참여해 2026년 7월 14일 킥오프 부트캠프를 시작했습니다.
 
-[AI 임팩트 솔루션](https://skimpactai.com/)은 AI를 활용해 에너지와 사회문제를 해결하는 팀을 선발하고, PoC 개발과 전문가 멘토링, 사업화를 지원하는 프로그램입니다. 샘튼은 에너지 효율화와 탄소감축을 다루는 **Track A: AI for Energy**에서 실증을 추진합니다.
+AI 임팩트 솔루션은 AI를 활용해 에너지와 사회문제를 해결하는 팀을 선발하고, PoC 개발과 전문가 멘토링, 사업화를 지원하는 프로그램입니다. 샘튼은 에너지 효율화와 탄소감축을 다루는 **Track A: AI for Energy**에서 실증을 추진합니다.
+
+::bookmark[SK이노베이션 AI 임팩트 솔루션](https://skimpactai.com/)
+SK이노베이션 · 프로그램 공식 사이트
+image: images/route-architect-presentation-sdr.jpg
 
 ![SK이노베이션 AI 임팩트 솔루션에서 루트아키텍트를 발표하는 샘튼](images/route-architect-presentation-sdr.jpg)
 

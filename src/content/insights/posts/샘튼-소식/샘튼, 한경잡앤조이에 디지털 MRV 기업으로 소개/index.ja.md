@@ -36,4 +36,6 @@ Samtonは今回の支援事業を通じて、Kakao Mobilityと共同研究開発
 
 Samtonは、モビリティMRVと排出削減DMRVという二つの軸を通じて、企業や削減事業者が自らの炭素データをより正確に理解し、活用できる基盤を構築していきます。
 
-[Hankyung JOB&JOYの記事全文を見る](https://magazine.hankyung.com/job-joy/article/202607217920d)
+::bookmark[Hankyung JOB&JOYの記事全文を見る](https://magazine.hankyung.com/job-joy/article/202607217920d)
+Hankyung JOB&JOY · 2026.07.24
+image: images/samton-hankyung-job-and-joy.png

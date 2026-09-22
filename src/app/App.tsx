@@ -618,7 +618,7 @@ export default function App() {
 
   useEffect(() => {
     document.title = locale === "ko"
-      ? "샘튼 | 탄소 데이터 시스템"
+      ? "주식회사 샘튼"
       : locale === "ja"
         ? "Samton | 炭素データシステム"
         : "Samton | Carbon Data Systems";

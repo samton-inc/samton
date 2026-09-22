@@ -32,7 +32,7 @@ const localeMeta = {
     insightsName: "소식·인사이트",
     backToList: "소식·인사이트로 돌아가기",
     home: {
-      title: "Samton | 맞춤형 DMRV 데이터 기술기업",
+      title: "주식회사 샘튼",
       description: "검증된 데이터 기술로 기업에 맞는 DMRV 시스템을 구축하는 환경·탄소·데이터 기술기업, 주식회사 샘튼.",
     },
     insights: {
@@ -309,6 +309,28 @@ const escapeHtml = (value) =>
 
 const safeHref = (href) => (/^(https?:\/\/|mailto:|\/|#)/.test(href) ? href : "#");
 
+const parseBookmark = (block) => {
+  const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+  const match = lines[0]?.match(/^::bookmark\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+  const image = lines[2]?.match(/^image:\s*(.+)$/)?.[1]?.trim() ?? "";
+  if (!match || lines.length > 3 || (lines.length === 3 && !image)) return null;
+
+  const href = safeHref(match[2]);
+  if (!href.startsWith("http")) return null;
+
+  try {
+    return {
+      title: match[1].trim(),
+      href,
+      meta: lines[1] ?? "",
+      image,
+      hostname: new URL(href).hostname.replace(/^www\./, ""),
+    };
+  } catch {
+    return null;
+  }
+};
+
 // 이미지 크기를 파일 헤더에서 직접 읽는다. 빌드가 우분투(GitHub Actions)에서도
 // 돌아야 하므로 sips 같은 macOS 전용 도구를 쓰지 않는다.
 const imageSize = (file) => {
@@ -370,6 +392,13 @@ const renderImage = (source, alt, images) => {
   return `<img src="${escapeHtml(found.url)}" alt="${escapeHtml(alt)}" width="${found.width}" height="${found.height}">`;
 };
 
+const resolveBookmarkImage = (source, images) => {
+  const normalized = source.replace(/^\.\//, "");
+  if (images[normalized]?.url) return images[normalized].url;
+  if (/^(https?:\/\/|\/)/.test(source)) return source;
+  return "";
+};
+
 const renderInline = (text, locale, images) =>
   text
     .split(inlinePattern)
@@ -408,6 +437,21 @@ const renderMarkdown = (markdown, title, locale, images = {}) => {
 
   const html = [];
   blocks.forEach((block, index) => {
+    const bookmark = parseBookmark(block);
+    if (bookmark) {
+      const bookmarkImage = bookmark.image ? resolveBookmarkImage(bookmark.image, images) : "";
+      html.push(
+        `<a class="markdown-bookmark${bookmarkImage ? " has-thumbnail" : ""}" href="${escapeHtml(bookmark.href)}" target="_blank" rel="noreferrer">` +
+          '<span class="markdown-bookmark__copy">' +
+            `<span class="markdown-bookmark__title">${escapeHtml(bookmark.title)}</span>` +
+            (bookmark.meta ? `<span class="markdown-bookmark__meta">${escapeHtml(bookmark.meta)}</span>` : "") +
+            `<span class="markdown-bookmark__url">${escapeHtml(bookmark.hostname)}</span></span>` +
+          (bookmarkImage ? `<span class="markdown-bookmark__visual" aria-hidden="true"><img src="${escapeHtml(bookmarkImage)}" alt=""/></span>` : "") +
+          "</a>",
+      );
+      return;
+    }
+
     const heading = block.match(/^(#{1,3})\s+(.+)$/);
     if (heading) {
       const tag = heading[1].length === 1 ? "h2" : heading[1].length === 2 ? "h3" : "h4";

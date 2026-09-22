@@ -12,7 +12,11 @@ published: true
 
 Samton is participating in **AI Impact Solution**, hosted by SK Innovation, with its Route Architect project and began the kickoff boot camp on July 14, 2026.
 
-[AI Impact Solution](https://skimpactai.com/) selects teams that use AI to address energy and social challenges and supports them with PoC development, expert mentoring and commercialization. Samton will conduct its demonstration under **Track A: AI for Energy**, which focuses on energy efficiency and carbon reduction.
+AI Impact Solution selects teams that use AI to address energy and social challenges and supports them with PoC development, expert mentoring and commercialization. Samton will conduct its demonstration under **Track A: AI for Energy**, which focuses on energy efficiency and carbon reduction.
+
+::bookmark[SK Innovation AI Impact Solution](https://skimpactai.com/)
+SK Innovation · Official program website
+image: images/route-architect-presentation-sdr.jpg
 
 ![Samton presenting Route Architect at SK Innovation AI Impact Solution](images/route-architect-presentation-sdr.jpg)
 

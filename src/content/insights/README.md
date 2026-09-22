@@ -67,6 +67,14 @@ posts/
 
 지원 형식은 PNG, JPG, JPEG, WebP, GIF, AVIF, SVG입니다. 이미지 파일도 사이트 빌드에 자동 포함됩니다.
 
+외부 기사나 공식 자료는 다음 형식으로 북마크 카드를 만들 수 있습니다. 첫 줄에는 제목과 주소를, 둘째 줄에는 매체와 날짜를 적습니다. 셋째 줄에 `image:`와 이미지 경로를 적으면 카드 오른쪽에 썸네일이 표시됩니다.
+
+```md
+::bookmark[기사 또는 자료 제목](https://example.com/article)
+매체명 · 2026.09.02
+image: images/article-thumbnail.jpg
+```
+
 ## 주소와 검색 노출
 
 게시물 상세 주소는 한국어가 `/insights/<slug>/`, 영어가 `/en/insights/<slug>/`, 일본어가 `/ja/insights/<slug>/` 형식입니다. 빌드 시 `scripts/generate-static-pages.mjs`가 언어마다 이 주소의 정적 페이지를 만들고, 그 언어 원고의 `title`과 `summary`를 제목·설명에 넣습니다. 번역본이 없는 언어는 한국어 원문을 그대로 씁니다.

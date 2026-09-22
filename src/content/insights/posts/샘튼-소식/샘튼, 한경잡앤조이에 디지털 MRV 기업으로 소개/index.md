@@ -36,4 +36,6 @@ published: true
 
 샘튼은 모빌리티 MRV와 탄소감축 DMRV라는 두 축을 바탕으로, 기업과 감축 사업자가 자신의 탄소 데이터를 더 정확하게 이해하고 활용할 수 있는 기반을 만들어가겠습니다.
 
-[한경잡앤조이 기사 전문 보기](https://magazine.hankyung.com/job-joy/article/202607217920d)
+::bookmark[한경잡앤조이 기사 전문 보기](https://magazine.hankyung.com/job-joy/article/202607217920d)
+한경잡앤조이 · 2026.07.24
+image: images/samton-hankyung-job-and-joy.png

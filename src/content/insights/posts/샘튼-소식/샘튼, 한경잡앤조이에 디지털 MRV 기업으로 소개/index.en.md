@@ -36,4 +36,6 @@ The feature shows that Samton’s MRV is more than a carbon calculation tool. Ca
 
 With mobility MRV and emissions-reduction DMRV as its two pillars, Samton will continue building the infrastructure that helps companies and project developers understand and use their carbon data with greater confidence.
 
-[Read the full Hankyung JOB&JOY article](https://magazine.hankyung.com/job-joy/article/202607217920d)
+::bookmark[Read the full Hankyung JOB&JOY article](https://magazine.hankyung.com/job-joy/article/202607217920d)
+Hankyung JOB&JOY · 2026.07.24
+image: images/samton-hankyung-job-and-joy.png

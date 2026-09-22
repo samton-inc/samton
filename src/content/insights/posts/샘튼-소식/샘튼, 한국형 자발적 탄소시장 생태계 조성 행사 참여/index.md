@@ -10,13 +10,33 @@ published: true
 
 # 샘튼, 한국형 자발적 탄소시장 생태계 조성 행사 참여
 
-샘튼은 2026년 9월 2일 서울 대한상공회의소에서 열린 **한국형 자발적 탄소시장 생태계 조성 행사**에 참여했습니다. 현장에서 [글로벌 카본 카운슬(Global Carbon Council, GCC)](https://globalcarboncouncil.com/about/chairmans-message/)의 창립 의장인 유세프 모하메드 알호르 박사와 만나, 신뢰할 수 있는 탄소시장과 디지털 모니터링·보고·검증(DMRV)의 방향에 관해 이야기를 나눴습니다.
+샘튼은 2026년 9월 2일 서울 대한상공회의소에서 열린 **한국형 자발적 탄소시장 생태계 조성 행사**에 참여했습니다. 현장에서 글로벌 카본 카운슬(Global Carbon Council, GCC)의 창립 의장인 유세프 모하메드 알호르 박사와 만나, 신뢰할 수 있는 탄소시장과 디지털 모니터링·보고·검증(DMRV)의 방향에 관해 이야기를 나눴습니다.
 
 ![샘튼 심덕수 대표와 유세프 모하메드 알호르 GCC 창립 의장이 함께 촬영한 기념사진](images/samton-gcc-chairman-yousef-alhorr.jpg)
 
 *한국형 자발적 탄소시장 생태계 조성 행사에서 만난 샘튼 심덕수 대표와 유세프 모하메드 알호르 GCC 창립 의장*
 
-이날 기획예산처, 대한상공회의소와 GCC는 한국형 자발적 탄소시장(VCM)의 활성화와 국제시장 연계 기반 마련을 위한 업무협약을 체결했습니다. 세 기관은 탄소크레딧 인증 방법론과 등록부 운영 경험을 공유하고, 국내 감축실적의 국제적 활용과 국제 탄소시장 규범 대응을 위한 협력을 추진할 계획이라고 밝혔습니다. 자세한 내용은 [기획예산처 보도자료](https://admin.korea.kr/briefing/pressReleaseView.do?newsId=156777524&pWise=mSub&pWiseSub=C5)와 [아주경제 기사](https://www.ajunews.com/view/20260902105118151)에서 확인할 수 있습니다.
+이날 기획예산처, 대한상공회의소와 GCC는 한국형 자발적 탄소시장(VCM)의 활성화와 국제시장 연계 기반 마련을 위한 업무협약을 체결했습니다. 세 기관은 탄소크레딧 인증 방법론과 등록부 운영 경험을 공유하고, 국내 감축실적의 국제적 활용과 국제 탄소시장 규범 대응을 위한 협력을 추진할 계획이라고 밝혔습니다. 연합뉴스는 구체적인 협력 과제로 국제기준과의 정합성 강화, 표준·방법론 자문과 신규 방법론의 국제표준화, 디지털 MRV 및 레지스트리 연계 등이 제시됐다고 전했습니다. 관련 기사와 공식 자료는 아래에서 확인할 수 있습니다.
+
+![한국형 자발적 탄소시장 행사에서 발언하는 유세프 모하메드 알호르 GCC 창립 의장](images/gcc-chairman-vcm-event-address.jpg)
+
+*‘A Market Opened by Trust: Korea's VCM Meets Global Standards’ 행사에서 발언하는 유세프 모하메드 알호르 GCC 창립 의장*
+
+::bookmark[글로벌 카본 카운슬(GCC) 의장 소개](https://globalcarboncouncil.com/about/chairmans-message/)
+Global Carbon Council · 공식 의장 소개
+image: images/samton-gcc-chairman-yousef-alhorr.jpg
+
+::bookmark[자발적 탄소시장 생태계 확충을 위해 카타르 글로벌탄소위원회(GCC)와 협력 강화](https://admin.korea.kr/briefing/pressReleaseView.do?newsId=156777524&pWise=mSub&pWiseSub=C5)
+기획예산처 · 2026.09.02
+image: images/bookmark-mou-signing.jpg
+
+::bookmark[정부, GCC와 손잡고 자발적 탄소시장 키운다…최대 20만톤 크레딧 구매](https://www.ajunews.com/view/20260902105118151)
+아주경제 · 2026.09.02
+image: images/bookmark-ajunews-government.jpg
+
+::bookmark[상의·기획예산처·GCC, 한국형 자발적 탄소시장 글로벌 연계](https://www.yna.co.kr/view/AKR20260901168800003?input=kkt)
+연합뉴스 · 2026.09.02
+image: images/bookmark-mou-signing.jpg
 
 이번 행사의 핵심 화두는 **신뢰**였습니다. 탄소감축 성과가 시장에서 인정받으려면 적합한 방법론, 일관된 현장 데이터, 투명한 등록부와 독립적인 검증이 함께 작동해야 합니다. 디지털 MRV는 이 과정에서 현장 데이터를 빠짐없이 수집하고, 계산 근거와 변경 이력을 추적할 수 있게 하는 기반이 될 수 있습니다.
 
