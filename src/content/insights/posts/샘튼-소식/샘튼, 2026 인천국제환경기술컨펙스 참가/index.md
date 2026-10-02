@@ -2,7 +2,7 @@
 slug: samton-incheon-environmental-technology-confex-2026
 type: FIELD NOTE
 title: 샘튼, 2026 인천국제환경기술컨펙스 참가
-summary: 2026 인천국제환경기술컨펙스에 참가해 주한케냐대사 및 주한필리핀대사와 만났습니다. 케냐대사와는 케냐의 환경·에너지 사업과 DMRV 활용 방향에 관해 의견을 나눴습니다.
+summary: 2026 인천국제환경기술컨펙스에 참가해 주한케냐대사 및 주한필리핀대사와 만나 환경·에너지 사업과 DMRV 활용 방향에 관해 의견을 나눴습니다.
 date: "2026.09.04"
 featured: false
 thumbnail: images/samton-kenya-ambassador-emmy-kipsoi.jpg

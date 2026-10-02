@@ -2,7 +2,7 @@
 slug: samton-incheon-environmental-technology-confex-2026
 type: FIELD NOTE
 title: Samton、2026仁川国際環境技術コンフェックスに参加
-summary: 2026仁川国際環境技術コンフェックスに参加し、駐韓ケニア大使および駐韓フィリピン大使と会いました。ケニア大使とは、ケニアの環境・エネルギー事業とDMRVの活用の方向性について意見を交わしました。
+summary: 2026仁川国際環境技術コンフェックスに参加し、駐韓ケニア大使および駐韓フィリピン大使と会い、環境・エネルギー事業とDMRVの活用の方向性について意見を交わしました。
 date: "2026.09.04"
 featured: false
 thumbnail: images/samton-kenya-ambassador-emmy-kipsoi.jpg

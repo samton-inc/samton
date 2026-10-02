@@ -2,7 +2,7 @@
 slug: samton-incheon-environmental-technology-confex-2026
 type: FIELD NOTE
 title: Samton Attends the 2026 Incheon International Environmental Technology Confex
-summary: Samton attended the 2026 Incheon International Environmental Technology Confex and met the Kenyan and Philippine Ambassadors to the Republic of Korea. With the Kenyan Ambassador, Samton exchanged views on environmental and energy projects in Kenya and the potential use of DMRV.
+summary: Samton attended the 2026 Incheon International Environmental Technology Confex and met the Kenyan and Philippine Ambassadors to the Republic of Korea to exchange views on environmental and energy projects and the potential use of DMRV.
 date: "2026.09.04"
 featured: false
 thumbnail: images/samton-kenya-ambassador-emmy-kipsoi.jpg
