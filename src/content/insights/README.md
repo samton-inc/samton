@@ -63,7 +63,13 @@ posts/
 
 이미지 바로 다음 줄의 캡션은 `*기울임체*`로 작성합니다. 웹사이트에서는 모든 글의 이미지 캡션에 같은 크기, 색상과 기울임 스타일이 자동 적용됩니다.
 
-본문에 이미지가 있으면 가장 먼저 등장하는 이미지가 소식·인사이트 목록의 카드 썸네일로 자동 사용됩니다.
+기본적으로 본문에 가장 먼저 등장하는 이미지가 소식·인사이트 목록의 카드 썸네일로 사용됩니다. 본문 순서를 유지하면서 썸네일만 바꾸려면 세 언어의 frontmatter에 같은 `thumbnail` 경로를 추가합니다.
+
+```yaml
+thumbnail: images/samton-kenya-ambassador-emmy-kipsoi.jpg
+```
+
+`thumbnail`은 해당 글의 `images/` 폴더 안에 있는 파일이어야 합니다. 지정한 사진은 홈·목록 카드, 링크 공유 미리보기와 구조화 데이터의 대표 이미지에 함께 적용됩니다. 대체텍스트는 본문에 있는 같은 이미지의 언어별 설명을 사용하고, 본문에 없는 사진은 글 제목을 사용합니다. 파일이 없거나 언어별 경로가 다르면 빌드가 실패합니다.
 
 지원 형식은 PNG, JPG, JPEG, WebP, GIF, AVIF, SVG입니다. 이미지 파일도 사이트 빌드에 자동 포함됩니다.
 
@@ -79,6 +85,6 @@ image: images/article-thumbnail.jpg
 
 게시물 상세 주소는 한국어가 `/insights/<slug>/`, 영어가 `/en/insights/<slug>/`, 일본어가 `/ja/insights/<slug>/` 형식입니다. 빌드 시 `scripts/generate-static-pages.mjs`가 언어마다 이 주소의 정적 페이지를 만들고, 그 언어 원고의 `title`과 `summary`를 제목·설명에 넣습니다. 번역본이 없는 언어는 한국어 원문을 그대로 씁니다.
 
-같은 작업에서 링크 공유 미리보기(Open Graph) 카드, JSON-LD 구조화 데이터, `canonical`, 언어별 `hreflang`, `sitemap.xml` 항목도 함께 만들어집니다. 대표 이미지는 본문 첫 이미지이고, 본문에 이미지가 없으면 공용 샘튼 카드(`/og-image.png`)가 대신 사용됩니다.
+같은 작업에서 링크 공유 미리보기(Open Graph) 카드, JSON-LD 구조화 데이터, `canonical`, 언어별 `hreflang`, `sitemap.xml` 항목도 함께 만들어집니다. 대표 이미지는 `thumbnail`로 지정한 사진을 우선 사용하고, 지정하지 않으면 본문 첫 이미지를 사용합니다. 둘 다 없으면 공용 샘튼 카드(`/og-image.png`)가 대신 사용됩니다.
 
 **새 글을 쓸 때 태그나 주소를 손으로 만들 일은 없습니다.** frontmatter만 규칙대로 채우면 됩니다. 다만 카카오톡에 이미 공유된 적 있는 주소는 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화해야 새 카드가 보입니다.

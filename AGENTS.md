@@ -38,7 +38,7 @@
 새 URL(정적 HTML 엔트리)이나 새 게시물이 생길 때마다 링크 공유 미리보기용 Open Graph 메타 태그도 반드시 함께 만든다.
 
 - 새 정적 HTML 엔트리를 추가할 때(`vite.config.ts`의 `build.rollupOptions.input`에 항목이 늘어날 때)는 그 HTML의 `<head>`에 `og:type`, `og:site_name`, `og:title`, `og:description`, `og:url`, `og:image`, `og:locale`과 `twitter:card` 계열 태그를 기존 `index.html`과 같은 구성으로 넣는다. `og:url`과 `og:image`는 `https://samton.co.kr`로 시작하는 절대 URL만 사용한다. 공용 카드 이미지는 `public/og-image.png`(1.91:1)다.
-- 소식·인사이트 게시물은 빌드 시 `scripts/generate-static-pages.mjs`가 언어마다 `dist/insights/<slug>/index.html`, `dist/en/...`, `dist/ja/...`를 생성해 그 언어 원고의 `title`, `summary`와 본문 첫 이미지를 OG 태그로 넣는다. 본문에 이미지가 없는 글은 공용 `/og-image.png`로 자동 폴백한다. 새 게시물은 frontmatter만 규칙대로 채우면 되고 OG 태그를 손으로 만들지 않는다.
+- 소식·인사이트 게시물은 빌드 시 `scripts/generate-static-pages.mjs`가 언어마다 `dist/insights/<slug>/index.html`, `dist/en/...`, `dist/ja/...`를 생성해 그 언어 원고의 `title`, `summary`와 대표 이미지를 OG 태그로 넣는다. 대표 이미지는 frontmatter의 `thumbnail`을 우선 사용하고, 미지정 시 본문 첫 이미지, 둘 다 없으면 공용 `/og-image.png`로 폴백한다. `thumbnail`은 세 언어에서 같은 `images/파일명` 경로로 지정하며 본문 사진 순서와 독립적이다. 새 게시물은 frontmatter만 규칙대로 채우면 되고 OG 태그를 손으로 만들지 않는다.
 - 대표 이미지는 언어와 무관하게 같으므로 한국어 경로(`/insights/<slug>/og.<확장자>`)에 한 벌만 두고 모든 언어가 그 주소를 참조한다.
 - 게시물 상세 링크는 `/insights/<slug>/` 경로 형식을 사용한다. 예전 `/insights/?article=<slug>` 쿼리 형식은 하위 호환용으로만 남아 있으므로 새 링크에는 쓰지 않는다.
 - 미리보기 관련 변경을 배포한 뒤 카카오톡에 이전 카드가 계속 보이면 카카오 공유 디버거(https://developers.kakao.com/tool/debugger/sharing)에서 해당 URL의 캐시를 초기화한다.
@@ -104,7 +104,7 @@
   - 홈: `Organization` + `WebSite` + `WebPage`
   - 소식·인사이트 목록: `Organization` + `WebSite` + `CollectionPage`(글 목록을 `mainEntity`의 `ItemList`로 포함) + `BreadcrumbList`
   - 게시물: `Organization` + `WebSite` + `WebPage` + `ImageObject` + `BreadcrumbList` + `Article`(또는 `NewsArticle`)
-- 게시물 스키마는 frontmatter의 `slug`, `title`, `summary`, `date`, `type`, 분류 폴더명, 본문 첫 이미지를 그대로 쓴다. 제목·요약은 그 언어 원고(`index.en.md`, `index.ja.md`)에서 가져오고, 번역본이 없으면 한국어 원문으로 폴백한다.
+- 게시물 스키마는 frontmatter의 `slug`, `title`, `summary`, `date`, `type`, 분류 폴더명, 대표 이미지(`thumbnail` 우선, 미지정 시 본문 첫 이미지)를 그대로 쓴다. 제목·요약은 그 언어 원고(`index.en.md`, `index.ja.md`)에서 가져오고, 번역본이 없으면 한국어 원문으로 폴백한다.
   - `date`는 `2026.07.15` 형식이어야 하며 빌드가 ISO 8601(`2026-07-15`)로 바꿔 `datePublished`·`dateModified`에 넣는다. 형식이 틀리면 빌드가 실패한다.
   - `샘튼-소식` 분류의 글은 `NewsArticle`, 나머지 분류는 `Article`로 자동 분기된다. 분류를 추가하면 `generate-static-pages.mjs`의 `categoryLabels`에 표기를 등록하고, 회사 활동 소식이면 `newsCategories`에도 넣는다.
 - **새 정적 HTML 엔트리**(`vite.config.ts`의 `build.rollupOptions.input`에 항목이 늘어날 때): 그 HTML의 `<head>`에 `<link rel="canonical">`과 `<script type="application/ld+json">` 블록을 손으로 넣는다. 기존 `index.html`처럼 `@graph` 안에서 `Organization`(`@id`: `https://samton.co.kr/#organization`)과 `WebSite`(`@id`: `https://samton.co.kr/#website`)를 참조하고, 그 페이지에 맞는 `WebPage`/`CollectionPage`와 `BreadcrumbList`를 더한다.

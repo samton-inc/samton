@@ -231,6 +231,9 @@ for (const categoryEntry of readdirSync(postsDir, { withFileTypes: true })) {
     for (const locale of locales.filter((item) => item !== "ko")) {
       const translationPath = path.join(articleDir, `index.${locale}.md`);
       const translated = existsSync(translationPath) ? parseFrontmatter(translationPath) : null;
+      if (translated && (translated.metadata.thumbnail ?? "") !== (metadata.thumbnail ?? "")) {
+        throw new Error(`${translationPath}: thumbnail은 index.md와 같아야 합니다.`);
+      }
       byLocale[locale] =
         translated?.metadata.title && translated?.metadata.summary
           ? {
@@ -243,10 +246,18 @@ for (const categoryEntry of readdirSync(postsDir, { withFileTypes: true })) {
           : byLocale.ko;
     }
 
-    // registry.ts의 썸네일 규칙과 동일하게 본문 첫 이미지를 대표 이미지로 쓴다.
+    // thumbnail을 지정하면 우선 사용하고, 없으면 본문 첫 이미지를 쓴다.
     const firstImage = body.match(/!\[[^\]]*\]\(([^)]+)\)/)?.[1]?.trim().replace(/^\.\//, "");
-    const imageCandidates = firstImage
-      ? [path.join(articleDir, firstImage), path.join(articleDir, "images", path.basename(firstImage))]
+    const selectedImage = metadata.thumbnail?.replace(/^\.\//, "");
+    if (selectedImage && (
+      !/^images\/[^/]+\.(png|jpe?g|webp|gif|avif|svg)$/i.test(selectedImage) ||
+      !existsSync(path.join(articleDir, selectedImage))
+    )) {
+      throw new Error(`${markdownPath}: thumbnail은 글의 images 폴더에 있는 이미지 경로여야 합니다.`);
+    }
+    const representativeImage = selectedImage || firstImage;
+    const imageCandidates = representativeImage
+      ? [path.join(articleDir, representativeImage), path.join(articleDir, "images", path.basename(representativeImage))]
       : [];
     articles.push({
       slug: metadata.slug,

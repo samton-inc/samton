@@ -55,15 +55,21 @@ const collectArticleImages = (sourcePath: string) => {
   );
 };
 
-const findArticleThumbnail = (body: string, images: Record<string, string>) => {
-  const image = body.match(/!\[([^\]]*)\]\(([^)]+)\)/);
-  if (!image) return {};
-
-  const source = image[2].trim().replace(/^\.\//, "");
+const findArticleThumbnail = (body: string, images: Record<string, string>, selected?: string) => {
+  const bodyImages = [...body.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)];
+  const source = (selected || bodyImages[0]?.[2] || "").trim().replace(/^\.\//, "");
+  if (!source) return {};
+  if (selected && (!/^images\/[^/]+\.(png|jpe?g|webp|gif|avif|svg)$/i.test(source) || !images[source])) {
+    throw new Error(`thumbnail: 글의 images 폴더에 있는 이미지 경로를 지정해 주세요. (${selected})`);
+  }
   const thumbnail = images[source] ?? images[`images/${source.split("/").pop()}`];
+  const image = bodyImages.find((item) => {
+    const imageSource = item[2].trim().replace(/^\.\//, "");
+    return (images[imageSource] ?? images[`images/${imageSource.split("/").pop()}`]) === thumbnail;
+  });
 
   return thumbnail
-    ? { thumbnail, thumbnailAlt: image[1].trim() || "콘텐츠 대표 이미지" }
+    ? { thumbnail, thumbnailAlt: image?.[1].trim() || undefined }
     : {};
 };
 
@@ -114,7 +120,7 @@ const parseMarkdown = (sourcePath: string, source: string): InsightArticle | nul
     featured: metadata.featured === "true",
     body,
     images,
-    ...findArticleThumbnail(body, images),
+    ...findArticleThumbnail(body, images, metadata.thumbnail),
     sourcePath,
     locale,
   };
