@@ -7,7 +7,6 @@ import {
   Cpu,
   Database,
   Download,
-  ExternalLink,
   FileCheck2,
   Menu,
   Network,
@@ -39,18 +38,14 @@ import yeonsuSymbolLogo from "@/assets/partners/yeonsu-symbol.gif";
 const downloadableResources = [
   {
     id: "samton-dmrv-introduction-ko",
-    category: "회사·솔루션 소개",
+    label: "회사·솔루션 소개",
     title: "샘튼 및 Samton-DMRV 소개",
-    description: "샘튼의 사업과 현장 데이터를 산정·보고·검증으로 연결하는 Samton-DMRV를 소개합니다.",
-    size: "5.2 MB",
     filename: "샘튼 및 Samton-DMRV 소개.pdf",
   },
   {
     id: "carbon-market-starter-guide-ko",
-    category: "탄소시장 입문",
+    label: "탄소시장 입문 가이드",
     title: "탄소시장 입문 가이드",
-    description: "배출권과 크레딧의 차이부터 발행 과정, MRV와 국제 탄소시장의 기본 개념을 살펴봅니다.",
-    size: "0.7 MB",
     filename: "탄소시장 입문 가이드_샘튼.pdf",
   },
 ] as const;
@@ -872,48 +867,21 @@ export default function App() {
           </div>
         </section>
 
-        <section className="resources section" id="resources" aria-labelledby="resources-title">
-          <div className="section-heading">
-            <SectionLabel>06 · RESOURCES</SectionLabel>
-            <h2 id="resources-title">{tr("자료 다운로드")}</h2>
-          </div>
-          <div className="resource-grid">
-            {downloadableResources.map((resource) => {
-              // 모든 언어에서 같은 한국어 원본 파일을 제공합니다.
-              const pdfHref = localizedHref(`/downloads/${resource.id}.pdf`, "ko");
-              return (
-                <article className="resource-card" key={resource.id} aria-labelledby={`${resource.id}-title`}>
-                  <a className="resource-card__preview" href={pdfHref} target="_blank" rel="noopener noreferrer" aria-label={`${tr(resource.title)} · ${tr("미리보기 (새 탭)")}`}>
-                    <img src={`/downloads/${resource.id}.jpg`} width="1400" height="788" alt={tr(resource.title)} loading="lazy" />
-                  </a>
-                  <div className="resource-card__body">
-                    <h3 id={`${resource.id}-title`}>{tr(resource.title)}</h3>
-                    <p>{tr(resource.description)}</p>
-                    <div className="resource-card__meta">{tr("한국어 PDF")} · {tr("1페이지")} · {resource.size}</div>
-                    <div className="resource-card__actions">
-                      <a className="button button--primary" href={pdfHref} download={resource.filename} aria-label={`${tr(resource.title)} · ${tr("PDF 다운로드")}`}>
-                        {tr("PDF 다운로드")} <Download size={17} aria-hidden="true" />
-                      </a>
-                      <a className="resource-card__open" href={pdfHref} target="_blank" rel="noopener noreferrer" aria-label={`${tr(resource.title)} · ${tr("미리보기 (새 탭)")}`}>
-                        {tr("미리보기")} <ExternalLink size={15} aria-hidden="true" />
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-
         <section className="contact" id="contact">
           <div>
-            <SectionLabel light>07 · LET'S BUILD TRUSTED DATA</SectionLabel>
+            <SectionLabel light>06 · LET'S BUILD TRUSTED DATA</SectionLabel>
             <h2>{tr("우리 회사에 필요한")}<ResponsiveBreak locale={locale} />{tr("DMRV를 함께")}<ResponsiveBreak locale={locale} />{tr("설계해 보세요.")}</h2>
           </div>
           <div className="contact__action">
             <p>{tr("데이터 환경과 업무를 이해하는 것에서 시작해, 확장 가능한 하나의 시스템을 만듭니다.")}</p>
-            <a href="mailto:samton-nature@samton.co.kr">{tr("프로젝트 문의하기")} <ArrowRight size={18} /></a>
+            <a className="contact__inquiry" href="mailto:samton-nature@samton.co.kr">{tr("프로젝트 문의하기")} <ArrowRight size={18} /></a>
+            <div className="contact__downloads" id="resources" role="group" aria-label={tr("자료 다운로드")}>
+              {downloadableResources.map((resource) => (
+                <a className="contact__download" key={resource.id} href={localizedHref(`/downloads/${resource.id}.pdf`, "ko")} download={resource.filename} aria-label={`${tr(resource.title)} · ${tr("PDF 다운로드")} · ${tr("한국어 PDF")}`}>
+                  <span>{tr(resource.label)}</span><Download size={16} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       </main>
