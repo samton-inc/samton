@@ -3,7 +3,7 @@ import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
-// 개발 서버에서 /insights/<slug>/ 게시물 경로와 /en, /ja 언어 경로가 알맞은 엔트리로 열리게 한다.
+// 개발 서버에서 게시물, 탄소 내비게이터와 /en, /ja 언어 경로가 알맞은 엔트리로 열리게 한다.
 // 배포본에서는 scripts/generate-static-pages.mjs가 경로마다 정적 페이지를 생성한다.
 const localizedRouteFallback = (): Plugin => ({
   name: 'localized-route-fallback',
@@ -14,6 +14,7 @@ const localizedRouteFallback = (): Plugin => ({
       const search = query ? `?${query}` : ''
       const path = pathname.replace(/^\/(en|ja)(?=\/|$)/, '') || '/'
       if (/^\/insights(?:\/[^/.]+)?\/?$/.test(path)) req.url = `/insights/${search}`
+      else if (/^\/carbon-navigator\/?$/.test(path)) req.url = `/carbon-navigator/${search}`
       else if (path === '/') req.url = `/${search}`
       next()
     })
@@ -40,6 +41,7 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, 'index.html'),
         insights: path.resolve(__dirname, 'insights/index.html'),
+        carbonNavigator: path.resolve(__dirname, 'carbon-navigator/index.html'),
       },
     },
   },

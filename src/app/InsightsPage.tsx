@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Menu, X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import logo from "@/assets/Samton_logo_with_text.png";
 import { getFeaturedInsight, getInsightArticles, type InsightArticle } from "@/content/insights/registry";
 import MarkdownContent from "@/app/components/MarkdownContent";
+import SiteHeader from "@/app/components/SiteHeader";
 import { LanguageSwitcher, localizedHref, splitLocalePath, useLocale } from "@/i18n";
 
 const categories = [
@@ -60,12 +61,9 @@ export default function InsightsPage() {
   const pathSlug = decodeURIComponent(splitLocalePath(window.location.pathname).path).match(/^\/insights\/([^/]+)\/?$/)?.[1];
   const articleSlug = pathSlug ?? new URLSearchParams(window.location.search).get("article");
   const activeArticle = articleSlug ? insightArticles.find((article) => article.slug === articleSlug) : undefined;
-  const [menuOpen, setMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterId>("all");
-  const closeMenu = () => setMenuOpen(false);
   const rememberLandingSection = (sectionId: string) => {
     window.sessionStorage.setItem("samton-scroll-target", sectionId);
-    closeMenu();
   };
 
   useEffect(() => {
@@ -112,22 +110,7 @@ export default function InsightsPage() {
 
   return (
     <div className={`site-shell site-shell--${locale} insights-page`}>
-      <header className="header">
-        <a className="brand" href={localizedHref("/", locale)} aria-label={tr("Samton 홈")} onClick={closeMenu}>
-          <img src={logo} alt="Samton" />
-        </a>
-        <nav className={`nav${menuOpen ? " is-open" : ""}`} aria-label={tr("주요 메뉴")}>
-          <a href={localizedHref("/#company", locale)} onClick={() => rememberLandingSection("company")}>{tr("회사소개")}</a>
-          <a href={localizedHref("/#engines", locale)} onClick={() => rememberLandingSection("engines")}>{tr("기술 엔진")}</a>
-          <a href={localizedHref("/#projects", locale)} onClick={() => rememberLandingSection("projects")}>{tr("프로젝트")}</a>
-          <a className="is-current" href={localizedHref("/insights/", locale)} onClick={closeMenu}>{tr("소식·인사이트")}</a>
-          <LanguageSwitcher locale={locale} onChange={setLocale} />
-          <a className="nav__cta" href={localizedHref("/#contact", locale)} onClick={() => rememberLandingSection("contact")}>{tr("프로젝트 문의")}</a>
-        </nav>
-        <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label={tr("메뉴 열기")} aria-expanded={menuOpen}>
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-      </header>
+      <SiteHeader locale={locale} onLocaleChange={setLocale} currentPage="insights" />
 
       <main className={`journal${activeArticle ? " journal--article" : ""}`}>
         {activeArticle ? (

@@ -8,7 +8,6 @@ import {
   Database,
   Download,
   FileCheck2,
-  Menu,
   Network,
   Scale,
   ShieldCheck,
@@ -18,6 +17,7 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { LanguageSwitcher, localizedHref, translate, useLocale, type Locale } from "@/i18n";
 import { getInsightArticles } from "@/content/insights/registry";
+import SiteHeader from "@/app/components/SiteHeader";
 import logo from "@/assets/Samton_logo_with_text.png";
 import cnttechLogo from "@/assets/partners/cnttech.png";
 import haidLogo from "@/assets/partners/haid.svg";
@@ -583,7 +583,6 @@ export default function App() {
     });
   };
 
-  const [menuOpen, setMenuOpen] = useState(false);
   const [selectedEngineId, setSelectedEngineId] = useState<EngineId | null>(null);
   const selectedEngine = selectedEngineId
     ? engines.find((engine) => engine.id === selectedEngineId) ?? null
@@ -628,8 +627,6 @@ export default function App() {
     };
   }, [selectedEngineId]);
 
-  const closeMenu = () => setMenuOpen(false);
-
   useEffect(() => {
     document.title = locale === "ko"
       ? "주식회사 샘튼"
@@ -641,22 +638,7 @@ export default function App() {
   return (
     <>
       <div className={`site-shell site-shell--${locale}`}>
-      <header className="header">
-        <a className="brand" href="#top" aria-label={tr("Samton 홈")} onClick={closeMenu}>
-          <img src={logo} alt="Samton" />
-        </a>
-        <nav className={`nav${menuOpen ? " is-open" : ""}`} aria-label={tr("주요 메뉴")}>
-          <a href="#company" onClick={closeMenu}>{tr("회사소개")}</a>
-          <a href="#engines" onClick={closeMenu}>{tr("기술 엔진")}</a>
-          <a href="#projects" onClick={closeMenu}>{tr("프로젝트")}</a>
-          <a href={localizedHref("/insights/", locale)} onClick={closeMenu}>{tr("소식·인사이트")}</a>
-          <LanguageSwitcher locale={locale} onChange={setLocale} />
-          <a className="nav__cta" href="#contact" onClick={closeMenu}>{tr("프로젝트 문의")}</a>
-        </nav>
-        <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label={tr("메뉴 열기")} aria-expanded={menuOpen}>
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-      </header>
+      <SiteHeader locale={locale} onLocaleChange={setLocale} currentPage="home" />
 
       <main id="top">
         <section className="hero">

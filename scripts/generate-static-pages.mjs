@@ -1,5 +1,5 @@
-// 빌드된 dist/index.html과 dist/insights/index.html을 템플릿 삼아
-// 언어(ko, en, ja) × 페이지(홈, 소식·인사이트 목록, 게시물)마다 정적 HTML을 만든다.
+// 빌드된 홈, 소식·인사이트, 탄소 내비게이터 HTML을 템플릿 삼아
+// 언어(ko, en, ja) × 페이지(홈, 소식·인사이트 목록, 게시물, 탄소 내비게이터)마다 정적 HTML을 만든다.
 // 한국어는 접두사 없이 루트를 쓰고, 영어·일본어는 /en, /ja 경로에 같은 구조로 놓는다.
 //
 // 각 페이지에는 제목·설명·Open Graph 태그와 함께 canonical, hreflang,
@@ -39,6 +39,11 @@ const localeMeta = {
       title: "소식·인사이트 | Samton",
       description: "DMRV와 탄소시장 기초, 샘튼 소식, 최신 리포트와 기술·조직 이야기를 전하는 샘튼 소식·인사이트.",
     },
+    carbonNavigator: {
+      name: "탄소 내비게이터",
+      title: "탄소 내비게이터 | Samton",
+      description: "필리핀 태양광 사업의 조건에 따라 Verra, Gold Standard, GCC 적용 경로를 비교하는 샘튼의 탄소 표준 사전 검토 도구.",
+    },
   },
   en: {
     htmlLang: "en",
@@ -55,6 +60,11 @@ const localeMeta = {
       description:
         "Samton's news and insights on DMRV, carbon market fundamentals, company updates, market reports, and stories about our technology and team.",
     },
+    carbonNavigator: {
+      name: "Carbon Navigator",
+      title: "Carbon Navigator | Samton",
+      description: "Compare Verra, Gold Standard and GCC pathways for Philippine solar projects with Samton's carbon standard screening tool.",
+    },
   },
   ja: {
     htmlLang: "ja",
@@ -70,6 +80,11 @@ const localeMeta = {
       title: "ニュース・インサイト | Samton",
       description:
         "DMRVと炭素市場の基礎、Samtonのニュース、最新レポート、技術と組織の物語をお届けするニュース・インサイト。",
+    },
+    carbonNavigator: {
+      name: "カーボンナビゲーター",
+      title: "カーボンナビゲーター | Samton",
+      description: "フィリピンの太陽光発電事業についてVerra・Gold Standard・GCCの適用経路を比較するSamtonの事前審査ツール。ツール本体は韓国語・英語に対応。",
     },
   },
 };
@@ -157,9 +172,10 @@ const readTemplate = (relativePath, label) => {
   return template;
 };
 
-// 두 템플릿 모두 아래에서 한국어 페이지로 다시 쓰므로 미리 읽어 둔다.
+// 템플릿을 아래에서 한국어 페이지로 다시 쓰므로 미리 읽어 둔다.
 const homeTemplate = readTemplate("index.html", "index.html");
 const insightsTemplate = readTemplate(path.join("insights", "index.html"), "insights/index.html");
+const carbonNavigatorTemplate = readTemplate(path.join("carbon-navigator", "index.html"), "carbon-navigator/index.html");
 
 const escapeAttr = (value) =>
   value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -677,6 +693,41 @@ for (const locale of locales) {
   });
   pageCount += 1;
 
+  // 탄소 내비게이터
+  const navigatorPath = "/carbon-navigator/";
+  const navigatorUrl = absoluteUrl(locale, navigatorPath);
+  renderPage({
+    template: carbonNavigatorTemplate,
+    locale,
+    pagePath: navigatorPath,
+    title: meta.carbonNavigator.title,
+    description: meta.carbonNavigator.description,
+    imageUrl: `${siteOrigin}/og-image.png`,
+    ogType: "website",
+    keepImageSize: true,
+    graph: {
+      "@context": "https://schema.org",
+      "@graph": [
+        organizationNode,
+        websiteNode(locale),
+        {
+          "@type": "WebPage",
+          "@id": navigatorUrl,
+          url: navigatorUrl,
+          name: meta.carbonNavigator.title,
+          description: meta.carbonNavigator.description,
+          isPartOf: { "@id": websiteId },
+          about: { "@id": organizationId },
+          breadcrumb: { "@id": `${navigatorUrl}#breadcrumb` },
+          primaryImageOfPage: { "@type": "ImageObject", url: `${siteOrigin}/og-image.png` },
+          inLanguage: meta.htmlLang,
+        },
+        breadcrumbNode(locale, navigatorPath, [{ name: meta.carbonNavigator.name, path: navigatorPath }]),
+      ],
+    },
+  });
+  pageCount += 1;
+
   // 소식·인사이트 목록
   const insightsUrl = absoluteUrl(locale, "/insights/");
   renderPage({
@@ -802,6 +853,7 @@ const latestDate = articles.reduce((latest, article) => (article.date > latest ?
 const sitemapPaths = [
   { pagePath: "/", priority: "1.0", changefreq: "monthly" },
   { pagePath: "/insights/", priority: "0.8", changefreq: "weekly", lastmod: latestDate || undefined },
+  { pagePath: "/carbon-navigator/", priority: "0.8", changefreq: "monthly" },
   ...articles.map((article) => ({
     pagePath: `/insights/${article.slug}/`,
     priority: "0.6",

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Check which carbon standard fits your Philippine solar project: Verra, Gold Standard or the Global Carbon Council. By Samton.">
+<title>Philippine Solar Carbon Navigator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+</head><body>
+<style>
+/* Layout: brand band → scenario chips → two columns (questions | sticky verdict card) → static comparison → contact */
+:root{
+  --bg:#F5F4EF; --surface:#FFFFFF; --sunk:#ECEAE3; --line:#D9D6CC;
+  --fg:#23272B; --muted:#5E6468;
+  --brand:#1E5A43; --brand-ink:#F7F4ED; --brand-soft:#E3EFE8;
+  --accent:#C4521D; --accent-soft:#FBE7DC;
+  --go:#1E7A4F; --go-bg:#DFF1E6; --cond:#9A6300; --cond-bg:#FBEFD3;
+  --hold:#4D5A73; --hold-bg:#E3E8F1; --no:#A3342A; --no-bg:#F8E1DE;
+  --sans:'IBM Plex Sans','IBM Plex Sans KR',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1C2320; --sunk:#232B28; --line:#34403B;
+  --fg:#E8EAE6; --muted:#A3ACA7;
+  --brand:#7FC4A3; --brand-ink:#0F1513; --brand-soft:#1F3A2E;
+  --accent:#F08A55; --accent-soft:#3A2419;
+  --go:#7FD3A2; --go-bg:#1D3A2A; --cond:#F2C062; --cond-bg:#3A2F17;
+  --hold:#AFC0DD; --hold-bg:#262F40; --no:#F29A8F; --no-bg:#3D211E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1C2320; --sunk:#232B28; --line:#34403B;
+  --fg:#E8EAE6; --muted:#A3ACA7;
+  --brand:#7FC4A3; --brand-ink:#0F1513; --brand-soft:#1F3A2E;
+  --accent:#F08A55; --accent-soft:#3A2419;
+  --go:#7FD3A2; --go-bg:#1D3A2A; --cond:#F2C062; --cond-bg:#3A2F17;
+  --hold:#AFC0DD; --hold-bg:#262F40; --no:#F29A8F; --no-bg:#3D211E; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.55;margin:0}
+html:lang(ko) body{word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* brand band */
+.band{background:var(--brand);color:var(--brand-ink)}
+.band .wrap{padding-block:28px 30px;display:flex;flex-direction:column;gap:14px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12.5px;opacity:.85}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.18;margin:0;font-weight:700;text-wrap:balance;max-width:24ch}
+.lede{margin:0;max-width:68ch;font-size:16px;opacity:.92}
+.stdrow{display:flex;gap:8px;flex-wrap:wrap}
+.stdtag{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--brand-ink) 14%,transparent)}
+
+/* presets */
+.presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-block:18px 6px}
+.presets .lbl{font-size:12.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:4px}
+.chip{border:1px solid var(--line);background:var(--surface);padding:7px 13px;border-radius:999px;cursor:pointer;font-size:13.5px}
+.chip:hover{border-color:var(--brand)}
+.chip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.chip.reset{background:transparent;color:var(--muted)}
+
+/* main grid */
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:24px;padding-block:14px 36px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+.qlist{display:flex;flex-direction:column;gap:12px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.q.todo{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.qhead{display:flex;gap:10px;align-items:baseline}
+.qn{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:500;flex:none}
+.qt{margin:0;font-weight:600;font-size:15.5px}
+.qhelp{margin:0;color:var(--muted);font-size:13.5px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:9px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;font-weight:500;font-size:14px}
+.opt small{font-weight:400;color:var(--muted);font-size:12.5px;line-height:1.4}
+.opt:hover{border-color:var(--brand)}
+.opt.sel{border-color:var(--brand);background:var(--brand-soft);box-shadow:inset 0 0 0 1px var(--brand)}
+
+/* result */
+.result{position:sticky;top:calc(env(safe-area-inset-top,0px) + 14px);background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+@media (max-width:900px){.result{position:static}}
+.pending{padding:26px;color:var(--muted)}
+.pending b{color:var(--fg)}
+.rtop{padding:20px 22px 18px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+.reco{font-size:22px;font-weight:700;margin:0;line-height:1.25;text-wrap:balance}
+.reco .code{font-family:var(--mono);font-weight:500;color:var(--brand)}
+.headline{margin:0;font-size:14.5px}
+.banner{background:var(--no-bg);color:var(--no);border-radius:9px;padding:10px 12px;font-weight:600;font-size:14px}
+.matrix{display:flex;flex-direction:column}
+.srow{display:grid;grid-template-columns:118px minmax(0,1fr);gap:14px;padding:14px 22px;border-bottom:1px solid var(--line)}
+.srow.pick{background:var(--brand-soft)}
+.sname{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.sname b{font-size:14.5px}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.v-go{background:var(--go-bg);color:var(--go)} .v-cond{background:var(--cond-bg);color:var(--cond)}
+.v-hold{background:var(--hold-bg);color:var(--hold)} .v-no{background:var(--no-bg);color:var(--no)}
+.sbody{display:flex;flex-direction:column;gap:4px;min-width:0}
+.mcode{font-family:var(--mono);font-size:13.5px;font-weight:500;color:var(--brand)}
+.sbody p{margin:0;font-size:14px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.meta span{font-size:12px;color:var(--muted);background:var(--sunk);border-radius:6px;padding:2px 7px}
+.picktag{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.05em;text-transform:uppercase}
+.sec{padding:16px 22px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec h3{margin:0 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.sec li{font-size:14px;padding-left:18px;position:relative}
+.sec li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--line)}
+.sec.must li::before{background:var(--brand)} .sec.risk li::before{background:var(--accent)} .sec.ph li::before{background:var(--hold)}
+.cite{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.svc div{background:var(--sunk);border-radius:9px;padding:10px 12px;font-size:13.5px}
+.svc b{display:block;font-size:13.5px}
+.trail{display:flex;flex-wrap:wrap;gap:6px}
+.trail span{font-size:12px;background:var(--sunk);border-radius:6px;padding:2px 8px;color:var(--muted)}
+
+/* glance */
+.glance{padding-block:8px 34px;display:flex;flex-direction:column;gap:12px}
+h2{font-size:22px;margin:0;font-weight:700}
+.glance p.sub{margin:0;color:var(--muted);max-width:75ch}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:13.5px}
+th,td{padding:11px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--sunk);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+
+/* contact */
+.contact{background:var(--brand);color:var(--brand-ink)}
+.contact .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.contact h2{color:var(--brand-ink);font-size:20px}
+.contact p{margin:4px 0 0;opacity:.9;max-width:60ch}
+.cbox{display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.cline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cline span{user-select:all}
+.copy{background:color-mix(in srgb,var(--brand-ink) 16%,transparent);border:0;border-radius:6px;padding:3px 9px;font-size:12px;cursor:pointer;color:var(--brand-ink)}
+.cta{background:var(--accent-soft);border-top:1px solid var(--line)}
+.cta .wrap{padding-block:28px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.cta h2{font-size:21px}
+.cta p{margin:6px 0 0;max-width:62ch;color:var(--fg)}
+.cta .sum{font-size:13px;color:var(--muted);margin-top:8px}
+.cta-btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 22px;border-radius:10px;white-space:nowrap}
+.cta-btn:hover{filter:brightness(1.07)}
+.cta-alt{font-size:14px;color:var(--fg)}
+.fine{padding-block:16px 30px;color:var(--muted);font-size:12.5px;display:flex;flex-direction:column;gap:6px}
+.fine p{margin:0;max-width:110ch}
+@media (prefers-reduced-motion:no-preference){.opt,.chip{transition:background .15s,border-color .15s}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="topline">
+      <span class="mark">Samton · Carbon DMRV</span>
+    </div>
+    <h1 id="h1"></h1>
+    <p class="lede" id="lede"></p>
+    <div class="stdrow"><span class="stdtag">Verra VCS</span><span class="stdtag">Gold Standard</span><span class="stdtag">Global Carbon Council</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="presets" id="presets"><span class="lbl" id="presetLbl"></span></div>
+  <div class="main">
+    <div class="qlist" id="qlist"></div>
+    <aside class="result" id="result" aria-live="polite"></aside>
+  </div>
+
+  <section class="glance">
+    <h2 id="gTitle"></h2>
+    <p class="sub" id="gSub"></p>
+    <div class="tbl"><table id="gTable" aria-labelledby="gTitle"></table></div>
+  </section>
+</div>
+
+<section class="cta" id="cta">
+  <div class="wrap">
+    <div style="min-width:0">
+      <h2 id="ctaTitle"></h2>
+      <p id="ctaBody"></p>
+      <p class="sum" id="ctaSum"></p>
+    </div>
+    <div id="ctaAct"></div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <div>
+      <h2 id="cTitle"></h2>
+      <p id="cBody"></p>
+    </div>
+    <div class="cbox">
+      <div class="cline"><span id="cPhone">+82 70-4107-9524</span><button type="button" class="copy" id="copy-phone" data-c="+82 70-4107-9524"></button></div>
+      <div class="cline"><span id="cMail">samton-nature@samton.co.kr</span><button type="button" class="copy" id="copy-mail" data-c="samton-nature@samton.co.kr"></button></div>
+      <div class="cline"><a id="samton-home-link" href="https://samton.co.kr" target="_top" style="color:inherit">samton.co.kr</a></div>
+    </div>
+  </div>
+</section>
+<div class="wrap fine" id="fine"></div>
+
+<script>
+/* ---- Lead form settings: paste the Google Form link here ----
+   FORM_URL: the form's share link (https://docs.google.com/forms/d/e/.../viewform)
+   FORM_SUMMARY_ENTRY: optional, the entry id of a short-answer field (e.g. "entry.123456789")
+   that receives the visitor's screening summary automatically. */
+const FORM_URL='';
+const FORM_SUMMARY_ENTRY='';
+const T=(en,ko)=>({en,ko});
+let lang=document.documentElement.lang==='ko'?'ko':'en';
+const L=x=>x==null?'':(typeof x==='string'?x:x[lang]);
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+const UI={
+  h1:T('Which carbon standard fits your Philippine solar project?','우리 필리핀 태양광 사업에 맞는 탄소 표준은?'),
+  lede:T('Answer a few questions about your plant. We screen it against Verra, Gold Standard and the Global Carbon Council, and show the methodology, what you need to secure, and the Philippine rules that apply.',
+         '발전소에 대해 몇 가지만 답하면 Verra, Gold Standard, GCC(Global Carbon Council) 기준으로 한 번에 검토해 적용 방법론, 미리 확보할 것, 적용되는 필리핀 제도를 보여드립니다.'),
+  presetLbl:T('Example projects','사업 예시'), reset:T('Start over','처음부터'),
+  pending:T(n=>`<b>${n} question${n>1?'s':''} left.</b><br>Answer the highlighted question to see the result, or pick an example project above.`,
+            n=>`<b>질문 ${n}개가 남았습니다.</b><br>강조된 질문에 답하면 결과가 나옵니다. 위의 사업 예시로 바로 시작할 수도 있습니다.`),
+  reco:T('Recommended path','추천 경로'), noPath:T('No credit path for this setup','이 구조로는 크레딧 경로가 없습니다'),
+  pick:T('Recommended','추천'),
+  must:T('Secure before you start','착수 전에 확보할 것'), risk:T('Watch out for','주의할 점'),
+  ph:T('Philippine rules that apply','적용되는 필리핀 제도'), svc:T('How Samton helps','샘튼이 하는 일'),
+  trail:T('Your answers','선택한 조건'),
+  gTitle:T('Solar in the Philippines at a glance','필리핀 태양광 - 표준별 한눈에 보기'),
+  gSub:T('Status as of November 2026. The Philippines has been classified upper-middle income since 1 July 2026, which changes which standards accept grid-connected solar.',
+         '2026년 11월 기준. 필리핀은 2026년 7월 1일부터 고중소득국(UMI)으로 분류되어, 계통연계 태양광을 받아주는 표준이 달라졌습니다.'),
+  cTitle:T('Talk to Samton','샘튼에 문의하기'),
+  ctaTitle:T('Want a detailed screening for your site?','우리 부지에 맞춘 상세 검토를 받아보세요'),
+  ctaBody:T('Leave your contact details and Samton will send a site-specific note with a credit estimate and metering plan. No cost, no obligation.',
+            '연락처를 남기시면 샘튼이 크레딧 예상량과 계량 계획을 담은 부지별 검토 의견을 보내드립니다. 비용이나 의무는 없습니다.'),
+  ctaBtn:T('Request a detailed screening','상세 검토 요청하기'),
+  ctaSum:T('Your answers above will be attached to the request.','위에서 선택한 답변이 요청서에 함께 첨부됩니다.'),
+  ctaAlt:T('Email us at','이메일로 문의:'),
+  cBody:T('We screen the site, design the metering, write the project documents and run digital MRV through to issuance.',
+          '부지 검토, 계량 설계, 사업 문서 작성, 디지털 MRV부터 크레딧 발행까지 함께합니다.'),
+  copy:T('Copy','복사'), copied:T('Copied','복사됨'),
+  fine:[T('This is a screening tool, not legal or investment advice. Eligibility depends on the final project design and on each standard body\'s current rules; confirm with the standard and a validation body before you commit capital.',
+          '이 도구는 사전 검토용이며 법률·투자 자문이 아닙니다. 적격성은 최종 사업 설계와 각 표준기관의 현행 규칙에 따라 달라지므로, 투자 결정 전 표준기관과 검증기관(VVB)에 확인하세요.'),
+        T('Sources: Verra VMR0017 v1.0; Gold Standard Renewable Energy Activity Requirements v1.4; GCC GCCM001 V5.0, GCCM009 V1.0, GCC-AMS-I.F, GCC-AM0123, GCCM012; ICVCM CCP decisions (May 2026); DOE DC2025-09-0018; DOE DC2017-12-0015; RA 9513. Reviewed November 2026.',
+          '출처: Verra VMR0017 v1.0, Gold Standard 재생에너지 활동 요건 v1.4, GCC GCCM001 V5.0·GCCM009 V1.0·GCC-AMS-I.F·GCC-AM0123·GCCM012, ICVCM CCP 결정(2026-05), DOE DC2025-09-0018, DOE DC2017-12-0015, RA 9513. 2026년 11월 검토.')]
+};
+const VERDICT={go:T('Fits','적합'),cond:T('Fits with conditions','조건부 적합'),hold:T('Check first','확인 필요'),no:T('Not eligible','불가')};
+
+const Q=[
+  {id:'stage',t:T('What kind of solar project is it?','어떤 태양광 사업인가요?'),opts:[
+    ['new',T('New grid-connected plant','신규 계통연계 발전소'),T('Greenfield, no existing plant on site','그린필드 - 기존 설비 없음')],
+    ['expand',T('Expansion of an existing plant','기존 발전소 증설'),T('Capacity addition, retrofit or replacement','용량 추가·개조·교체')],
+    ['offgrid',T('Off-grid or island mini-grid','오프그리드·도서 미니그리드'),T('Supplies households or sites with no grid connection','계통이 없는 가구·시설에 공급')]]},
+  {id:'offtake',show:a=>a.stage==='new',t:T('Who uses the electricity?','전기는 누가 쓰나요?'),opts:[
+    ['grid',T('Sold to the grid','계통에 판매'),T('WESM spot market or a supply contract with a utility','WESM 도매시장 또는 배전사 공급계약')],
+    ['self',T('Used by the owner','발전소 주인이 직접 사용'),T('Same company or same corporate group','같은 회사 또는 같은 기업집단')],
+    ['third',T('Sold to another company under a PPA','다른 회사에 PPA로 판매'),T('e.g. an SPC supplying tenants in an economic zone','예: 경제구역 SPC → 입주기업')]]},
+  {id:'sale',show:a=>a.offtake==='grid',t:T('How will you sell to the grid?','계통에 어떻게 파나요?'),help:T('This decides who holds the Renewable Energy Certificates (RECs).','REC(재생에너지 인증서)를 누가 갖는지가 여기서 갈립니다.'),opts:[
+    ['wesm',T('Merchant sales on WESM','WESM 시장 판매'),T('No power supply agreement','공급계약(PSA) 없음')],
+    ['psa',T('Power supply agreement (PSA)','배전사와 공급계약(PSA)'),T('Bilateral contract with a distribution utility','배전사와 양자계약')],
+    ['unsure',T('Not decided','미정'),'']]},
+  {id:'delivery',show:a=>a.offtake==='self',t:T('How does the power reach the user?','전기는 어떻게 전달되나요?'),opts:[
+    ['onsite',T('On site or by a private line','같은 부지·전용선'),T('Behind the meter, rooftop or dedicated line','계량기 안쪽, 지붕형, 전용선')],
+    ['wheeling',T('Through the public grid','공용 계통 경유'),T('Wheeling or banking to another site','wheeling·banking으로 다른 사업장에')]]},
+  {id:'netmeter',show:a=>a.delivery==='onsite',t:T('Will surplus power be exported under net metering?','남는 전기를 넷미터링으로 계통에 보내나요?'),opts:[
+    ['no',T('No, zero export or minor spill','아니다 (무역송전 또는 미미)'),''],
+    ['yes',T('Yes, under a net-metering agreement','그렇다 (넷미터링 계약)'),'']]},
+  {id:'structure',show:a=>a.offtake==='third',t:T('How is the generating company related to the buyer?','발전 회사와 전기를 사는 회사의 관계는?'),opts:[
+    ['indep',T('Different owners','소유주가 다르다'),T('We own the SPC, or co-invest with the buyer','우리가 SPC 소유 또는 구매자와 공동 투자')],
+    ['same',T('Effectively the same owner','사실상 같은 소유주'),T('100% common ownership','100% 동일 소유')]]},
+  {id:'priorRE',show:a=>a.offtake==='third'&&a.structure==='indep',t:T('Did the buyer already use renewable power before this project?','구매 회사가 이 사업 전에 이미 재생에너지를 썼나요?'),opts:[
+    ['no',T('No','아니다'),''],['yes',T('Yes','그렇다'),T('Existing RE contract or own solar','기존 RE 계약 또는 자체 태양광')],['unknown',T('Not sure','모른다'),'']]},
+  {id:'ppa',show:a=>a.offtake==='third'&&a.structure==='indep',t:T('Where is the power purchase agreement (PPA)?','전력구매계약(PPA)은 어디까지 왔나요?'),opts:[
+    ['signed',T('Signed','체결 완료'),T('Covers the first crediting period and names who claims credits','첫 크레딧기간 전체 + 크레딧 귀속 명시')],
+    ['nego',T('In negotiation','협상 중'),T('To be signed before construction','착공 전 체결 예정')],
+    ['none',T('Not started','아직 없음'),'']]},
+  {id:'size',show:a=>a.stage==='expand',t:T('Total capacity after the expansion?','증설 후 전체 용량은?'),opts:[
+    ['small',T('Under 15 MW','15MW 미만'),''],['large',T('15 MW or more','15MW 이상'),'']]},
+  {id:'elec',show:a=>a.stage==='offgrid',t:T('Household electrification rate in the project area?','사업 지역의 가구 전기 보급률은?'),opts:[
+    ['low',T('Below 50%','50% 미만'),''],['high',T('50% or higher, or unknown','50% 이상 또는 모름'),'']]},
+  {id:'rec',show:a=>a.stage&&a.stage!=='offgrid',t:T('Do you also want RECs from the same output?','같은 발전량으로 REC도 받고 싶나요?'),help:T('One MWh can carry either a carbon credit or a REC, never both.','1MWh에는 탄소크레딧과 REC 중 하나만 붙습니다.'),opts:[
+    ['none',T('Carbon credits only','탄소크레딧만'),''],
+    ['split',T('Part RECs, part credits','일부 REC, 일부 크레딧'),T('e.g. a tenant needs RE100 certificates','예: 입주기업 RE100 실적')],
+    ['all',T('All output as RECs','전부 REC'),'']]},
+  {id:'econ',show:a=>!!a.stage,t:T('Is the project financially viable without carbon revenue?','탄소 수익 없이도 사업성이 나오나요?'),help:T('Standards only credit projects that carbon revenue helps make happen (additionality).','표준은 탄소 수익이 사업 실현에 기여하는 경우에만 크레딧을 줍니다(추가성).'),opts:[
+    ['marginal',T('Marginal, credits make a difference','빠듯하다, 크레딧이 차이를 만든다'),''],
+    ['viable',T('Yes, it pays on its own','그렇다, 크레딧 없이도 수익'),''],
+    ['unsure',T('Not modeled yet','아직 모른다'),'']]},
+  {id:'buyer',show:a=>!!a.stage,t:T('Who do you expect to buy the credits?','크레딧은 누구에게 팔 계획인가요?'),opts:[
+    ['ccp',T('International buyers asking for CCP labels','CCP 라벨을 원하는 해외 구매자'),T('High-integrity voluntary market','고품질 자발적 시장')],
+    ['gcc',T('Asian and Middle East buyers, or GCC reference','아시아·중동 구매자, GCC 실적'),T('Digital MRV track record','디지털 MRV 실적')],
+    ['open',T('Not decided','미정'),'']]},
+];
+
+const PRESETS=[
+  ['util',T('Utility-scale, WESM sales','대규모 · WESM 판매'),{stage:'new',offtake:'grid',sale:'wesm',rec:'none',econ:'marginal',buyer:'ccp'}],
+  ['roof',T('Factory rooftop, own use','공장 지붕 · 자가소비'),{stage:'new',offtake:'self',delivery:'onsite',netmeter:'no',rec:'none',econ:'viable',buyer:'gcc'}],
+  ['zone',T('Economic-zone SPC to tenants','경제구역 SPC → 입주기업'),{stage:'new',offtake:'third',structure:'indep',priorRE:'no',ppa:'nego',rec:'split',econ:'unsure',buyer:'gcc'}],
+  ['exp',T('Expanding an existing plant','기존 발전소 증설'),{stage:'expand',size:'small',rec:'none',econ:'marginal',buyer:'open'}],
+  ['isl',T('Island mini-grid','도서 미니그리드'),{stage:'offgrid',elec:'low',econ:'marginal',buyer:'open'}],
+];
+
+let A={...PRESETS[0][2]}, activePreset='util';
+const visible=a=>Q.filter(q=>!q.show||q.show(a));
+function prune(){let ch=true;while(ch){ch=false;const ids=new Set(visible(A).map(q=>q.id));for(const k of Object.keys(A))if(!ids.has(k)){delete A[k];ch=true;}}}
+const C=(text,ref)=>({text,ref});
+
+const CCP={
+  verra:T('CCP: VMR0017 conditionally approved (May 2026)','CCP: VMR0017 조건부 승인 (2026-05)'),
+  gs:T('CCP: not applicable here','CCP: 해당 없음'),
+  gcc:T('CCP: program eligible, no GCC solar method approved yet','CCP: 프로그램 적격, GCC 태양광 방법론은 아직 미승인'),
+};
+
+function evaluate(a){
+  const r={std:{},pick:null,headline:'',banner:'',must:[],risk:[],ph:[]};
+  const add=(k,en,ko,ref)=>r[k].push(C(T(en,ko),ref));
+  const S=(k,code,v,en,ko,ref,extra)=>r.std[k]={code,v,note:T(en,ko),ref,extra:extra||[]};
+
+  /* ---------- Gold Standard ---------- */
+  if(a.stage==='offgrid'){
+    S('gs','GS RE Activity Req.','hold','Off-grid supply may qualify under §2.1.2(d), but how it applies to an upper-middle income host is unclear. Confirm with Gold Standard before design.',
+      '오프그리드 공급은 §2.1.2(d)로 가능할 수 있지만 고중소득국에 어떻게 적용되는지 불명확합니다. 설계 전에 Gold Standard에 확인하세요.','§2.1.2(d)');
+  } else {
+    S('gs','-','no','Gold Standard excludes grid-connected renewable power outside least developed, small island, landlocked and low or lower-middle income countries. The Philippines has been upper-middle income since 1 July 2026.',
+      'Gold Standard는 최빈국·군소도서국·내륙개도국·저소득·저중소득국 밖의 계통연계 재생에너지를 받지 않습니다. 필리핀은 2026년 7월 1일부터 고중소득국입니다.','RE Activity Req. v1.4 §2.1.3');
+  }
+
+  /* ---------- Verra ---------- */
+  const verraAdd = a.econ==='viable'
+    ? T('Additionality uses investment analysis only (VT0008). A plant that pays without credits will struggle to pass.','추가성은 투자분석(VT0008)만 인정됩니다. 크레딧 없이 수익이 나는 사업은 통과가 어렵습니다.')
+    : T('Additionality uses investment analysis only (VT0008): show that carbon revenue lifts returns above your benchmark.','추가성은 투자분석(VT0008)만 인정: 탄소 수익이 있어야 기준 수익률을 넘는다는 것을 보여야 합니다.');
+  if(a.stage==='offgrid'){
+    S('verra','VMR0017','hold','VMR0017 covers grid-connected plants only. Off-grid small-scale methodologies need a separate VCS eligibility check.',
+      'VMR0017은 계통연계 발전만 다룹니다. 오프그리드 소규모 방법론은 VCS 적격성을 따로 확인해야 합니다.','VMR0017 scope');
+  } else if(a.stage==='expand'){
+    S('verra','VMR0017', a.econ==='viable'?'cond':(a.size==='large'?'go':'cond'),'Includes its own equations for capacity additions, retrofits and replacements, with no size cap. Solar in upper-middle income countries is allowed.',
+      '증설·개조·교체 산식을 자체 포함하고 규모 제한이 없습니다. 고중소득국 태양광도 허용됩니다.','VMR0017 Table 1',[verraAdd]);
+  } else if(a.offtake==='grid'){
+    S('verra','VMR0017', a.econ==='viable'?'cond':'go','Built for new grid-connected plants. Table 1 overrides the old VCS exclusion and accepts solar in upper-middle income countries such as the Philippines.',
+      '신규 계통연계 발전소용 방법론입니다. Table 1이 기존 VCS 제외 규정을 대체해 필리핀 같은 고중소득국 태양광을 받아줍니다.','VMR0017 Table 1',[verraAdd]);
+  } else {
+    S('verra','VMR0017','hold','VMR0017 is designed around supply to the grid. Whether on-site or PPA supply to a specific user fits its baseline needs confirmation with Verra.',
+      'VMR0017은 계통 공급을 기준으로 설계됐습니다. 특정 사용자에 대한 자가·PPA 공급이 기준선에 맞는지는 Verra 확인이 필요합니다.','VMR0017 applicability',[verraAdd]);
+  }
+
+  /* ---------- GCC ---------- */
+  if(a.stage==='offgrid'){
+    S('gcc','GCCM012', a.elec==='low'?'cond':'hold',
+      a.elec==='low'?'Designed for off-grid electrification. Areas below 50% electrification qualify for automatic additionality, and default emission factors keep monitoring simple.':'Designed for off-grid electrification, but automatic additionality applies only below 50% electrification. Otherwise you need a full additionality case.',
+      a.elec==='low'?'오프그리드 전기 공급용 방법론입니다. 전기 보급률 50% 미만 지역은 추가성이 자동 인정되고, 기본 배출계수로 모니터링이 단순합니다.':'오프그리드 전기 공급용이지만 추가성 자동 인정은 보급률 50% 미만에서만 됩니다. 아니면 추가성 입증을 따로 해야 합니다.',
+      'GCCM012',[T('Needs a confirmation letter from the Philippine DNA (DENR).','필리핀 DNA(DENR)의 확인서가 필요합니다.'),T('Default factors decline 1% a year.','기본 배출계수가 매년 1%씩 낮아집니다.')]);
+  } else if(a.stage==='expand'){
+    if(a.size==='small') S('gcc','GCC-AMS-I.F','hold','Covers expansions under 15 MW, but delegates the baseline rules to AMS-I.D, which is not on GCC\'s adopted list. Waiting on GCC guidance.',
+      '15MW 미만 증설을 다루지만 기준선 규칙을 GCC 채택 목록에 없는 AMS-I.D에 위임합니다. GCC 답변을 기다리는 중입니다.','AMS-I.F ¶20, ¶23');
+    else S('gcc','-','hold','GCC-AMS-I.F stops at 15 MW. A clear GCC route for larger expansions needs confirmation.',
+      'GCC-AMS-I.F는 15MW까지입니다. 그 이상 증설의 GCC 경로는 확인이 필요합니다.','AMS-I.F scope');
+  } else if(a.offtake==='grid'){
+    S('gcc','GCCM001','go','Grid supply from a new renewable plant is the core case. Policies that serve the NDC are excluded from the additionality test, and the method supports GCC\'s digital MRV portal.',
+      '신규 재생에너지의 계통 공급이 기본 대상입니다. NDC 이행 정책은 추가성 판단에서 제외되고, GCC 디지털 MRV 포털과 연동됩니다.','GCCM001 ¶1, fn 7',[T('Embodied emissions of 0.043 tCO₂/MWh are deducted (about 7%).','내재배출 0.043 tCO₂/MWh(약 7%)를 차감합니다.')]);
+  } else if(a.offtake==='self'){
+    if(a.delivery==='onsite') S('gcc','GCCM001','go','Own use by the same company or group, delivered on site or by a private line, is GCCM001\'s captive case.',
+      '같은 회사·기업집단이 같은 부지나 전용선으로 쓰는 구조는 GCCM001 자가소비 유형입니다.','GCCM001 fn 2-3',[T('Embodied emissions of 0.043 tCO₂/MWh are deducted.','내재배출 0.043 tCO₂/MWh를 차감합니다.')]);
+    else S('gcc','GCCM009 / GCC-AM0123','cond','GCCM001 does not allow wheeling or banking. A separate legal entity in the group can use GCCM009; the same legal entity can use GCC-AM0123.',
+      'GCCM001은 wheeling·banking을 허용하지 않습니다. 같은 그룹의 별도 법인이면 GCCM009, 같은 법인이면 GCC-AM0123을 씁니다.','GCCM001 fn 3 · GCCM009 ¶11 · AM0123 ¶5');
+  } else if(a.offtake==='third'){
+    if(a.structure==='same') S('gcc','GCCM001 / GCC-AM0123','cond','GCCM009 cannot be used when the generator and the buyer share the same owner. Use GCCM001 for on-site supply or GCC-AM0123 for wheeling.',
+      '발전사와 구매자가 같은 소유주면 GCCM009를 쓸 수 없습니다. 구내 공급은 GCCM001, 계통 경유는 GCC-AM0123으로 갑니다.','GCCM009 ¶9');
+    else{
+      const v = a.priorRE==='yes'?'no': a.ppa==='none'?'hold': (a.ppa==='signed'&&a.priorRE==='no')?'go':'cond';
+      S('gcc','GCCM009',v, a.priorRE==='yes'
+        ?'GCCM009 only counts buyers that did not use renewable power before the project. This buyer does not qualify; serve a different buyer or sell the surplus to the grid under GCCM001.'
+        :'Built for third-party supply: an SPC sells to a separate company under a PPA, by private line or wheeling, and can sell surplus to the grid. No embodied-emission deduction.',
+        a.priorRE==='yes'
+        ?'GCCM009는 사업 전에 재생에너지를 쓰지 않던 구매자만 인정합니다. 이 구매자는 해당되지 않으니 다른 구매자에게 공급하거나 잉여분을 GCCM001로 계통 판매하세요.'
+        :'제3자 공급용: SPC가 다른 회사에 PPA로 전용선 또는 wheeling으로 공급하고 잉여분은 계통에 팔 수 있습니다. 내재배출 차감이 없습니다.',
+        'GCCM009 ¶9-14',[T('The lower of the grid factor and the buyer\'s previous supply factor applies.','계통 배출계수와 구매자 기존 전원 배출계수 중 낮은 값을 씁니다.')]);
+    }
+  }
+
+  /* ---------- RECs ---------- */
+  if(a.rec==='all'){
+    r.banner=L(T('If every MWh is sold as a REC, no carbon credits can be issued for that output. Counting it twice is not allowed.','발전량 전부를 REC로 처리하면 같은 발전량으로 탄소크레딧을 발행할 수 없습니다 (이중계상 금지).'));
+    for(const k of ['verra','gcc']) if(r.std[k]&&r.std[k].v!=='no'){r.std[k].v='no';r.std[k].extra=[T('Blocked by the all-REC choice.','전량 REC 선택으로 불가.')].concat(r.std[k].extra);}
+  }
+  if(a.rec==='split') add('must','Split the output into a REC block and a credit block on the generation side, each with its own dedicated revenue meter.','발전 쪽에서 REC 블록과 크레딧 블록을 나누고 블록마다 전용 정산계량기를 둡니다.','DC2025-09-0018 §9');
+
+  /* ---------- pick ---------- */
+  const ok=k=>r.std[k]&&(r.std[k].v==='go'||r.std[k].v==='cond');
+  const rank={go:0,cond:1,hold:2,no:3};
+  if(a.buyer==='ccp') r.pick= ok('verra')?'verra':ok('gcc')?'gcc':null;
+  else r.pick= ok('gcc')?'gcc':ok('verra')?'verra':null;
+  if(r.pick && a.buyer!=='ccp' && ok('verra') && ok('gcc') && rank[r.std.verra.v]<rank[r.std.gcc.v]) r.pick='verra';
+  if(!r.pick){ const best=['gcc','verra','gs'].filter(k=>r.std[k]&&r.std[k].v==='hold'); r.pick=best[0]||null; }
+
+  const p=r.pick?r.std[r.pick]:null;
+  if(!p||p.v==='no'){ r.headline=L(T('Change the setup (REC split, buyer or delivery route) to open a credit path.','구조(REC 비율, 구매자, 전달 방식)를 바꿔야 크레딧 경로가 열립니다.')); }
+  else if(r.pick==='gcc'){
+    r.headline=L(a.buyer==='ccp'
+      ?T('Verra is not a clean fit for this setup, so GCC is the practical route. Plan the CCP story around GCC\'s pending approvals.','이 구조에는 Verra가 잘 맞지 않아 GCC가 현실적인 경로입니다. CCP는 GCC 승인 진행 상황에 맞춰 설명하세요.')
+      :T('GCC fits this setup and gives you a digital MRV track record that Asian and Middle East buyers recognize.','GCC가 이 구조에 맞고, 아시아·중동 구매자가 인정하는 디지털 MRV 실적을 쌓을 수 있습니다.'));
+  } else if(r.pick==='verra'){
+    r.headline=L(T('Verra VMR0017 carries a conditional CCP approval, which matters most to international buyers. Build a strong investment analysis.','Verra VMR0017은 CCP 조건부 승인을 받아 해외 구매자에게 가장 유리합니다. 투자분석을 탄탄하게 준비하세요.'));
+  } else r.headline=L(T('Confirm eligibility with the standard before you commit.','투자 전에 표준기관에 적격성을 확인하세요.'));
+
+  /* ---------- must / risk by pick ---------- */
+  if(r.pick==='gcc'||r.pick==='verra'){
+    add('must','Notify the standard before the project start date (GCC prior consideration, Verra listing) and keep board papers showing carbon revenue was part of the investment decision.',
+        '사업 시작일 전에 표준기관에 사전 통보(GCC 사전고려, Verra 등재)하고, 투자 결정 문서에 탄소 수익을 고려했다는 기록을 남기세요.','Additionality');
+    add('must','Install revenue-grade meters with 15-minute logging and keep the raw data from day one.','정산급 계량기로 15분 단위 계측하고 첫날부터 원본 데이터를 보존하세요.','MRV');
+  }
+  if(a.offtake==='third'&&a.structure==='indep'){
+    add('must','Sign the PPA before the start date. It must cover the first crediting period and state the tariff and who claims the credits.','사업 시작일 전에 PPA를 체결하세요. 첫 크레딧기간 전체를 덮고 요금과 크레딧 청구 주체를 명시해야 합니다.','GCCM009 ¶13-14');
+    if(a.priorRE!=='no') add('must','Get written evidence that the buyer used no renewable power before the project.','구매자가 사업 전 재생에너지를 쓰지 않았다는 서면 증빙을 받으세요.','GCCM009 ¶14(a)');
+    add('risk','Confirm that third-party supply inside the zone is allowed under EPIRA and ERC rules.','구역 내 제3자 전력 공급이 EPIRA·ERC 규정상 가능한지 확인하세요.','EPIRA');
+    add('risk','A cleaner grid (for example new LNG supply) lowers the factor and can cut credits by 30-40%.','LNG 유입 등으로 계통이 깨끗해지면 배출계수가 낮아져 크레딧이 30~40% 줄 수 있습니다.','GCCM009 ¶27');
+  }
+  if(r.pick==='gcc'&&(a.offtake==='grid'||a.offtake==='self')) add('risk','GCC recalculates the grid emission factor every year. Model a declining factor in your financials.','GCC는 계통 배출계수를 매년 다시 계산합니다. 재무모델에 하락 시나리오를 넣으세요.','TOOL07 ex-post');
+  if(r.pick==='verra') add('risk','Verra lets you fix the emission factor at registration, which keeps forecasts stable, but additionality relies on investment analysis alone.','Verra는 등록 시 배출계수를 고정할 수 있어 예측이 안정적이지만, 추가성은 투자분석 하나로 입증해야 합니다.','VMR0017 · VT0008');
+  if(a.econ==='viable'&&r.pick) add('risk','A plant that is profitable without credits is the most common reason for rejection. Bataan already has 17 solar projects (about 628 MW), so common-practice tests are tight.','크레딧 없이 수익이 나는 사업이 가장 흔한 탈락 사유입니다. 바탄에는 이미 태양광 17건(약 628MW)이 있어 보편관행 검토도 까다롭습니다.','Additionality');
+  if(a.stage==='offgrid') add('must','Open the DNA (DENR) confirmation channel early; the Philippines has not yet published its procedure.','DNA(DENR) 확인서 경로를 일찍 여세요. 필리핀은 아직 절차를 공개하지 않았습니다.','GCCM012 ¶88');
+  if(a.stage==='expand') add('must','Keep the generation history of the existing plant and meter the added capacity separately.','기존 설비의 발전 이력을 확보하고 증설분은 따로 계량하세요.','Baseline');
+  if(r.pick && ok('verra') && ok('gcc')) add('risk','Pick one standard per plant. Registering the same output with Verra and GCC is double counting.','발전소마다 표준 하나만 고르세요. 같은 발전량을 Verra와 GCC에 동시에 등록하면 이중계상입니다.','Double counting');
+
+  /* ---------- Philippine rules ---------- */
+  if(a.offtake==='grid'&&a.sale!=='wesm') r.ph.push(C(T('Under a PSA, RECs from a non-FIT plant go to the offtaker to the extent of the contract. Carve the credit volume out of the PSA and confirm with DOE; merchant WESM sales keep RECs with the plant.','PSA가 있으면 비FIT 발전소의 REC는 계약 물량만큼 구매자(배전사)에게 갑니다. 크레딧 물량은 PSA에서 분리하고 DOE에 확인하세요. WESM 시장 판매분은 REC가 발전소에 남습니다.'),'DC2017-12-0015 §17(f)'));
+  if(a.netmeter==='yes') r.ph.push(C(T('RECs from net-metered exports belong to the distribution utility. Keep exported energy out of the credit claim.','넷미터링으로 보낸 전기의 REC는 배전사 몫입니다. 수출 전력은 크레딧 청구에서 빼세요.'),'DC2017-12-0015 §17(f)'));
+  r.ph.push(C(T('For each revenue meter you choose either carbon credits or RECs. Decide before the contracts are signed.','정산계량기마다 탄소크레딧과 REC 중 하나를 고릅니다. 계약 전에 정하세요.'),'DC2025-09-0018 §9'));
+  r.ph.push(C(T('Carbon rights sit with the project proponent. Write the allocation into the PPA or land lease.','탄소권은 사업 수행자(project proponent)에게 있습니다. PPA·부지 임대계약에 귀속을 적으세요.'),'DC2025-09-0018 §8.1'));
+  r.ph.push(C(T('Domestic voluntary sales need no authorization. Exporting credits for international use needs a corresponding adjustment and DENR authorization, whose procedure is not yet published.','국내 자발적 판매는 승인이 필요 없습니다. 해외 용도로 넘기려면 상응조정과 DENR 승인이 필요한데, 그 절차는 아직 공개되지 않았습니다.'),'DC2025-09-0018 §13.1'));
+  r.ph.push(C(T('Activities in the unconditional part of the NDC are not eligible. Check the project against the NDC 3.0 list.','NDC 무조건부 감축 활동은 대상이 아닙니다. NDC 3.0 목록과 대조하세요.'),'DC2025-09-0018 §5, §7'));
+  r.ph.push(C(T('Carbon credit sales by RE developers are tax-exempt with a DOE certificate, and foreign investors may own 100% of an RE project.','재생에너지 사업자의 탄소크레딧 판매는 DOE 확인서로 면세되고, 외국인이 재생에너지 사업을 100% 소유할 수 있습니다.'),'RA 9513 §15(i) · 2022 IRR'));
+  return r;
+}
+
+const SVC=[
+  [T('Screening','사전 검토'),T('Standard, methodology and additionality check','표준·방법론·추가성 검토')],
+  [T('Metering design','계량 설계'),T('REC and credit blocks, 15-minute data','REC·크레딧 블록, 15분 데이터')],
+  [T('Project documents','사업 문서'),T('PDD, prior notice, registration','PDD, 사전 통보, 등록')],
+  [T('Digital MRV','디지털 MRV'),T('Automated monitoring to verification','자동 모니터링부터 검증까지')],
+  [T('Issuance and sales','발행·판매'),T('VVB coordination, buyer matching','VVB 조율, 구매자 연결')],
+];
+const STDNAME={verra:'Verra VCS',gs:'Gold Standard',gcc:'GCC'};
+
+function render(){
+  prune();
+  document.documentElement.lang=lang;
+  for(const id of ['h1','lede','presetLbl','gTitle','gSub','cTitle','cBody']) document.getElementById(id).textContent=L(UI[id]);
+  document.querySelectorAll('.copy').forEach(b=>{ if(!b.dataset.busy) b.textContent=L(UI.copy); });
+  document.getElementById('fine').innerHTML=UI.fine.map(f=>`<p>${esc(L(f))}</p>`).join('');
+  document.querySelectorAll('#presets .chip').forEach(b=>{ const p=PRESETS.find(x=>x[0]===b.dataset.p); b.textContent=p?L(p[1]):L(UI.reset); b.classList.toggle('on',b.dataset.p===activePreset); });
+  renderGlance();
+  renderCta();
+
+  const vis=visible(A), firstTodo=vis.find(q=>!A[q.id]);
+  document.getElementById('qlist').innerHTML=vis.map((q,i)=>`
+    <div class="q ${q===firstTodo?'todo':''}">
+      <div class="qhead"><span class="qn">Q${String(i+1).padStart(2,'0')}</span><p class="qt">${esc(L(q.t))}</p></div>
+      ${q.help?`<p class="qhelp">${esc(L(q.help))}</p>`:''}
+      <div class="opts" role="group" aria-label="${esc(L(q.t))}">
+        ${q.opts.map(([v,l,s])=>`<button type="button" id="o-${q.id}-${v}" class="opt ${A[q.id]===v?'sel':''}" data-q="${q.id}" data-v="${v}" aria-pressed="${A[q.id]===v}">${esc(L(l))}${L(s)?`<small>${esc(L(s))}</small>`:''}</button>`).join('')}
+      </div>
+    </div>`).join('');
+
+  const res=document.getElementById('result');
+  if(firstTodo){ res.innerHTML=`<div class="pending">${L(UI.pending)(vis.filter(q=>!A[q.id]).length)}</div>`; return; }
+  const r=evaluate(A);
+  const p=r.pick?r.std[r.pick]:null, live=p&&p.v!=='no';
+  const list=(arr,cls,title)=>arr.length?`<div class="sec ${cls}"><h3>${esc(L(title))}</h3><ul>${arr.map(x=>`<li>${esc(L(x.text))}${x.ref?` <span class="cite">${esc(x.ref)}</span>`:''}</li>`).join('')}</ul></div>`:'';
+  const row=k=>{const s=r.std[k]; const pk=live&&k===r.pick;
+    return `<div class="srow ${pk?'pick':''}">
+      <div class="sname"><b>${STDNAME[k]}</b><span class="pill v-${s.v}">${esc(L(VERDICT[s.v]))}</span>${pk?`<span class="picktag">${esc(L(UI.pick))}</span>`:''}</div>
+      <div class="sbody"><span class="mcode">${esc(s.code)}</span><p>${esc(L(s.note))}${s.ref?` <span class="cite">${esc(s.ref)}</span>`:''}</p>
+        ${s.extra.map(e=>`<p style="color:var(--muted);font-size:13px">${esc(L(e))}</p>`).join('')}
+        <div class="meta"><span>${esc(L(CCP[k]))}</span></div></div></div>`;};
+  const trail=vis.map(q=>{const o=q.opts.find(o=>o[0]===A[q.id]);return `<span>${esc(o?L(o[1]):'')}</span>`;}).join('');
+  res.innerHTML=`
+    <div class="rtop">
+      <p class="eyebrow">${esc(L(UI.reco))}</p>
+      <p class="reco">${live?`${STDNAME[r.pick]} · <span class="code">${esc(p.code)}</span>`:esc(L(UI.noPath))}</p>
+      <p class="headline">${esc(r.headline)}</p>
+      ${r.banner?`<div class="banner">${esc(r.banner)}</div>`:''}
+    </div>
+    <div class="matrix">${['verra','gs','gcc'].map(row).join('')}</div>
+    ${list(r.must,'must',UI.must)}
+    ${list(r.risk,'risk',UI.risk)}
+    ${list(r.ph,'ph',UI.ph)}
+    <div class="sec"><h3>${esc(L(UI.svc))}</h3><div class="svc">${SVC.map(([a,b])=>`<div><b>${esc(L(a))}</b>${esc(L(b))}</div>`).join('')}</div></div>
+    <div class="sec"><h3>${esc(L(UI.trail))}</h3><div class="trail">${trail}</div></div>`;
+}
+
+const G={
+  head:[T('','') ,T('Solar method','태양광 방법론'),T('Grid-connected solar in PH','필리핀 계통연계 태양광'),T('Off-grid','오프그리드'),T('CCP label','CCP 라벨'),T('Additionality','추가성'),T('Emission factor','배출계수'),T('Digital MRV','디지털 MRV')],
+  rows:[
+    ['Verra VCS','VMR0017 v1.0',T('Yes, Table 1 allows upper-middle income','가능 (Table 1, 고중소득국 허용)'),T('Check VCS eligibility','VCS 적격성 확인 필요'),T('Conditionally approved, May 2026','조건부 승인 (2026-05)'),T('Investment analysis only (VT0008)','투자분석만 (VT0008)'),T('Fixed at registration or yearly','등록 시 고정 또는 매년'),T('Standard Verra MRV','일반 Verra MRV')],
+    ['Gold Standard','RE Activity Req. v1.4',T('No, excluded since 1 July 2026 (UMI)','불가 (2026-07-01 UMI 전환)'),T('Unclear, §2.1.2(d)','불명확 (§2.1.2(d))'),T('Not applicable','해당 없음'),T('-','-'),T('-','-'),T('-','-')],
+    ['GCC','GCCM001 · GCCM009 · GCCM012',T('Yes: grid and own use (001), third-party PPA (009)','가능: 계통·자가소비(001), 제3자 PPA(009)'),T('GCCM012, needs DNA letter','GCCM012, DNA 확인서 필요'),T('Program eligible, methods pending','프로그램 적격, 방법론 미승인'),T('NDC policies excluded (001); full case (009)','NDC 정책 제외(001), 별도 입증(009)'),T('Recalculated yearly','매년 재계산'),T('Portal integration in 001/009','001·009 포털 연동')],
+  ]
+};
+function renderGlance(){
+  document.getElementById('gTable').innerHTML=`<thead><tr>${G.head.map(h=>`<th>${esc(L(h))}</th>`).join('')}</tr></thead><tbody>${G.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(L(c))}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+
+document.getElementById('qlist').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;A[b.dataset.q]=b.dataset.v;activePreset=null;render();});
+const pr=document.getElementById('presets');
+PRESETS.forEach(([k])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.p=k;b.id='p-'+k;b.onclick=()=>{A={...PRESETS.find(x=>x[0]===k)[2]};activePreset=k;render();};pr.appendChild(b);});
+const rs=document.createElement('button');rs.type='button';rs.className='chip reset';rs.id='p-reset';rs.onclick=()=>{A={};activePreset=null;render();};pr.appendChild(rs);
+window.addEventListener('message',event=>{
+  if(event.source!==window.parent||event.origin!==window.parent.location.origin)return;
+  const data=event.data;
+  if(data?.type!=='samton-carbon-navigator-context')return;
+  if(typeof data.homeHref==='string'&&data.homeHref.startsWith('/')&&!data.homeHref.startsWith('//')){
+    document.getElementById('samton-home-link').href=data.homeHref;
+  }
+  if((data.locale==='ko'||data.locale==='en')&&data.locale!==lang){lang=data.locale;render();}
+});
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  const done=()=>{b.dataset.busy='1';b.textContent=L(UI.copied);setTimeout(()=>{delete b.dataset.busy;b.textContent=L(UI.copy);},1400);};
+  const sel=()=>{const s=b.previousElementSibling;const rg=document.createRange();rg.selectNodeContents(s);const w=getSelection();w.removeAllRanges();w.addRange(rg);};
+  try{navigator.clipboard.writeText(b.dataset.c).then(done,sel);}catch(e){sel();}
+}));
+function screeningSummary(){
+  const vis=visible(A); if(vis.some(q=>!A[q.id])) return '';
+  const r=evaluate(A);
+  const ans=vis.map(q=>{const o=q.opts.find(o=>o[0]===A[q.id]);return o?o[1].en:'';}).join(' / ');
+  const std=['verra','gs','gcc'].map(k=>`${STDNAME[k]}: ${r.std[k].code} (${VERDICT[r.std[k].v].en})`).join('; ');
+  const pick=r.pick&&r.std[r.pick].v!=='no'?`${STDNAME[r.pick]} ${r.std[r.pick].code}`:'none';
+  return `Recommended: ${pick} | ${std} | Answers: ${ans}`;
+}
+function renderCta(){
+  for(const id of ['ctaTitle','ctaBody']) document.getElementById(id).textContent=L(UI[id]);
+  const act=document.getElementById('ctaAct'), sum=document.getElementById('ctaSum');
+  if(FORM_URL){
+    let href=FORM_URL; const s=screeningSummary();
+    if(FORM_SUMMARY_ENTRY&&s){ href+=(href.includes('?')?'&':'?')+'usp=pp_url&'+encodeURIComponent(FORM_SUMMARY_ENTRY)+'='+encodeURIComponent(s); }
+    act.innerHTML=`<a class="cta-btn" id="cta-link" href="${esc(href)}" target="_blank" rel="noopener">${esc(L(UI.ctaBtn))}</a>`;
+    sum.textContent=FORM_SUMMARY_ENTRY&&s?L(UI.ctaSum):'';
+  } else {
+    act.innerHTML=`<span class="cta-alt">${esc(L(UI.ctaAlt))} <b style="user-select:all">samton-nature@samton.co.kr</b></span>`;
+    sum.textContent='';
+  }
+}
+render();
+</script>
+</body></html>
